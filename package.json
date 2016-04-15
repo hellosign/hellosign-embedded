@@ -1,6 +1,6 @@
 {
-  "name": "embedded.js",
-  "version": "0.1.0",
+  "name": "hellosign-embedded",
+  "version": "0.1.1",
   "description": "A JavaScript library required for embedding HelloSign features into your webapp. For more information, see our API documentation at https://www.hellosign.com/api/documentation.",
   "main": "src/embedded.js",
   "scripts": {
@@ -8,16 +8,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/HelloFax/embedded.js.git"
+    "url": "git+https://github.com/HelloFax/hellosign-embedded.git"
   },
   "author": "HelloSign <api@hellosign.com> (http://hellosign.com)",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/HelloFax/embedded.js/issues"
+    "url": "https://github.com/HelloFax/hellosign-embedded/issues"
   },
-  "homepage": "https://github.com/HelloFax/embedded.js#readme",
+  "homepage": "https://github.com/HelloFax/hellosign-embedded#readme",
   "devDependencies": {
+    "chai": "^3.5.0",
     "json-loader": "^0.5.4",
+    "mocha": "^2.4.5",
     "uglify-loader": "^1.3.0"
   }
 }

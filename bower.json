@@ -1,0 +1,20 @@
+{
+  "name": "hellosign-embedded",
+  "description": "A JavaScript library required for embedding HelloSign features into your webapp. For more information, see our API documentation at https://www.hellosign.com/api/documentation.",
+  "main": "src/embedded.js",
+  "authors": [
+    "HelloSign <api@hellosign.com> (http://hellosign.com)"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/HelloFax/hellosign-embedded",
+  "moduleType": [
+    "node"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
