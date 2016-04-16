@@ -1,5 +1,4 @@
-# hellosign-embedded
-[![Build Status](https://travis-ci.org/HelloFax/hellosign-embedded.svg?branch=master)](https://travis-ci.org/HelloFax/hellosign-embedded)
+# hellosign-embedded [![Build Status](https://travis-ci.org/HelloFax/hellosign-embedded.svg?branch=master)](https://travis-ci.org/HelloFax/hellosign-embedded)
 A JavaScript library required for using embedded signing and templates from within your application.
 For more information, see our [API documentation](https://www.hellosign.com/api/documentation).
 
