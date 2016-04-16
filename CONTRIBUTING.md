@@ -1,6 +1,6 @@
 # How to contribute
 
-We're excited you're considering contributing to hellosign-embedded! Your patches are essential to keeping our client library bug free and up-to-date. We want to keep it as easy as possible to contribute. There are only a few guidelines you must follow that will allow us to keep up with pull requests and maintain a high quality code base.
+We're excited you're considering contributing to `hellosign-embedded`! Your patches are essential to keeping our client library bug free and up-to-date. We want to keep it as easy as possible to contribute. There are only a few guidelines you must follow that will allow us to keep up with pull requests and maintain a high quality code base.
 
 ## Getting Started
 

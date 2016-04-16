@@ -22,6 +22,11 @@ describe('Module basics', function(){
         expect(HelloSign.ensureParentDomain).to.be.a('function');
     });
 
+    it('should specify the proper base URLs', function(){
+        expect(HelloSign.baseUrl).to.equal("https://www.hellosign.com");
+        expect(HelloSign.cdnBaseUrl).to.equal("https://s3.amazonaws.com/cdn.hellofax.com");
+    });
+
 });
 
 describe('HelloSign.init', function(){
@@ -82,4 +87,27 @@ describe('HelloSign.open', function(){
     after(function(){
         jsdomGlobal(); // Reset global env
     });
+});
+
+describe('Utilities', function(){
+    before(function(){
+        HelloSign = require('../src/embedded.js');
+    });
+
+    it('should clean up URLs', function(){
+        var pre = "http:\/\/hellosign.com?baz&foobar"
+        var post = "http://hellosign.com?baz&foobar"
+        var result = HelloSign.safeUrl(pre);
+        expect(result).to.equal(post);
+    });
+
+    it('should provide Cross-window message functions', function(){
+        expect(HelloSign).to.have.property('XWM');
+        expect(HelloSign.XWM).to.have.property('send');
+        expect(HelloSign.XWM).to.have.property('receive');
+    });
+
+    it('should provide error reporting', function(){
+        expect(HelloSign).to.have.property('reportError');
+    })
 });
