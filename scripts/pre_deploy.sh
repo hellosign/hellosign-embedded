@@ -1,6 +1,7 @@
 #!/bin/bash
 
-currentVersion=`git describe --tags`
+# currentVersion=`git describe --tags`
+currentVersion=`node scripts/version.js`
 distDir="dist"
 fnCurrentFull="hellosign-embedded.${currentVersion}.js"
 fnCurrentMin="hellosign-embedded.${currentVersion}.min.js"
