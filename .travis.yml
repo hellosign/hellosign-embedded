@@ -3,7 +3,7 @@ node_js:
   - "node"
 before_install: npm install -g webpack
 before_script: webpack
-before_deploy: pre_deploy.sh
+before_deploy: ./pre_deploy.sh
 deploy:
     - provider: s3
       access_key_id: $S3_ACCESS_KEY_ID
