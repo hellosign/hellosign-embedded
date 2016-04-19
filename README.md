@@ -13,7 +13,15 @@ You can include this library in your projects in one of three ways:
 
 You can load this library from our global CDN using a `<script>` tag:
 ````html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellofax.com/js/embedded.js"></script>
+<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.LATEST.min.js"></script>
+<!-- Alternately, omit the "min" for the unminified version -->
+````
+This will always use the latest published version of the library.
+
+If you'd prefer to use a specific version, you can specify that version in the URL:
+````html
+<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.0.1.6.min.js"></script>
+<!-- Alternately, omit the "min" for the unminified version -->
 ````
 
 ###Building from source

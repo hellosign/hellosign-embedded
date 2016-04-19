@@ -1,6 +1,6 @@
 {
   "name": "hellosign-embedded",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A JavaScript library required for embedding HelloSign features into your webapp. For more information, see our API documentation at https://www.hellosign.com/api/documentation.",
   "main": "src/embedded.js",
   "scripts": {

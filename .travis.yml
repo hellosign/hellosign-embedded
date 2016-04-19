@@ -14,7 +14,7 @@ deploy:
       local_dir: dist
       on:
           tags: true
-    # - provider: npm
-    #   api_key: $NPM_API_KEY
-    #   on:
-    #       tags: true
+    - provider: npm
+      api_key: $NPM_API_KEY
+      on:
+          tags: true
