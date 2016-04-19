@@ -12,8 +12,8 @@ deploy:
       skip_cleanup: true
       upload_dir: public/js
       local_dir: dist
-    #   on:
-    #       tags: true
+      on:
+          tags: true
     # - provider: npm
     #   api_key: $NPM_API_KEY
     #   on:
