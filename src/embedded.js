@@ -371,7 +371,7 @@
             if (redirectUrl) {
                 frameUrl += 'redirect_url=' + encodeURIComponent(redirectUrl) + '&';
             }
-            frameUrl += 'parent_url=' + encodeURIComponent(document.location.href.replace(/\#.*/, '')) + '&';
+            frameUrl += 'parent_url=' + encodeURIComponent(document.location.href.replace(/\?.*/, '')) + '&';
             frameUrl += (this.skipDomainVerification === true ? 'skip_domain_verification=1&' : '');
             frameUrl += 'client_id=' + this.clientId + '&';
             frameUrl += (typeof params['requester'] !== 'undefined' ? 'requester=' + encodeURIComponent(params['requester']) + '&' : '');
