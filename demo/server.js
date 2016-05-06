@@ -2,20 +2,37 @@ var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var hellosign_sdk  = require('hellosign-sdk');
+var webpack = require('webpack')(require('./webpack.dev-build.js'));
 
-/** CONSTANTS **/
+/** Settings **/
 var PORT = 8080;
 
+/** Configure App **/
 var app = express();
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/public'));
 
-app.get('/', function(req, res){
-    res.send('it works');
+/** Routing **/
+app.post('/api/createSignatureRequest', processSignatureRequestPost);
+app.listen(PORT, function(){
+    console.log('Listening on port ' + PORT);
 });
 
-app.post('/api/createSignatureRequest', function(req, res){
+/** Rebuild DEV embedded file **/
+webpack.watch({
+    aggregateTimeout: 300,
+    poll: true
+}, webpackLogger);
+
+
+/*
+ * Helpers
+ */
+
+function processSignatureRequestPost(req, res){
+
+    console.log(req.body);
 
     var api_key = req.body.api_key;
     var client_id = req.body.client_id;
@@ -25,7 +42,6 @@ app.post('/api/createSignatureRequest', function(req, res){
         client_id  :  req.body.client_id
     }
 
-    console.log(req.body);
     // Send request and retrieve response
     var hellosign = hellosign_sdk(keys);
     createSignatureRequest({}, hellosign)
@@ -42,15 +58,7 @@ app.post('/api/createSignatureRequest', function(req, res){
         console.log(err);
         return res.json({"error": err, "success": false});
     });
-});
-
-app.listen(PORT, function(){
-    console.log('Listening on port ' + PORT);
-});
-
-
-/*
-*/
+}
 
 function createSignatureRequest(params, hellosign){
 
@@ -71,8 +79,16 @@ function createSignatureRequest(params, hellosign){
             }
           ],
           cc_email_addresses : ['lawyer@example.com', 'lawyer@example2.com'],
-          files : ['public/nda.docx']
+          files : [__dirname + '/public/nda.docx']
         };
 
     return hellosign.signatureRequest.createEmbedded(options)
+}
+
+function webpackLogger(err, stats) {
+    if (err) {
+        console.log("Webpack compiler error: ", err);
+    } else {
+        console.log("Webpack build: ", stats.hash);
+    }
 }

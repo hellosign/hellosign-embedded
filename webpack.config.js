@@ -1,4 +1,8 @@
+var webpack = require('webpack');
 var version = require('./package.json').version;
+var versionPlugin = new webpack.DefinePlugin({
+    HELLOSIGN_EMBEDDED_VERSION: JSON.stringify(version)
+});
 
 module.exports =
 [
@@ -24,7 +28,8 @@ module.exports =
                     include: __dirname
                 }
             ]
-        }
+        },
+        plugins: [versionPlugin]
     },
     {
         name: "Uncompressed",
@@ -43,6 +48,7 @@ module.exports =
                     include: __dirname
                 }
             ]
-        }
+        },
+        plugins: [versionPlugin]
     }
-]
+];

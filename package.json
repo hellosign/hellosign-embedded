@@ -4,7 +4,8 @@
   "description": "A JavaScript library required for embedding HelloSign features into your webapp. For more information, see our API documentation at https://www.hellosign.com/api/documentation.",
   "main": "src/embedded.js",
   "scripts": {
-    "test": "mocha tests/module.js"
+    "test": "mocha tests/module.js",
+    "start": "scripts/start.sh"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,7 @@
     "jsdom-global": "1.7.0",
     "json-loader": "^0.5.4",
     "mocha": "^2.4.5",
-    "uglify-loader": "^1.3.0"
+    "uglify-loader": "^1.3.0",
+    "webpack": "^1.13.0"
   }
 }

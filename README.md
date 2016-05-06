@@ -82,3 +82,14 @@ See the [Embedded Signing Walkthrough](https://www.hellosign.com/api/embeddedSig
 
 The current test suite can be run with `npm tests`.
 Tests are a work in progress, built with Mocha and [Chai](http://chaijs.com/), and using [jsdom-global](https://github.com/rstacruz/jsdom-global)
+
+##Demo
+There is a demo app available in this repo, useful for both development against this repo, and examining how a simple integration can work.
+
+You can start the test server from the root of the repository by simply running
+````sh
+npm start
+````
+When running, any changes to `src/embedded.js` will be tracked, and the file that the demo site uses will be rebuilt on the fly.
+
+You'll need an API Key and Client ID for HelloSign's API to use this demo application.
