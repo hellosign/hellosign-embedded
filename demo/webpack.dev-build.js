@@ -1,5 +1,3 @@
-var webpack = require('webpack');
-
 module.exports = {
     name: "Dev",
     entry: __dirname + "/../src/embedded.js",
@@ -13,14 +11,11 @@ module.exports = {
         loaders: [
             {
                 test: /\.json/,
-                loader: 'json',
-                include: __dirname
+                loader: 'json'
             }
         ]
     },
-    plugins: [
-        new webpack.DefinePlugin({
-            HELLOSIGN_EMBEDDED_VERSION: JSON.stringify("DEV")
-        })
-    ]
+    resolve: {
+        fallback: __dirname + "/../"
+    }
 };

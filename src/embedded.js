@@ -248,7 +248,7 @@
 
     var HelloSign = {
 
-        VERSION: HELLOSIGN_EMBEDDED_VERSION,
+        VERSION: require('../package.json').version,
         DEFAULT_UX_VERSION: 1,
         IFRAME_WIDTH_RATIO: 0.8,
         DEFAULT_WIDTH: 900,

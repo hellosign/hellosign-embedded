@@ -12,7 +12,9 @@
   "dependencies": {
     "body-parser": "^1.15.0",
     "express": "^4.13.4",
+    "file-loader": "^0.8.5",
     "hellosign-sdk": "^1.1.12",
+    "json-loader": "^0.5.4",
     "morgan": "^1.7.0"
   }
 }
