@@ -5,9 +5,26 @@ For more information, see our [API documentation](https://www.hellosign.com/api/
 ##Getting started
 
 You can include this library in your projects in one of three ways:
-* [From our CDN](#loading-from-cdn)
+* [NPM, for bundling with webpack, etc.](#npm)
+* [Linked in page from our CDN](#loading-from-cdn)
 * [Built from source](#building-from-source)
-* [Bundled with webpack, etc.](#webpack)
+
+
+###NPM
+You can require the hellosign-embedded package in your front-end code when using a bundler like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/).
+
+First, `npm install hellosign-embedded` to add to your `node_modules` directory, then attach to a variable or the global window:
+
+````javascript
+window.HelloSign = require('hellosign-embedded');
+````
+If transpiling for ES6, you can also use the `import` statement:
+
+````javascript
+import HelloSign from 'hellosign-embedded';
+window.HelloSign = HelloSign;
+````
+
 
 ###Loading from CDN
 
@@ -23,6 +40,8 @@ If you'd prefer to use a specific version, you can specify that version in the U
 <script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.0.1.6.min.js"></script>
 <!-- Alternately, omit the "min" for the unminified version -->
 ````
+We highly recommend using the latest version of the library, so you'll receive security and feature updates.
+
 
 ###Building from source
 You'll need to clone this repository, and have [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm) and [webpack](https://webpack.github.io/) installed.
@@ -43,21 +62,6 @@ hellosign-embedded.0.1.1.js
 hellosign-embedded.0.1.1.min.js
 ````
 These resultant libraries can be referenced from a `<script>` tag in your HTML.
-
-###Webpack
-You can require the hellosign-embedded package in your front-end code when using a bundler like browserify or [webpack](https://webpack.github.io/).
-
-First, `npm install hellosign-embedded` to add to your `node_modules` directory, then attach to a variable or the global window:
-
-````javascript
-window.HelloSign = require('hellosign-embedded');
-````
-If transpiling for ES6, you can also use the `import` statement:
-
-````javascript
-import HelloSign from 'hellosign-embedded';
-window.HelloSign = HelloSign;
-````
 
 ##Usage
 
