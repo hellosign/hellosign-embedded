@@ -386,21 +386,7 @@
                 frameUrl += '&white_labeling_options=' + encodeURI(this.whiteLabelingOptions);
             }
 
-            // FIXME: Temporary parameter to log which version of embedded.js is being used
-            // FIXME: Remove the code that processes the js_version in editor actions when
-            // this is removed.
-            var js_version = 'latest';
-            var scripts = document.getElementsByTagName('script');
-            for (var script_i = 0; script_i < scripts.length; script_i++) {
-                var node_src = scripts[script_i].src;
-                if (node_src.indexOf('embedded.js') > 0) {
-                    var matches = node_src.match(/(1\.\d{2}\.\d+)/);
-                    if (matches && matches.length > 0) {
-                        js_version = matches[0];
-                    }
-                }
-            }
-            frameUrl += '&js_version=' + js_version;
+            frameUrl += '&js_version=' + this.VERSION;
 
             var origin = frameUrl.replace(/([^:]+:\/\/[^\/]+).*/, '$1');
             var windowDims = this.getWindowDimensions(params['height']);
