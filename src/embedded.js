@@ -273,8 +273,10 @@
             DE_DE: 'de_DE',
             SV_SE: 'sv_SE',
             ZH_CN: 'zh_CN',
+            DA_DK: 'da_DK',
+            NL_NL: 'nl_NL',
             init: function() {
-                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN];
+                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL];
                 return this;
             }
         }.init(),
