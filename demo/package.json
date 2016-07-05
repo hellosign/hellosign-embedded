@@ -16,5 +16,8 @@
     "hellosign-sdk": "^1.1.12",
     "json-loader": "^0.5.4",
     "morgan": "^1.7.0"
+  },
+  "devDependencies": {
+    "webpack": "^1.13.1"
   }
 }

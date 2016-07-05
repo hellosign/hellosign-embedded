@@ -539,28 +539,6 @@
 
             this.iframe.setAttribute('height', windowDims.heightRaw);
 
-            // Add or remove the 'cancel' button
-            if (!this.isInPage && (params['allowCancel'] === true || params['allowCancel'] === undefined) && !this.cancelButton) {
-                this.cancelButton = document.createElement('a');
-                this.cancelButton.setAttribute('id', 'hsEmbeddedCancel');
-                this.cancelButton.setAttribute('href', 'javascript:;');
-                this.cancelButton.onclick = function(){
-                    // Close iFrame
-                    HelloSign.close();
-                    // Send 'cancel' message
-                    if (messageListener) {
-                        l('Reporting cancelation');
-                        messageListener({
-                            'event': HelloSign.EVENT_CANCELED
-                        });
-                    }
-                };
-                this.wrapper.appendChild(this.cancelButton);
-            }
-            else if (!params['allowCancel'] && this.cancelButton) {
-                this.wrapper.removeChild(this.cancelButton);
-            }
-
             // Add inline styling
             for (var k in styles) {
                 var el = this[k];
@@ -604,15 +582,25 @@
 
             // Start listening for messages from the iFrame
             XWM.receive(function _parentWindowCallback(evt){
-                if (evt.data == 'close') {
+                var source = evt.source || 'hsEmbeddedFrame';
+
+                if (evt.data === 'initialize') {
+                    XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: params }), evt.origin, source);
+                } else if (evt.data == 'close') {
                     // Close iFrame
                     HelloSign.close();
+
+                    if (messageListener) {
+                        messageListener({
+                            'event': HelloSign.EVENT_CANCELED
+                        });
+                    }
                 }
                 else if (evt.data.indexOf('hello:') === 0) {
                     // Hello message - Extract token and send it back
                     var parts = evt.data.split(':');
                     var token = parts[1];
-                    XWM.send('helloback:' + token, frameUrl, evt.source || 'hsEmbeddedFrame');
+                    XWM.send('helloback:' + token, frameUrl, source);
                 }
                 else if (messageListener && evt.data) {
 
