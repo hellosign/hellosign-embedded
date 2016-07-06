@@ -539,6 +539,29 @@
 
             this.iframe.setAttribute('height', windowDims.heightRaw);
 
+            if (params['uxVersion'] != null && params['uxVersion'] < 2) {
+              if (!this.isInPage && (params['allowCancel'] === true || params['allowCancel'] === undefined) && !this.cancelButton) {
+                  this.cancelButton = document.createElement('a');
+                  this.cancelButton.setAttribute('id', 'hsEmbeddedCancel');
+                  this.cancelButton.setAttribute('href', 'javascript:;');
+                  this.cancelButton.onclick = function(){
+                      // Close iFrame
+                      HelloSign.close();
+                      // Send 'cancel' message
+                      if (messageListener) {
+                          l('Reporting cancelation');
+                          messageListener({
+                              'event': HelloSign.EVENT_CANCELED
+                          });
+                      }
+                  };
+                  this.wrapper.appendChild(this.cancelButton);
+              }
+              else if (!params['allowCancel'] && this.cancelButton) {
+                  this.wrapper.removeChild(this.cancelButton);
+              }
+            }
+
             // Add inline styling
             for (var k in styles) {
                 var el = this[k];
@@ -584,13 +607,13 @@
             XWM.receive(function _parentWindowCallback(evt){
                 var source = evt.source || 'hsEmbeddedFrame';
 
-                if (evt.data === 'initialize') {
+                if (evt.data === 'initialize' && params['uxVersion'] > 1) {
                     XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: params }), evt.origin, source);
                 } else if (evt.data == 'close') {
                     // Close iFrame
                     HelloSign.close();
 
-                    if (messageListener) {
+                    if (messageListener && params['uxVersion'] > 1) {
                         messageListener({
                             'event': HelloSign.EVENT_CANCELED
                         });
