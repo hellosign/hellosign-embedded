@@ -539,6 +539,9 @@
 
             this.iframe.setAttribute('height', windowDims.heightRaw);
 
+            // TODO: Detecting 'embeddedSign' in the frameUrl is a hack. Clean
+            // this up once the embedded close button has been implemented for
+            // embedded requesting and templates.
             if (frameUrl.indexOf('embeddedSign') === -1 || params['uxVersion'] != null && params['uxVersion'] < 2) {
               if (!this.isInPage && (params['allowCancel'] === true || params['allowCancel'] === undefined) && !this.cancelButton) {
                   this.cancelButton = document.createElement('a');
