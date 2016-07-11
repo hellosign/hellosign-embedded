@@ -539,7 +539,7 @@
 
             this.iframe.setAttribute('height', windowDims.heightRaw);
 
-            if (params['uxVersion'] != null && params['uxVersion'] < 2) {
+            if (frameUrl.indexOf('embeddedSign') === -1 || params['uxVersion'] != null && params['uxVersion'] < 2) {
               if (!this.isInPage && (params['allowCancel'] === true || params['allowCancel'] === undefined) && !this.cancelButton) {
                   this.cancelButton = document.createElement('a');
                   this.cancelButton.setAttribute('id', 'hsEmbeddedCancel');
