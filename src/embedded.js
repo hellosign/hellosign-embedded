@@ -622,6 +622,10 @@
                         });
                     }
                 }
+                else if (evt.data == 'user-done') {
+                    // Close iFrame
+                    HelloSign.close();
+                }
                 else if (evt.data.indexOf('hello:') === 0) {
                     // Hello message - Extract token and send it back
                     var parts = evt.data.split(':');
