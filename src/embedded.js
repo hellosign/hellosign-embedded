@@ -266,7 +266,6 @@
         baseUrl: 'https://www.hellosign.com',
         cdnBaseUrl: 'https://s3.amazonaws.com/cdn.hellofax.com',
         XWM: XWM,
-        DEFAULT_HEALTH_CHECK_TIMEOUT_MS: 15000,
 
         CULTURES: {
             EN_US: 'en_US',
@@ -326,14 +325,14 @@
             // - uxVersion                Integer. The version of the embedded user experience to display to signers (1 = legacy, 2 = responsive). This option is only honored if your account has accessed the API prior to Nov 14, 2015.
             // - requester                String. The email of the person issuing a signature request. Required for allowing 'Me + Others' requests
             // - whiteLabelingOptions     Object. An associative array to be used to customize the app's signer page
-            // - healthCheckTimeoutMs     Integer. The number of milliseconds to wait for a response from the iframe. If no response after that time the iframe will be closed.
+            // - healthCheckTimeoutMs     Integer. The number of milliseconds to wait for a response from the iframe. If no response after that time the iframe will be closed. 15000 milliseconds is recommended.
 
             var redirectUrl = this.safeUrl(params['redirectUrl']);
             var messageListener = params['messageListener'];
             var frameUrl = this.safeUrl(params['url']);
             this.uxVersion = params['uxVersion'] || this.DEFAULT_UX_VERSION;
             this.isDefaultUX = (this.uxVersion === this.DEFAULT_UX_VERSION);
-            this.healthCheckTimeoutMs = params['healthCheckTimeoutMs'] || this.DEFAULT_HEALTH_CHECK_TIMEOUT_MS;
+            this.healthCheckTimeoutMs = params['healthCheckTimeoutMs'];
 
             if (this.uxVersion) {
                 frameUrl += (frameUrl.indexOf('?') > 0 ? '&' : '?') + 'ux_version=' + this.uxVersion;
@@ -611,17 +610,20 @@
             }
 
             // Close the iframe if page fails to initialize within 15 seconds
-            this._healthCheckTimeoutHandle = setTimeout(function() {
-                self.reportError('Signer page failed to initialize within 15 seconds.', document.location.href);
-                self.close();
-            }, this.healthCheckTimeoutMs);
+            if (this.healthCheckTimeoutMs) {
+                this._healthCheckTimeoutHandle = setTimeout(function() {
+                    var message = 'Signer page failed to initialize within ' + self.healthCheckTimeoutMs + ' milliseconds.'
+                    self.reportError(message, document.location.href);
+                    self.close();
+                }, this.healthCheckTimeoutMs);
+            }
 
             // Start listening for messages from the iFrame
             XWM.receive(function _parentWindowCallback(evt){
                 var source = evt.source || 'hsEmbeddedFrame';
 
                 if (evt.data === 'initialize' && params['uxVersion'] > 1) {
-                    clearTimeout(self._healthCheckTimeoutHandle);
+                    if (self.healthCheckTimeoutMs) clearTimeout(self._healthCheckTimeoutHandle);
                     XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: params }), evt.origin, source);
                 } else if (evt.data == 'close') {
                     // Close iFrame
