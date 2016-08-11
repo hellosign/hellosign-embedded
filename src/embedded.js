@@ -614,7 +614,7 @@
             this._healthCheckTimeoutHandle = setTimeout(function() {
                 self.reportError('Signer page failed to initialize within 15 seconds.', document.location.href);
                 self.close();
-            }, HelloSign.healthCheckTimeoutMs);
+            }, this.healthCheckTimeoutMs);
 
             // Start listening for messages from the iFrame
             XWM.receive(function _parentWindowCallback(evt){
