@@ -14,6 +14,15 @@ deploy:
       local_dir: dist
       on:
           tags: true
+    - provider: s3
+      access_key_id: $S3_ACCESS_KEY_ID
+      secret_access_key: $S3_SECRET_ACCESS_KEY
+      bucket: $S3_HF_BUCKET
+      skip_cleanup: true
+      upload_dir: js
+      local_dir: dist
+      on:
+          tags: true
     - provider: npm
       email: "api@hellosign.com"
       api_key: $NPM_API_KEY
