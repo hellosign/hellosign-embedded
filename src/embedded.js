@@ -850,15 +850,20 @@
         },
 
         safeUrl: function(url) {
-            // HTML-Decode the given url if necessary
             if (url) {
                 try {
+
+                    // Security: remove script tags from URLs before processing
+                    url = url.replace(/</g, "&lt;");
+                    url = url.replace(/>/g, "&gt;");
+
+                    // HTML-Decode the given url if necessary, by rendering to the page
                     var el = document.createElement('div');
                     el.innerHTML = url;
                     var decodedUrl = el.innerText;
+
+                    // Fall back to just replacing '&amp;' in case of failure
                     if (!decodedUrl) {
-                        // It did not work (like on Firefox for example)
-                        // so fall back to just replacing '&amp;'
                         url = url.replace(/\&amp\;/g, '&');
                     }
                     else {
