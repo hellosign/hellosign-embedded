@@ -348,7 +348,7 @@
             }
             if (typeof params['whiteLabelingOptions'] === 'object') {
                 this.whiteLabelingOptions = JSON.stringify(params['whiteLabelingOptions']);
-                this.whiteLabelingOptions = this.whiteLabelingOptions.replace('#', '');
+                this.whiteLabelingOptions = this.whiteLabelingOptions.replace(/#/g, '');
             } else if (typeof params['whiteLabelingOptions'] !== 'undefined') {
                 l("Invalid white labeling options supplied, option will be ignored: " + params['whiteLabelingOptions']);
             }
