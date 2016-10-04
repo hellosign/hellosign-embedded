@@ -207,6 +207,7 @@
             var contentPairs = this._explodePairs(this.savedViewportContent);
             contentPairs['width'] = 'device-width';
             contentPairs['maximum-scale'] = '1.0';
+            contentPairs['user-scalable'] = 'no';
             this._getElement().setAttribute('content', this._joinPairs(contentPairs));
         },
 
