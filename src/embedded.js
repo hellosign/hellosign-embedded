@@ -294,6 +294,7 @@
         // IF YOU CHANGE THEM MAKE SURE TO CHANGE THE OTHERS
         // IN HFACTIONS.PHP TO STAY CONSISTENT.
         EVENT_SIGNED: 'signature_request_signed',
+        EVENT_DECLINED: 'signature_request_declined',
         EVENT_CANCELED: 'signature_request_canceled',
         EVENT_SENT: 'signature_request_sent',
         EVENT_TEMPLATE_CREATED: 'template_created',
@@ -634,18 +635,21 @@
                             'event': HelloSign.EVENT_CANCELED
                         });
                     }
-                }
-                else if (evt.data == 'user-done') {
+                } else if (evt.data == 'decline') {
                     // Close iFrame
                     HelloSign.close();
-                }
-                else if (evt.data.indexOf('hello:') === 0) {
+                    messageListener({
+                        'event': HelloSign.EVENT_DECLINED
+                    });
+                } else if (evt.data == 'user-done') {
+                    // Close iFrame
+                    HelloSign.close();
+                } else if (evt.data.indexOf('hello:') === 0) {
                     // Hello message - Extract token and send it back
                     var parts = evt.data.split(':');
                     var token = parts[1];
                     XWM.send('helloback:' + token, frameUrl, source);
-                }
-                else if (messageListener && evt.data) {
+                } else if (messageListener && evt.data) {
 
                     // Forward to message callback
                     var eventData = {};
