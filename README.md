@@ -97,3 +97,8 @@ npm start
 When running, any changes to `src/embedded.js` will be tracked, and the file that the demo site uses will be rebuilt on the fly.
 
 You'll need an API Key and Client ID for HelloSign's API to use this demo application.
+
+## Extras
+
+### TypeScript
+Bindings for TypeScript have been lovingly added to the [DefinitelyTyped repo](https://github.com/DefinitelyTyped/DefinitelyTyped) for hellosign-embedded.
