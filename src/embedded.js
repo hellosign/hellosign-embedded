@@ -825,7 +825,7 @@
                 // Portrait
                 dims = {
                     'widthString': this.isDefaultUX ? '100vw' : window.innerWidth + 'px',
-                    'heightString': this.isDefaultUX ? '100vh' : window.innerHeight + 'px' // 100vh needed for old signer page, but cuts off some newer UX elements
+                    'heightString': this.isDefaultUX ? '100vh' : '100%' // 100vh needed for old signer page, but cuts off some newer UX elements
                 };
             } else {
                 // Landscape
