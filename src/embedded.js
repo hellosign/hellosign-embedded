@@ -276,8 +276,10 @@
             ZH_CN: 'zh_CN',
             DA_DK: 'da_DK',
             NL_NL: 'nl_NL',
+            ES_ES: 'es_ES',
+            ES_MX: 'es_MX',
             init: function() {
-                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL];
+                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX];
                 return this;
             }
         }.init(),
