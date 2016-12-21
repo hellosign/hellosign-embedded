@@ -473,12 +473,12 @@
                 else if (this.isMobile) {
                     var mobileDims = this.getMobileDimensions();
                     // Adjust the iFrame style to fit the whole screen
-                    styles['wrapper']['position'] = 'fixed';
+                    styles['wrapper']['position'] = 'absolute';
                     styles['wrapper']['top'] = '0';
                     styles['wrapper']['left'] = '0';
                     styles['wrapper']['width'] = mobileDims.widthString;
                     styles['wrapper']['height'] = mobileDims.heightString;
-                    styles['iframe']['position'] = 'fixed';
+                    styles['iframe']['position'] = 'absolute';
                     styles['iframe']['top'] = 0;
                     styles['iframe']['left'] = 0;
                     styles['iframe']['width'] = mobileDims.widthString;
