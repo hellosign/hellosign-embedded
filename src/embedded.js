@@ -823,10 +823,13 @@
 
         getMobileDimensions: function(){
             var dims;
-            if (window.innerHeight > window.innerWidth) {
+            var width = screen.width;
+            var height = screen.height;
+
+            if (height > width) {
                 // Portrait
                 dims = {
-                    'widthString': this.isDefaultUX ? '100vw' : window.innerWidth + 'px',
+                    'widthString': this.isDefaultUX ? '100vw' : width + 'px',
                     'heightString': this.isDefaultUX ? '100vh' : '100%' // 100vh needed for old signer page, but cuts off some newer UX elements
                 };
             } else {
