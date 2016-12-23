@@ -473,12 +473,12 @@
                 else if (this.isMobile) {
                     var mobileDims = this.getMobileDimensions();
                     // Adjust the iFrame style to fit the whole screen
-                    styles['wrapper']['position'] = 'fixed';
+                    styles['wrapper']['position'] = 'absolute';
                     styles['wrapper']['top'] = '0';
                     styles['wrapper']['left'] = '0';
                     styles['wrapper']['width'] = mobileDims.widthString;
                     styles['wrapper']['height'] = mobileDims.heightString;
-                    styles['iframe']['position'] = 'fixed';
+                    styles['iframe']['position'] = 'absolute';
                     styles['iframe']['top'] = 0;
                     styles['iframe']['left'] = 0;
                     styles['iframe']['width'] = mobileDims.widthString;
@@ -823,10 +823,17 @@
 
         getMobileDimensions: function(){
             var dims;
-            if (window.innerHeight > window.innerWidth) {
-                // Portrait
+
+            var screenWidth = screen.width;
+            var screenHeight = screen.height;
+            var windowWidth = window.innerWidth;
+            var windowHeight = window.innerHeight;
+
+            var isPortrait = windowHeight > windowWidth;
+
+            if (isPortrait) {
                 dims = {
-                    'widthString': this.isDefaultUX ? '100vw' : window.innerWidth + 'px',
+                    'widthString': this.isDefaultUX ? '100vw' : screenWidth + 'px',
                     'heightString': this.isDefaultUX ? '100vh' : '100%' // 100vh needed for old signer page, but cuts off some newer UX elements
                 };
             } else {
