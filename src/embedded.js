@@ -605,7 +605,7 @@
                 MetaTagHelper.set();
             }
 
-            if (this.isMobile) {
+            if (this.isMobile && !this.isInPage) {
                 this.fixIframe = function() {
                     window.scrollTo(0, 0);
                 };
