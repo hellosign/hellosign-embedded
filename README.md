@@ -2,7 +2,7 @@
 A JavaScript library required for using embedded signing and templates from within your application.
 For more information, see our [API documentation](https://www.hellosign.com/api/documentation).
 
-##Getting started
+## Getting started
 
 You can include this library in your projects in one of three ways:
 * [NPM, for bundling with webpack, etc.](#npm)
@@ -10,7 +10,7 @@ You can include this library in your projects in one of three ways:
 * [Built from source](#building-from-source)
 
 
-###NPM
+### NPM
 You can require the hellosign-embedded package in your front-end code when using a bundler like [browserify](http://browserify.org/) or [webpack](https://webpack.github.io/).
 
 First, `npm install hellosign-embedded` to add to your `node_modules` directory, then attach to a variable or the global window:
@@ -43,7 +43,7 @@ If you'd prefer to use a specific version, you can specify that version in the U
 We highly recommend using the latest version of the library, so you'll receive security and feature updates.
 
 
-###Building from source
+### Building from source
 You'll need to clone this repository, and have [npm](http://blog.npmjs.org/post/85484771375/how-to-install-npm) and [webpack](https://webpack.github.io/) installed.
 From your command line, run
 ````bash
@@ -63,7 +63,7 @@ hellosign-embedded.0.1.1.min.js
 ````
 These resultant libraries can be referenced from a `<script>` tag in your HTML.
 
-##Usage
+## Usage
 
 Basic usage of hellosign-embedded requires initializing the library, then using the `HelloSign.open` function to open a URL you've fetched through the [HelloSign API](https://www.hellosign.com/api) in an iFrame on your page.
 
@@ -82,12 +82,12 @@ HelloSign.open({
 ````
 See the [Embedded Signing Walkthrough](https://www.hellosign.com/api/embeddedSigningWalkthrough) to learn more.
 
-##Tests
+## Tests
 
 The current test suite can be run with `npm tests`.
 Tests are a work in progress, built with Mocha and [Chai](http://chaijs.com/), and using [jsdom-global](https://github.com/rstacruz/jsdom-global)
 
-##Demo
+## Demo
 There is a demo app available in this repo, useful for both development against this repo, and examining how a simple integration can work.
 
 You can start the test server from the root of the repository by simply running
