@@ -469,6 +469,17 @@
                     styles['iframe']['border'] = 'none';
                     styles['iframe']['box-shadow'] = 'none';
                     styles['cancelButton']['display'] = 'none';
+
+                    // This is an iOS hack.  Apparently iOS ignores widths set
+                    // with a non-pixel value, which means iFrames get expanded
+                    // to the full width of their content.  Setting a pixel
+                    // value and then using `min-width` is the workaround for
+                    // this.
+                    // See:  http://stackoverflow.com/questions/23083462/how-to-get-an-iframe-to-be-responsive-in-ios-safari
+                    if (this.isMobile) {
+                        styles['iframe']['width'] = '1px';
+                        styles['iframe']['min-width'] = '100%';
+                    }
                 }
                 else if (this.isMobile) {
                     var mobileDims = this.getMobileDimensions();
