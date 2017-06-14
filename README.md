@@ -80,7 +80,7 @@ HelloSign.open({
     // other options
 });
 ````
-See the [Embedded Signing Walkthrough](https://www.hellosign.com/api/embeddedSigningWalkthrough) to learn more.
+See the [Embedded Signing Walkthrough](https://app.hellosign.com/api/embeddedSigningWalkthrough) to learn more.
 
 ## Tests
 
