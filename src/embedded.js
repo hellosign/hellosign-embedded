@@ -616,14 +616,6 @@
                 MetaTagHelper.set();
             }
 
-            if (this.isMobile && !this.isInPage) {
-                this.fixIframe = function() {
-                    window.scrollTo(0, 0);
-                };
-                this.fixIframe();
-                window.addEventListener('scroll', this.fixIframe);
-            }
-
             // Close the iframe if page fails to initialize within 15 seconds
             if (this.healthCheckTimeoutMs) {
                 this._healthCheckTimeoutHandle = setTimeout(function() {
