@@ -453,6 +453,7 @@
 
                     self.wrapper.style['top'] = dims.top;
                     self.wrapper.style['left'] = dims.left;
+                    self.wrapper.style['width'] = dims.widthString;
                     self.iframe.style['height'] = dims.heightString;
                     self.iframe.style['width'] = dims.widthString;
 
@@ -484,9 +485,13 @@
                 else if (this.isMobile) {
                     var mobileDims = this.getMobileDimensions();
                     // Adjust the iFrame style to fit the whole screen
-                    styles['wrapper']['position'] = 'absolute';
+                    styles['wrapper']['position'] = 'fixed';
                     styles['wrapper']['top'] = '0';
                     styles['wrapper']['left'] = '0';
+                    styles['wrapper']['bottom'] = '0';
+                    styles['wrapper']['right'] = '0';
+                    styles['wrapper']['webkitOverflowScrolling'] = 'touch';
+                    styles['wrapper']['overflow-y'] = 'scroll';
                     styles['wrapper']['width'] = mobileDims.widthString;
                     styles['wrapper']['height'] = mobileDims.heightString;
                     styles['iframe']['position'] = 'absolute';
@@ -842,7 +847,7 @@
             } else {
                 // Landscape
                 dims = {
-                    'widthString': '100vw',
+                    'widthString': windowWidth + 'px',
                     'heightString': this.isDefaultUX ? '100vh' : '100%'
                 };
             }
