@@ -485,13 +485,9 @@
                 else if (this.isMobile) {
                     var mobileDims = this.getMobileDimensions();
                     // Adjust the iFrame style to fit the whole screen
-                    styles['wrapper']['position'] = 'fixed';
+                    styles['wrapper']['position'] = 'absolute';
                     styles['wrapper']['top'] = '0';
                     styles['wrapper']['left'] = '0';
-                    styles['wrapper']['bottom'] = '0';
-                    styles['wrapper']['right'] = '0';
-                    styles['wrapper']['webkitOverflowScrolling'] = 'touch';
-                    styles['wrapper']['overflow-y'] = 'scroll';
                     styles['wrapper']['width'] = mobileDims.widthString;
                     styles['wrapper']['height'] = mobileDims.heightString;
                     styles['iframe']['position'] = 'absolute';
@@ -519,6 +515,13 @@
             if (!this.wrapper) {
                 this.wrapper = document.createElement('div');
                 this.wrapper.setAttribute('id', 'hsEmbeddedWrapper');
+
+                // Hack.  We need this on mobile before we insert the DOM
+                // element, otherwise the modal appears above the fold
+                if (this.isMobile) {
+                    window.scrollTo(0, 0);
+                }
+
                 this.container.appendChild(this.wrapper);
             }
 
@@ -619,6 +622,14 @@
             if (this.isMobile && !this.isDefaultUX && window === window.top) {
                 // Only set the meta tags for the top window
                 MetaTagHelper.set();
+            }
+
+            if (this.isMobile && !this.isInPage) {
+                this.fixIframe = function() {
+                    window.scrollTo(0, 0);
+                };
+                this.fixIframe();
+                window.addEventListener('scroll', this.fixIframe);
             }
 
             // Close the iframe if page fails to initialize within 15 seconds
