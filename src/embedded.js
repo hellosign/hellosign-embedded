@@ -471,6 +471,9 @@
                     styles['iframe']['box-shadow'] = 'none';
                     styles['cancelButton']['display'] = 'none';
 
+                    // The iFrame is subject to line spacing if left inline, breaking a 100% fit
+                    styles['iframe']['vertical-align'] = 'top';
+
                     // This is an iOS hack.  Apparently iOS ignores widths set
                     // with a non-pixel value, which means iFrames get expanded
                     // to the full width of their content.  Setting a pixel
@@ -563,7 +566,9 @@
                 this.iframe.setAttribute('width', this.DEFAULT_WIDTH);
             }
 
-            this.iframe.setAttribute('height', windowDims.heightRaw);
+            if(!this.isInPage || params['height']) {
+                this.iframe.setAttribute('height', windowDims.heightRaw);
+            }
 
             // TODO: Detecting 'embeddedSign' in the frameUrl is a hack. Clean
             // this up once the embedded close button has been implemented for
@@ -645,9 +650,15 @@
             XWM.receive(function _parentWindowCallback(evt){
                 var source = evt.source || 'hsEmbeddedFrame';
 
+                // DOM elements cannot be stringified; regular elements resolve to {}, React elements throw errors
+                const safeParams = Object.keys(params).reduce((safe, key) => {
+                   safe[key] = key !== 'container' ? params[key] : (params[key].id || params[key].tagName);
+                   return safe;
+                }, {});
+
                 if (evt.data === 'initialize' && params['uxVersion'] > 1) {
                     if (self.healthCheckTimeoutMs) clearTimeout(self._healthCheckTimeoutHandle);
-                    XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: params }), evt.origin, source);
+                    XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: safeParams }), evt.origin, source);
                 } else if (evt.data == 'close') {
                     // Close iFrame
                     HelloSign.close();
@@ -830,8 +841,8 @@
             var width = this.uxVersion > 1 ? Math.min(this.DEFAULT_WIDTH, windowWidth * this.IFRAME_WIDTH_RATIO) : this.DEFAULT_WIDTH;
 
             return {
-                'widthString':  width + 'px',
-                'heightString': height + 'px',
+                'widthString':  !this.isInPage ? width + 'px' : '100%',
+                'heightString': !this.isInPage || customHeight ? height + 'px' : '100%',
                 'heightRaw':    height,
                 'scrollX':      scrollX,
                 'scrollY':      scrollY,
@@ -848,17 +859,20 @@
             var windowWidth = window.innerWidth;
             var windowHeight = window.innerHeight;
 
+            const screenWidthString = !this.isInPage ? screenWidth + 'px' : '100%';
+            const windowWidthString = !this.isInPage ? windowWidth + 'px' : '100%';
+
             var isPortrait = windowHeight > windowWidth;
 
             if (isPortrait) {
                 dims = {
-                    'widthString': this.isDefaultUX ? '100vw' : screenWidth + 'px',
+                    'widthString': this.isDefaultUX ? '100vw' : screenWidthString,
                     'heightString': this.isDefaultUX ? '100vh' : '100%' // 100vh needed for old signer page, but cuts off some newer UX elements
                 };
             } else {
                 // Landscape
                 dims = {
-                    'widthString': windowWidth + 'px',
+                    'widthString': windowWidthString,
                     'heightString': this.isDefaultUX ? '100vh' : '100%'
                 };
             }
