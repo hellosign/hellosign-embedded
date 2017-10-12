@@ -651,7 +651,7 @@
                 var source = evt.source || 'hsEmbeddedFrame';
 
                 // DOM elements cannot be stringified; regular elements resolve to {}, React elements throw errors
-                const safeParams = Object.keys(params).reduce((safe, key) => {
+                var safeParams = Object.keys(params).reduce(function(safe, key) {
                    safe[key] = key !== 'container' ? params[key] : (params[key].id || params[key].tagName);
                    return safe;
                 }, {});
@@ -859,8 +859,8 @@
             var windowWidth = window.innerWidth;
             var windowHeight = window.innerHeight;
 
-            const screenWidthString = !this.isInPage ? screenWidth + 'px' : '100%';
-            const windowWidthString = !this.isInPage ? windowWidth + 'px' : '100%';
+            var screenWidthString = !this.isInPage ? screenWidth + 'px' : '100%';
+            var windowWidthString = !this.isInPage ? windowWidth + 'px' : '100%';
 
             var isPortrait = windowHeight > windowWidth;
 
