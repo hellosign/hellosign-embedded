@@ -278,8 +278,9 @@
             NL_NL: 'nl_NL',
             ES_ES: 'es_ES',
             ES_MX: 'es_MX',
+            PT_BR: 'pt_BR',
             init: function() {
-                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX];
+                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX, this.PT_BR];
                 return this;
             }
         }.init(),
