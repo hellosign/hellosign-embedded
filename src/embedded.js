@@ -648,7 +648,10 @@
 
                 if (evt.data === 'initialize' && params['uxVersion'] > 1) {
                     if (self.healthCheckTimeoutMs) clearTimeout(self._healthCheckTimeoutHandle);
-                    XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: params }), evt.origin, source);
+                    // remove container from payload to prevent circular reference error
+                    var payload = Object.assign({}, params);
+                    delete payload.container;
+                    XWM.send(JSON.stringify({ type: 'embeddedConfig', payload: payload }), evt.origin, source);
                 } else if (evt.data == 'close') {
                     // Close iFrame
                     HelloSign.close();
