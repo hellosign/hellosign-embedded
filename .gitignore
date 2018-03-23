@@ -5,3 +5,5 @@ dist
 
 *.log
 *.bak
+
+hellosign-embedded.DEV.js
