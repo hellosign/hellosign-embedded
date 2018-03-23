@@ -6,8 +6,10 @@
   "main": "embdedded.js",
   "license": "ISC",
   "scripts": {
-    "start": "scripts/start.sh",
     "build": "webpack",
+    "demo": "(cd demo && npm start)",
+    "setup": "npm install && npm run setup:demo",
+    "setup:demo": "(cd demo && npm run setup)",
     "test": "mocha test"
   },
   "repository": {

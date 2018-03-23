@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "setup": "npm install",
     "start": "node server.js"
   },
   "author": "HelloSign <api@hellosign.com> (http://hellosign.com)",
