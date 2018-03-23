@@ -1,29 +1,47 @@
 {
   "name": "hellosign-embedded",
   "version": "1.2.11",
-  "description": "A JavaScript library required for embedding HelloSign features into your webapp. For more information, see our API documentation at https://www.hellosign.com/api/documentation.",
-  "main": "src/embedded.js",
+  "description": "A JavaScript library required for using embedded signing and templates from within your application.",
+  "homepage": "https://github.com/HelloFax/hellosign-embedded",
+  "main": "embdedded.js",
+  "license": "ISC",
   "scripts": {
-    "test": "mocha tests/module.js",
-    "start": "scripts/start.sh"
+    "start": "scripts/start.sh",
+    "build": "webpack",
+    "test": "mocha test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HelloFax/hellosign-embedded.git"
   },
-  "author": "HelloSign <api@hellosign.com> (http://hellosign.com)",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/HelloFax/hellosign-embedded/issues"
   },
-  "homepage": "https://github.com/HelloFax/hellosign-embedded#readme",
+  "author": {
+    "name": "HelloSign",
+    "email": "api@hellosign.com",
+    "url": "https://hellosign.com"
+  },
+  "contributors": [
+    {
+      "name": "Nathan Buchar",
+      "email": "nathan.buchar@hellosign.com"
+    }
+  ],
   "devDependencies": {
-    "chai": "^3.5.0",
-    "jsdom": "8.4.0",
-    "jsdom-global": "1.7.0",
-    "json-loader": "^0.5.4",
-    "mocha": "^2.4.5",
-    "uglify-loader": "^1.3.0",
-    "webpack": "^1.13.0"
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/plugin-transform-object-assign": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "babel-loader": "^8.0.0-beta.2",
+    "chai": "^4.1.2",
+    "jsdom": "^11.6.2",
+    "jsdom-global": "^3.0.2",
+    "json-loader": "^0.5.7",
+    "mocha": "^5.0.4",
+    "uglify-loader": "^2.0.0",
+    "uglifyjs-webpack-plugin": "^1.2.4",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13"
   }
 }
