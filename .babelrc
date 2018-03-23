@@ -5,5 +5,9 @@
         "browsers": ["last 5 versions", "ie >= 8", "safari >= 7"]
       }
     }]
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-object-assign"
   ]
 }
