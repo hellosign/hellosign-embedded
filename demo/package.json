@@ -2,7 +2,7 @@
   "name": "hellosign-embedded-demo-app",
   "private": true,
   "scripts": {
-    "setup": "npm install && cp ../lib/embedded.js public/lib/hellosign-embedded.DEV.js",
+    "setup": "npm install",
     "start": "node server.js"
   },
   "dependencies": {
