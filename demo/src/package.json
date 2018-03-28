@@ -1,0 +1,10 @@
+{
+  "name": "hellosign-embedded-demo-client",
+  "private": true,
+  "scripts": {
+    "setup": "npm install"
+  },
+  "dependencies": {
+    "hellosign-embedded": "../../"
+  }
+}
