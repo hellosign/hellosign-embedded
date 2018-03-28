@@ -1,8 +1,7 @@
 var express = require('express');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var hellosign_sdk  = require('hellosign-sdk');
-var webpack = require('webpack')(require('./webpack.dev-build.js'));
+var hellosign  = require('hellosign-sdk');
 
 /** Settings **/
 var PORT = 8080;
@@ -18,13 +17,6 @@ app.post('/api/createSignatureRequest', processSignatureRequestPost);
 app.listen(PORT, function(){
     console.log('Listening on port ' + PORT);
 });
-
-/** Rebuild DEV embedded file **/
-webpack.watch({
-    aggregateTimeout: 300,
-    poll: true
-}, webpackLogger);
-
 
 /*
  * Helpers
@@ -43,11 +35,11 @@ function processSignatureRequestPost(req, res){
     }
 
     // Send request and retrieve response
-    var hellosign = hellosign_sdk(keys);
-    createSignatureRequest({}, hellosign)
+    var hs = hellosign(keys);
+    createSignatureRequest({}, hs)
     .then(function(data){
       var signatureId = data.signature_request.signatures[0].signature_id;
-      return hellosign.embedded.getSignUrl(signatureId)
+      return hs.embedded.getSignUrl(signatureId)
     })
     .then(function(data){
         console.log(data);
@@ -60,7 +52,7 @@ function processSignatureRequestPost(req, res){
     });
 }
 
-function createSignatureRequest(params, hellosign){
+function createSignatureRequest(params, hs){
 
     var options = {
           test_mode : 1,
@@ -82,13 +74,5 @@ function createSignatureRequest(params, hellosign){
           files : [__dirname + '/public/nda.docx']
         };
 
-    return hellosign.signatureRequest.createEmbedded(options)
-}
-
-function webpackLogger(err, stats) {
-    if (err) {
-        console.log("Webpack compiler error: ", err);
-    } else {
-        console.log("Webpack build: ", stats.hash);
-    }
+    return hs.signatureRequest.createEmbedded(options)
 }

@@ -1,9 +1,7 @@
 .DS_Store
 
 node_modules
-dist
+release
 
 *.log
 *.bak
-
-hellosign-embedded.DEV.js

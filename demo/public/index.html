@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>Embedded Test Page</title>
-    <script type="text/javascript" src="lib/hellosign-embedded.DEV.js"></script>
+    <script type="text/javascript" src="lib/embedded.js"></script>
     <script type="text/javascript" src="lib/cookies.min.js"></script>
     <style>
         body { padding: 40px 80px; font-family: sans-serif; }
@@ -37,7 +37,7 @@
     <div id="hs_container"></div>
     <div id="loader"><div id="loader-text">Loading...</div></div>
     <script type="text/javascript">
-
+console.log(HelloSign);
         var button = document.querySelector('#submit');
         button.addEventListener('click', function(e){
             e.preventDefault();

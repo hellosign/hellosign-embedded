@@ -1,35 +1,27 @@
 {
   "name": "hellosign-embedded",
   "version": "1.2.11",
-  "description": "A JavaScript library required for using embedded signing and templates from within your application.",
+  "description": "A library which allows you to embed HelloSign signature requests and templates from within an application.",
   "homepage": "https://github.com/HelloFax/hellosign-embedded",
-  "main": "embdedded.js",
+  "main": "lib/embedded.node.js",
   "license": "ISC",
   "scripts": {
     "build": "webpack",
     "demo": "(cd demo && npm start)",
-    "setup": "npm install && npm run setup:demo",
-    "setup:demo": "(cd demo && npm run setup)",
+    "prepublish": "npm run build",
+    "prerelease": "node scripts/pre-release.js",
+    "setup": "npm install && (cd demo && npm run setup)",
     "test": "mocha test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HelloFax/hellosign-embedded.git"
   },
-  "bugs": {
-    "url": "https://github.com/HelloFax/hellosign-embedded/issues"
-  },
   "author": {
     "name": "HelloSign",
     "email": "api@hellosign.com",
     "url": "https://hellosign.com"
   },
-  "contributors": [
-    {
-      "name": "Nathan Buchar",
-      "email": "nathan.buchar@hellosign.com"
-    }
-  ],
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.42",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
@@ -39,10 +31,7 @@
     "chai": "^4.1.2",
     "jsdom": "^11.6.2",
     "jsdom-global": "^3.0.2",
-    "json-loader": "^0.5.7",
     "mocha": "^5.0.4",
-    "uglify-loader": "^2.0.0",
-    "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.2.0",
     "webpack-cli": "^2.0.13"
   }

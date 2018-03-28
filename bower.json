@@ -1,7 +1,7 @@
 {
   "name": "hellosign-embedded",
-  "description": "A JavaScript library required for embedding HelloSign features into your webapp. For more information, see our API documentation at https://www.hellosign.com/api/documentation.",
-  "main": "src/embedded.js",
+  "description": "A library which allows you to embed HelloSign signature requests and templates from within an application.",
+  "main": "lib/embedded.node.js",
   "authors": [
     "HelloSign <api@hellosign.com> (https://hellosign.com)"
   ],
@@ -12,9 +12,14 @@
   ],
   "ignore": [
     "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
+    "demo/",
+    "package-lock.json",
+    "package.json",
+    "node_modules/",
+    "bower_components/",
+    "scripts/",
+    "src/",
+    "test/",
+    "webpack.config.js",
   ]
 }
