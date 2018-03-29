@@ -1,7 +1,7 @@
 {
   "name": "hellosign-embedded",
   "description": "A library which allows you to embed HelloSign signature requests and templates from within an application.",
-  "main": "lib/embedded.umd.js",
+  "main": "dist/embedded.umd.js",
   "authors": [
     "HelloSign <api@hellosign.com> (https://hellosign.com)"
   ],

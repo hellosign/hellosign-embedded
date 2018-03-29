@@ -6,7 +6,7 @@ module.exports = [
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
-      path: path.join(__dirname, 'lib'),
+      path: path.join(__dirname, 'dist'),
       filename: `embedded.js`,
       library: 'HelloSign',
       libraryTarget: 'var'
@@ -26,7 +26,7 @@ module.exports = [
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
-      path: path.join(__dirname, 'lib'),
+      path: path.join(__dirname, 'dist'),
       filename: `embedded.umd.js`,
       library: 'HelloSign',
       libraryTarget: 'umd' // For installation with npm.
@@ -45,7 +45,7 @@ module.exports = [
     entry: './src/embedded.js',
     mode: 'production',
     output: {
-      path: path.join(__dirname, 'lib'),
+      path: path.join(__dirname, 'dist'),
       filename: `embedded.min.js`,
       library: 'HelloSign',
       libraryTarget: 'var'
