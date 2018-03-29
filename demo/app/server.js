@@ -57,13 +57,15 @@ const init = async () => {
           files: [__dirname + '/public/files/nda.docx']
         });
 
-        const signatureId = data.signature_request.signatures[0].signature_id;
-        const { embedded } = await client.embedded.getSignUrl(signatureId);
+        const signatureRequest = data.signature_request;
+        const firstSignature = signatureRequest.signatures[0];
+        const signatureId = firstSignature.signature_id;
+        const signatureData = await client.embedded.getSignUrl(signatureId);
 
         return {
           success: true,
           data: {
-            signUrl: embedded.sign_url
+            signUrl: signatureData.embedded.sign_url
           }
         };
       }
