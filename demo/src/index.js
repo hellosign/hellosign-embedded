@@ -4,10 +4,6 @@ const configurationFormElement = document.getElementById('configuration-form');
 const apiKeyElement = document.querySelector('[name="api-key"]');
 const clientIdElement = document.querySelector('[name="client-id"]');
 const redirectUrlElement = document.querySelector('[name="redirect-url"]');
-const iframeCheckboxElement = document.querySelector('[name="iframe"]');
-const embeddedRequestCardElement = document.getElementById('embedded-request-card');
-const embeddedRequestLoadingElement = document.getElementById('embedded-request-loading');
-const embeddedRequestElement = document.getElementById('embedded-request');
 
 /**
  * Initializes the dmeo app.
@@ -21,15 +17,6 @@ function init() {
 
     // Close the existing request if there is one.
     HelloSign.close();
-
-    // Show or hide the embedded request card and loading
-    // element.
-    if (iframeCheckboxElement.checked) {
-      embeddedRequestCardElement.style.display = 'none';
-    } else {
-      embeddedRequestCardElement.style.display = 'block';
-      embeddedRequestLoadingElement.style.display = 'block';
-    }
 
     saveConfig();
     createRequest();
@@ -83,7 +70,7 @@ function openRequest(signUrl) {
     skipDomainVerification: true,
     uxVersion: 2,
     messageListener(evt) {
-      console.log('Event!', evt);
+      console.log(evt);
     }
   };
 
@@ -91,15 +78,6 @@ function openRequest(signUrl) {
   if (redirectUrlElement.value.length) {
     options.redirectUrl = redirectUrlElement.value;
   }
-
-  // Define the container if the "Open in iFrame" checkbox
-  // was unchecked by the user.
-  if (!iframeCheckboxElement.checked) {
-    options.container = embeddedRequestElement;
-  }
-
-  // Hide the loading indicator.
-  embeddedRequestLoadingElement.style.display = 'none';
 
   HelloSign.open(options);
 }
@@ -113,8 +91,7 @@ function saveConfig() {
       JSON.stringify({
         apiKey: apiKeyElement.value,
         clientId: clientIdElement.value,
-        redirectUrl: redirectUrlElement.value,
-        iframe: iframeCheckboxElement.checked
+        redirectUrl: redirectUrlElement.value
       })
     ));
   } catch (err) {
@@ -131,12 +108,11 @@ function loadConfig() {
     const config = window.localStorage.getItem('config');
 
     if (config) {
-      const { apiKey, clientId, redirectUrl, iframe } = JSON.parse(config);
+      const { apiKey, clientId, redirectUrl } = JSON.parse(config);
 
       apiKeyElement.value = apiKey;
       clientIdElement.value = clientId;
       redirectUrlElement.value = redirectUrl;
-      iframeCheckboxElement.checked = iframe;
     }
   } catch (err) {
     // User may have private browsing enabled.
