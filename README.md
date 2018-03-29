@@ -224,6 +224,6 @@ Bindings for TypeScript have been lovingly added to the [DefinitelyTyped repo](h
 
 <br/>
 <br/>
-***
+<hr/>
 
 <small>Copyright &copy; 2018 [HelloSign](https://hellosign.com/). All rights reserved. [Contact us](mailto:api@hellosign.com).</small>
