@@ -5,3 +5,6 @@ release
 
 *.log
 *.bak
+
+# Demo artifacts.
+demo/app/public/js/bundle.js

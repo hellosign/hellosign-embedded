@@ -212,6 +212,8 @@ There is a demo app available in this repository which is useful for examining h
     $ npm run demo
     ```
 
+4. If all has gone well, you should now be able to access the demo at [http://localhost:3000](http://localhost:3000).
+
 In order to test out the demo, you'll need an API Key and Client ID for HelloSign's API. If you haven't done so yet, head on over to the [API settings for your account](https://www.hellosign.com/home/myAccount#api) on HelloSign and create an API App.
 
 
