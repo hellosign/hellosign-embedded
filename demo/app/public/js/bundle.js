@@ -71,10 +71,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "../lib/embedded.node.js":
-/*!*******************************!*\
-  !*** ../lib/embedded.node.js ***!
-  \*******************************/
+/***/ "../lib/embedded.umd.js":
+/*!******************************!*\
+  !*** ../lib/embedded.umd.js ***!
+  \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -303,7 +303,7 @@ function _typeof2(obj) { if (typeof Symbol === "function" && typeof Symbol.itera
           "version": "1.2.11",
           "description": "A library which allows you to embed HelloSign signature requests and templates from within an application.",
           "homepage": "https://github.com/HelloFax/hellosign-embedded",
-          "main": "lib/embedded.node.js",
+          "main": "lib/embedded.umd.js",
           "license": "ISC",
           "scripts": {
             "build": "webpack",
@@ -1386,7 +1386,7 @@ module.exports = function(module) {
 "use strict";
 
 
-var _hellosignEmbedded = _interopRequireDefault(__webpack_require__(/*! hellosign-embedded */ "../lib/embedded.node.js"));
+var _hellosignEmbedded = _interopRequireDefault(__webpack_require__(/*! hellosign-embedded */ "../lib/embedded.umd.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
