@@ -1,11 +1,8 @@
 const path = require('path');
 
-const { version } = require('./package.json');
-
 module.exports = [
   {
     entry: './src/embedded.js',
-    target: 'web',
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
@@ -26,14 +23,13 @@ module.exports = [
   },
   {
     entry: './src/embedded.js',
-    target: 'node',
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
       path: path.join(__dirname, 'lib'),
-      filename: `embedded.node.js`,
+      filename: `embedded.umd.js`,
       library: 'HelloSign',
-      libraryTarget: 'umd'
+      libraryTarget: 'umd' // For installation with npm.
     },
     module: {
       rules: [
@@ -47,7 +43,6 @@ module.exports = [
   },
   {
     entry: './src/embedded.js',
-    target: 'web',
     mode: 'production',
     output: {
       path: path.join(__dirname, 'lib'),
