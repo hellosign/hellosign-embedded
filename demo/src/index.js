@@ -27,31 +27,26 @@ function init() {
  * Sends a request to the backend to create a new
  * signature request using the HelloSign NodeJS SDK with
  * the given API key and Client ID.
- *
- * @see handleCreateRequest
  */
 function createRequest() {
-  const xhr = new XMLHttpRequest();
-
-  xhr.addEventListener('load', (evt) => {
-    const body = JSON.parse(xhr.responseText);
-
+  fetch('/create-signature-request', {
+    method: 'POST',
+    body: JSON.stringify({
+      clientId: clientIdElement.value,
+      apiKey: apiKeyElement.value
+    }),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  }).then((response) => {
+    return response.json();
+  }).then((body) => {
     if (body.success) {
       openRequest(body.data.signUrl);
     } else {
       alert('Something went wrong. Did you remember to enter your API Key and Client ID?');
     }
   });
-
-  xhr.open('POST', '/createSignatureRequest', true);
-  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-
-  xhr.send(
-    JSON.stringify({
-      clientId: clientIdElement.value,
-      apiKey: apiKeyElement.value
-    })
-  );
 }
 
 /**
