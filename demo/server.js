@@ -30,8 +30,7 @@ app.post('/create-signature-request', (req, res) => {
     cc_email_addresses: ['bob@example.com', 'lawyer@example.com'],
     files: [__dirname + '/files/nda.docx']
   }).then((data) => {
-    const signatureRequest = data.signature_request;
-    const firstSignature = signatureRequest.signatures[0];
+    const firstSignature = data.signature_request.signatures[0];
     const signatureId = firstSignature.signature_id;
 
     client.embedded.getSignUrl(signatureId).then((signatureData) => {
@@ -41,6 +40,10 @@ app.post('/create-signature-request', (req, res) => {
           signUrl: signatureData.embedded.sign_url
         }
       });
+    });
+  }).catch((err) => {
+    res.json({
+      success: false
     });
   });
 });

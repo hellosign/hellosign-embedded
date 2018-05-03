@@ -18,8 +18,13 @@ function init() {
     // Close the existing request if there is one.
     HelloSign.close();
 
-    saveConfig();
-    createRequest();
+    // Vierfy an API Key and Client ID have been entered.
+    if (apiKeyElement.value.length && clientIdElement.value.length) {
+      saveConfig();
+      createRequest();
+    } else {
+      alert('Don\'t forget to enter your API Key and Client ID');
+    }
   });
 }
 
@@ -44,7 +49,10 @@ function createRequest() {
     if (body.success) {
       openRequest(body.data.signUrl);
     } else {
-      alert('Something went wrong. Did you remember to enter your API Key and Client ID?');
+      alert(
+        'Something went wrong. Did you enter your ' +
+        'API Key and Client ID correctly?'
+      );
     }
   });
 }
