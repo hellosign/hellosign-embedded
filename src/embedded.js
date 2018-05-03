@@ -424,8 +424,7 @@
                     'z-index': 9998
                 },
                 'iframe': this.isInPage ? {} : {
-                    'border': '1px solid #505050',
-                    'box-shadow': '0px 2px 18px 2px #666',
+                    'margin': '1px',
                     'background-color': '#FFF',
                     'z-index': 9998
                 },
