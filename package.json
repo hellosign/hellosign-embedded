@@ -1,6 +1,6 @@
 {
   "name": "hellosign-embedded",
-  "version": "1.2.12",
+  "version": "1.2.13",
   "description": "A library which allows you to embed HelloSign signature requests and templates from within an application.",
   "homepage": "https://github.com/HelloFax/hellosign-embedded",
   "main": "dist/embedded.umd.js",
