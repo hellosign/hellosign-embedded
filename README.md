@@ -75,13 +75,13 @@ We recommend using the latest version of the library so that you'll receive secu
     hellosign.init(CLIENT_ID);
     ```
 
-4. Use your [HelloSign SDK of choice](https://app.hellosign.com/api/libraries#Official) to create an embedded signature request and get the singing URL. An example of how this is done using the NodeJS API can be found in the demo in this repository.
+4. Use your [HelloSign SDK of choice](https://app.hellosign.com/api/libraries#Official) to create an embedded signature request and get the signing URL. An example of how this is done using the NodeJS API can be found in the demo in this repository.
 
 5. Then, open the signature request.
 
     ```js
     hellosign.open({
-      url: signUrl,
+      url: signUrlFromSdk,
       allowCancel: true,
       debug: true,
       skipDomainVerification: true,
@@ -221,7 +221,7 @@ In order to test out the demo, you'll need an API Key and Client ID for HelloSig
 
 ### TypeScript
 
-Bindings for TypeScript have been lovingly added to the [DefinitelyTyped repo](https://github.com/DefinitelyTyped/DefinitelyTyped) for hellosign-embedded.
+TypeScript bindings for HelloSign Embedded are available in the [DefinitelyTyped repo](https://github.com/DefinitelyTyped/DefinitelyTyped).
 
 
 <br/>
