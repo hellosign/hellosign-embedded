@@ -1,7 +1,6 @@
 const bodyParser = require('body-parser')
 const express = require('express');
 const hellosign = require('hellosign-sdk');
-const path = require('path');
 
 const app = express();
 
