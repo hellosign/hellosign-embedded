@@ -27,15 +27,15 @@
               <form id="configuration-form">
                 <div class="form-group">
                   <label for="api-key-input">Your API Key</label>
-                  <input id="api-key-input" class="form-control" type="text" name="api-key" placeholder="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef">
+                  <input id="api-key-input" class="form-control" type="text" name="api-key" placeholder="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" pattern="[A-Fa-f0-9]{64}" required>
                 </div>
                 <div class="form-group">
                   <label for="client-id-input">Your Client ID</label>
-                  <input id="client-id-input" class="form-control" type="text" name="client-id" placeholder="0123456789abcdef0123456789abcdef">
+                  <input id="client-id-input" class="form-control" type="text" name="client-id" placeholder="0123456789abcdef0123456789abcdef" pattern="[A-Fa-f0-9]{32}" required>
                 </div>
                 <div class="form-group">
                   <label for="redirect-url-input">Redirect URL (Optional)</label>
-                  <input id="redirect-url-input" class="form-control" type="text" name="redirect-url" placeholder="https://app.hellosign.com/api/documentation/">
+                  <input id="redirect-url-input" class="form-control" type="url" name="redirect-url" placeholder="https://app.hellosign.com/api/documentation/">
                 </div>
                 <br/>
                 <button type="submit" class="btn btn-primary">Open</button>

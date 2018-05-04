@@ -1,9 +1,9 @@
 import HelloSign from 'hellosign-embedded';
 
-const configurationFormElement = document.getElementById('configuration-form');
-const apiKeyElement = document.querySelector('[name="api-key"]');
-const clientIdElement = document.querySelector('[name="client-id"]');
-const redirectUrlElement = document.querySelector('[name="redirect-url"]');
+const form = document.getElementById('configuration-form');
+const apiKeyElement = document.getElementById('api-key-input');
+const clientIdElement = document.getElementById('client-id-input');
+const redirectUrlElement = document.getElementById('redirect-url-input');
 
 /**
  * Initializes the dmeo app.
@@ -12,19 +12,15 @@ const redirectUrlElement = document.querySelector('[name="redirect-url"]');
  * @see createRequest
  */
 function init() {
-  configurationFormElement.addEventListener('submit', (evt) => {
+  form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
     // Close the existing request if there is one.
     HelloSign.close();
 
-    // Vierfy an API Key and Client ID have been entered.
-    if (apiKeyElement.value.length && clientIdElement.value.length) {
-      saveConfig();
-      createRequest();
-    } else {
-      alert('Don\'t forget to enter your API Key and Client ID');
-    }
+    // Save the config and create the signature request.
+    saveConfig();
+    createRequest();
   });
 }
 
@@ -32,17 +28,19 @@ function init() {
  * Sends a request to the backend to create a new
  * signature request using the HelloSign NodeJS SDK with
  * the given API key and Client ID.
+ *
+ * @see openRequest
  */
 function createRequest() {
   fetch('/create-signature-request', {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify({
       clientId: clientIdElement.value,
       apiKey: apiKeyElement.value
-    }),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    })
   }).then((response) => {
     return response.json();
   }).then((body) => {
