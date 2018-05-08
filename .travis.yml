@@ -1,30 +1,29 @@
 language: node_js
 node_js:
   - "node"
-before_install: npm install -g webpack
-before_script: webpack
-before_deploy: scripts/pre_deploy.sh
+before_script: npm run build
+before_deploy: npm run prerelease
 deploy:
-    - provider: s3
-      access_key_id: $S3_ACCESS_KEY_ID
-      secret_access_key: $S3_SECRET_ACCESS_KEY
-      bucket: $S3_BUCKET
-      skip_cleanup: true
-      upload_dir: public/js
-      local_dir: dist
-      on:
-          tags: true
-    - provider: s3
-      access_key_id: $S3_ACCESS_KEY_ID
-      secret_access_key: $S3_SECRET_ACCESS_KEY
-      bucket: $S3_HF_BUCKET
-      skip_cleanup: true
-      upload_dir: js
-      local_dir: dist
-      on:
-          tags: true
-    - provider: npm
-      email: "api@hellosign.com"
-      api_key: $NPM_API_KEY
-      on:
-          tags: true
+  - provider: s3
+    access_key_id: $S3_ACCESS_KEY_ID
+    secret_access_key: $S3_SECRET_ACCESS_KEY
+    bucket: $S3_BUCKET
+    skip_cleanup: true
+    upload_dir: public/js
+    local_dir: release
+    on:
+      tags: true
+  - provider: s3
+    access_key_id: $S3_ACCESS_KEY_ID
+    secret_access_key: $S3_SECRET_ACCESS_KEY
+    bucket: $S3_HF_BUCKET
+    skip_cleanup: true
+    upload_dir: js
+    local_dir: release
+    on:
+      tags: true
+  - provider: npm
+    email: "api@hellosign.com"
+    api_key: $NPM_API_KEY
+    on:
+      tags: true

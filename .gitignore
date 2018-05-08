@@ -1,5 +1,10 @@
-dist
-hellosign-embedded.DEV.js
-node_modules
 .DS_Store
-npm-debug.log
+
+dist
+node_modules
+release
+
+*.log
+*.bak
+
+demo/dist

@@ -1,23 +1,25 @@
 {
-  "name": "hellosign-embedded-demo-app",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "hellosign-embedded-demo",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "build": "webpack",
+    "setup": "npm install && (cd src && npm run setup)",
+    "start": "npm run build && node server"
   },
-  "author": "HelloSign <api@hellosign.com> (http://hellosign.com)",
-  "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.15.0",
-    "express": "^4.13.4",
-    "file-loader": "^0.8.5",
-    "hellosign-sdk": "^1.1.12",
-    "json-loader": "^0.5.4",
-    "morgan": "^1.7.0"
+    "body-parser": "^1.18.2",
+    "express": "^4.16.3",
+    "hellosign-sdk": "^1.1.14",
+    "html-webpack-plugin": "^3.2.0",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
-    "webpack": "^1.13.1"
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
+    "@babel/plugin-transform-object-assign": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
+    "babel-loader": "^8.0.0-beta.2",
+    "webpack": "^4.2.0",
+    "webpack-cli": "^2.0.13"
   }
 }

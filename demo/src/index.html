@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>HelloSign Embedded Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row justify-content-md-center">
+        <div class="col-xl-8">
+          <br/>
+          <h1>hellosign-embedded Demo App</h1>
+          <br/>
+          <br/>
+          <p>This page lets you test using the <code>hellosign-embedded</code> library in an app context.</p>
+          <p>This is useful for testing development against <code>hellosign-embedded</code> as well as an example of how the library can be integrated with one of our SDKs (Node.js in this case). Simply enter the API Key for your HelloSign account, and the Client ID for an API app on your account below, then hit "Open" to generate a signature request and view it</p>
+          <p>If you haven't already, you will need to <a href="https://app.hellosign.com/oauth/createAppForm">create a new API app</a> in order to obtain a unique <b>API Key</b> and <b>Client ID</b> from HelloSign. Don't share these with anyone!</p>
+          <br/>
+        </div>
+      </div>
+      <div class="row justify-content-md-center">
+        <div class="col-xl-8">
+          <div class="card">
+            <h5 class="card-header">Configuration</h5>
+            <div class="card-body">
+              <form id="configuration-form">
+                <div class="form-group">
+                  <label for="api-key-input">Your API Key</label>
+                  <input id="api-key-input" class="form-control" type="text" name="api-key" placeholder="0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef" pattern="[A-Fa-f0-9]{64}" required>
+                </div>
+                <div class="form-group">
+                  <label for="client-id-input">Your Client ID</label>
+                  <input id="client-id-input" class="form-control" type="text" name="client-id" placeholder="0123456789abcdef0123456789abcdef" pattern="[A-Fa-f0-9]{32}" required>
+                </div>
+                <div class="form-group">
+                  <label for="redirect-url-input">Redirect URL (Optional)</label>
+                  <input id="redirect-url-input" class="form-control" type="url" name="redirect-url" placeholder="https://app.hellosign.com/api/documentation/">
+                </div>
+                <br/>
+                <button type="submit" class="btn btn-primary">Open</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+    </div>
+  </body>
+</html>
