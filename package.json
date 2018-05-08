@@ -8,7 +8,6 @@
   "scripts": {
     "build": "webpack",
     "demo": "npm run build && (cd demo && npm start)",
-    "prepublishOnly": "npm run build",
     "prerelease": "node scripts/pre-release.js",
     "setup": "npm install && npm run build && (cd demo && npm run setup)",
     "pretest": "npm run build",
