@@ -4,6 +4,7 @@ const form = document.getElementById('configuration-form');
 const apiKeyElement = document.getElementById('api-key-input');
 const clientIdElement = document.getElementById('client-id-input');
 const redirectUrlElement = document.getElementById('redirect-url-input');
+const submitButton = document.getElementById('submit-button');
 
 /**
  * Initializes the dmeo app.
@@ -15,8 +16,8 @@ function init() {
   form.addEventListener('submit', (evt) => {
     evt.preventDefault();
 
-    // Close the existing request if there is one.
-    HelloSign.close();
+    // Disable the submit button temporarily.
+    submitButton.setAttribute('disabled', true);
 
     // Save the config and create the signature request.
     saveConfig();
@@ -52,6 +53,9 @@ function createRequest() {
         'API Key and Client ID correctly?'
       );
     }
+
+    // Re-enable submit button.
+    submitButton.removeAttribute('disabled');
   });
 }
 
