@@ -357,6 +357,10 @@
             var frameUrl = this.safeUrl(params['url']);
             this.healthCheckTimeoutMs = params['healthCheckTimeoutMs'];
 
+            if (!frameUrl) {
+              throw new TypeError('Must provide arguments to open()');
+            }
+
             if (typeof params['debug'] !== 'undefined') {
                 this.isDebugEnabled = (params['debug'] === true || params['debug'] == 'true');
             }
