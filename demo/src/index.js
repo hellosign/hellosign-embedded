@@ -73,7 +73,6 @@ function openRequest(signUrl) {
     allowCancel: true,
     debug: true,
     skipDomainVerification: true,
-    uxVersion: 2,
     messageListener(evt) {
       console.log(evt);
     }

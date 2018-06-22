@@ -84,8 +84,7 @@ We recommend using the latest version of the library so that you'll receive secu
       url: signUrlFromSdk,
       allowCancel: true,
       debug: true,
-      skipDomainVerification: true,
-      uxVersion: 2
+      skipDomainVerification: true
     });
     ```
 
@@ -128,12 +127,6 @@ Opens an embedded signature request in an iFrame with the given options.
     * `requester` *String* (required*)
 
         The email of the individual issuing the signature request. This option is **required** only for "Me and Others" signature requests.
-
-    * `uxVersion` *Number* (recommended)
-
-        An integer representing the version of the embedded signing UX to display to users, where `1` is the legacy UX and `2` is the responsive UX. If you are a new HelloSign API customer, it is recommended that you specify `uxVersion: 2`.
-
-        Note: This option is only honored if your account has accessed the API prior to **Nov 14, 2015**. Defaults to `1`.
 
     * `redirectUrl` *String*
 
