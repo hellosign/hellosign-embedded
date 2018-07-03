@@ -2,7 +2,7 @@
 
 **Welcome!**
 
-HelloSign Embedded is a JavaScript library which allows you to embed HelloSign signature requests and templates from within a web application.
+HelloSign Embedded allows you to embed HelloSign signature requests and templates from within your web application.
 
 For more information, review our [API documentation](https://www.hellosign.com/api/documentation).
 
@@ -24,31 +24,29 @@ For more information, review our [API documentation](https://www.hellosign.com/a
 
 ## Installation
 
-**Via npm**
+## Installation
+
+**npm**
 
 ```
 $ npm install hellosign-embedded
 ```
 
-**Via CDN**
+**CDN links**
+
+HelloSign is also available over a CDN.
 
 ```html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.LATEST.min.js"></script>
+<script crossorigin src="https://unpkg.com/hellosign-embedded@1/umd/embedded.development.js"></script>
 ```
 
-This will always use the latest published version of the library. Alternately, omit the `.min` for the development version.
+The version above is only meant for development, and is not suitable for production. A minified and optimized production version of HelloSign Embedded is available at:
 
 ```html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.LATEST.js"></script>
+<script crossorigin src="https://unpkg.com/hellosign-embedded@1/umd/embedded.production.min.js"></script>
 ```
 
-And if you'd prefer to use a specific version of the HelloSign Embedded library, you can specify its version in the URL.
-
-```html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.1.2.11.min.js"></script>
-```
-
-We recommend using the latest version of the library so that you'll receive security and feature updates, however be aware that if any breaking changes are introduced, your app may need to be updated to support them.
+To load a specific version of `hellosign-embedded`, replace `1` with the version number, tag, or semver range. More information about how to use unpkg can be found [here](https://unpkg.com/).
 
 
 ## Usage
