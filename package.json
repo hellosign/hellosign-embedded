@@ -1,6 +1,6 @@
 {
   "name": "hellosign-embedded",
-  "version": "1.4.3-0",
+  "version": "1.4.3",
   "description": "Embed HelloSign signature requests and templates from within your web application.",
   "homepage": "https://github.com/HelloFax/hellosign-embedded",
   "main": "index.js",
