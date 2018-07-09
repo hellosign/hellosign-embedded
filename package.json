@@ -9,7 +9,7 @@
     "build": "webpack",
     "demo": "npm run build && npm start --prefix=demo",
     "prerelease": "node scripts/pre-release.js",
-    "prepublishOnly": "npm run build && npm run prerelease",
+    "prepublishOnly": "npm install && npm run build && npm run prerelease",
     "setup": "npm install && npm run build && npm run setup --prefix=demo",
     "test": "mocha test"
   },
