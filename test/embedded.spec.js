@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const jsdomGlobal = require('jsdom-global')();
 
-const HelloSign = require('../src/embedded.js');
+const HelloSign = require('../src/embedded');
 
 const clientId = 'IAMA_FAKE_CLIENTID_AMA';
 const fakeUrl = 'http://api.hellosign.com/fakepath/87687fds';

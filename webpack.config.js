@@ -6,30 +6,10 @@ module.exports = [
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
-      path: path.join(__dirname, 'dist'),
-      filename: `embedded.js`,
+      path: path.join(__dirname, 'umd'),
+      filename: 'embedded.development.js',
       library: 'HelloSign',
-      libraryTarget: 'var'
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: 'babel-loader'
-        }
-      ]
-    }
-  },
-  {
-    entry: './src/embedded.js',
-    mode: 'development',
-    devtool: 'inline-source-map',
-    output: {
-      path: path.join(__dirname, 'dist'),
-      filename: `embedded.umd.js`,
-      library: 'HelloSign',
-      libraryTarget: 'umd' // For installation with npm.
+      libraryTarget: 'umd'
     },
     module: {
       rules: [
@@ -45,10 +25,10 @@ module.exports = [
     entry: './src/embedded.js',
     mode: 'production',
     output: {
-      path: path.join(__dirname, 'dist'),
-      filename: `embedded.min.js`,
+      path: path.join(__dirname, 'umd'),
+      filename: 'embedded.production.min.js',
       library: 'HelloSign',
-      libraryTarget: 'var'
+      libraryTarget: 'umd'
     },
     module: {
       rules: [
