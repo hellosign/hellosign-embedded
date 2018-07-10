@@ -984,6 +984,12 @@
         return window.pageXOffset !== undefined;
     }
 
+    // Also add HelloSign as global variable for AMD implementations.
+    // This will prevent older integrations from breaking.
+    if (typeof define === 'function' && define.amd) {
+      window.HelloSign = HelloSign;
+    }
+
     // Export the HS object
     module.exports = HelloSign;
 
