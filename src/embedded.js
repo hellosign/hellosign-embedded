@@ -353,6 +353,7 @@
             // - requester                String. The email of the person issuing a signature request. Required for allowing 'Me + Others' requests
             // - whiteLabelingOptions     Object. An associative array to be used to customize the app's signer page
             // - healthCheckTimeoutMs     Integer. The number of milliseconds to wait for a response from the iframe. If no response after that time the iframe will be closed. 15000 milliseconds is recommended.
+            // - finalButtonText          String. The text to use for the final send/continue button if you'd like to override it's default text. May only be set to "Send" or "Continue".
 
             var redirectUrl = this.safeUrl(params['redirectUrl']);
             var messageListener = params['messageListener'];
@@ -372,6 +373,9 @@
             }
             if (typeof params['hideHeader'] !== 'undefined') {
                 this.hideHeader = (params['hideHeader'] === true || params['hideHeader'] == 'true');
+            }
+            if (typeof params['finalButtonText'] !== 'undefined') {
+                this.finalButtonText = params['finalButtonText'];
             }
             if (typeof params['whiteLabelingOptions'] === 'object') {
                 this.whiteLabelingOptions = JSON.stringify(params['whiteLabelingOptions']);
@@ -416,6 +420,9 @@
             }
             if (this.whiteLabelingOptions) {
                 frameUrl += '&white_labeling_options=' + encodeURI(this.whiteLabelingOptions);
+            }
+            if (this.finalButtonText) {
+                frameUrl += '&final_button_text=' + this.finalButtonText;
             }
 
             frameUrl += '&js_version=' + this.VERSION;
