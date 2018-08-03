@@ -322,6 +322,7 @@
         EVENT_SIGNED: 'signature_request_signed',
         EVENT_DECLINED: 'signature_request_declined',
         EVENT_CANCELED: 'signature_request_canceled',
+        EVENT_REASSIGNED: 'signature_request_reassigned',
         EVENT_SENT: 'signature_request_sent',
         EVENT_TEMPLATE_CREATED: 'template_created',
         EVENT_ERROR: 'error',
@@ -695,6 +696,10 @@
                     messageListener({
                         'event': HelloSign.EVENT_DECLINED
                     });
+                } else if (evt.data == 'reassign') {
+                  messageListener({
+                    'event': HelloSign.EVENT_REASSIGNED
+                  });
                 } else if (evt.data == 'user-done') {
                     // Close iFrame
                     HelloSign.close();
