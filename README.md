@@ -145,7 +145,7 @@ Opens an embedded signature request in an iFrame with the given options.
         A function which is called when window messages are received from the embedded iFrame. See [`window.postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). The callback passes the following as arguments:
 
         * `message` *Object*
-          * `message.event` *String* - The event that was sent from the embedded iFrame. A list of possible message events can be found [here](https://github.com/HelloFax/hellosign-embedded/blob/master/src/embedded.js#L300).
+          * `message.event` *String* - The event that was sent from the embedded iFrame. A list of possible message events can be found [here](https://app.hellosign.com/api/embeddedSigningWalkthrough#EmbeddedSigningNotes).
 
     * `userCulture` *String*
 
