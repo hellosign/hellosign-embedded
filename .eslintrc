@@ -1,0 +1,19 @@
+{
+  "extends": "@hellosign",
+  "parser": "babel-eslint",
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "__PKG_NAME__": true,
+    "__PKG_VERSION__": true
+  },
+  "rules": {
+    "arrow-body-style": "off",
+    "class-methods-use-this": "off",
+    "global-require": "off",
+    "no-else-return": "off",
+    "no-underscore-dangle": "off",
+    "padded-blocks": "off"
+  }
+}
