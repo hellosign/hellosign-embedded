@@ -84,6 +84,14 @@ class HelloSign extends Emitter {
   _initTimeout;
 
   /**
+   * Whether the client is open or not.
+   *
+   * @type {?boolean}
+   * @private
+   */
+  _isOpen;
+
+  /**
    * @type {Function}
    * @private
    */
@@ -398,7 +406,7 @@ class HelloSign extends Emitter {
     const { classNames } = settings;
 
     this._baseEl.insertAdjacentHTML('beforeend', safeHtml`
-      <button class="${classNames.MODAL_CLOSE_BTN}" type="button" title="Cancel signature request" disabled></div>
+      <button class="${classNames.MODAL_CLOSE_BTN}" type="button" title="Close" disabled></div>
     `);
 
     this._closeBtnEl = this._baseEl.getElementsByClassName(classNames.MODAL_CLOSE_BTN).item(0);
@@ -518,6 +526,11 @@ class HelloSign extends Emitter {
 
   /**
    * @event HelloSign#createTemplate
+   * @type {Object}
+   * @property {string} title
+   * @property {string[]} messages
+   * @property {string[]} signerRoles
+   * @property {Object} signatureRequestInfo
    */
 
   /**
@@ -574,6 +587,9 @@ class HelloSign extends Emitter {
 
   /**
    * @event HelloSign#send
+   * @type {Object}
+   * @property {string} signatureRequestId
+   * @property {string} signatureId
    */
 
   /**
@@ -714,6 +730,10 @@ class HelloSign extends Emitter {
   open(url, opts = {}) {
     debug.info('open()', url, opts);
 
+    if (this._isOpen) {
+      this.close();
+    }
+
     this.emit(settings.events.OPEN, { url });
 
     const cfg = { ...defaults, ...this._config, ...opts };
@@ -721,6 +741,8 @@ class HelloSign extends Emitter {
 
     this._setFrameURL(url, cfg);
     this._renderMarkup(container, cfg);
+
+    this._isOpen = true;
 
     window.addEventListener('message', this._onMessage);
   }
@@ -740,6 +762,7 @@ class HelloSign extends Emitter {
 
     this._iFrameEl = false;
     this._iFrameURL = null;
+    this._isOpen = false;
 
     this._clearMarkup();
     this._clearInitTimeout();

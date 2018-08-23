@@ -39,7 +39,7 @@ client.open(signUrl);
 <br/>
 <hr/>
 
-<img src="https://dyn550zzd47ox.cloudfront.net/1.57.3/build/b211de32ceb17d8ccdb2fc71c8d27f99.svg" alt="" height="35"/> Copyright &copy; [HelloSign][external_hellosign]. All rights reserved.
+&copy; 2018 [HelloSign][external_hellosign]. All rights reserved.
 
 
 
