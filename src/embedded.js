@@ -717,6 +717,7 @@ class HelloSign extends Emitter {
    * @event HelloSign#open
    * @type {Object}
    * @property {string} url
+   * @property {string} iFrameUrl
    */
 
   /**
@@ -734,12 +735,13 @@ class HelloSign extends Emitter {
       this.close();
     }
 
-    this.emit(settings.events.OPEN, { url });
-
     const cfg = { ...defaults, ...this._config, ...opts };
     const container = cfg.container || document.body;
 
     this._setFrameURL(url, cfg);
+
+    this.emit(settings.events.OPEN, { url, iFrameUrl: this._iFrameURL });
+
     this._renderMarkup(container, cfg);
 
     this._isOpen = true;
