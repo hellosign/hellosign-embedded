@@ -186,7 +186,7 @@ class HelloSign extends Emitter {
         throw new TypeError('"finalButtonText" must be a string');
       }
 
-      if (['Send', 'Continue'].includes(val)) {
+      if (!['Send', 'Continue'].includes(val)) {
         throw new TypeError('"finalButtonText" must be either "Send" or "Continue"');
       }
 
@@ -266,7 +266,7 @@ class HelloSign extends Emitter {
         throw new TypeError('"redirectTo" must be a string');
       }
 
-      params.append('redirectTo', val);
+      params.append('redirect_url', val);
     }
   }
 
@@ -324,7 +324,7 @@ class HelloSign extends Emitter {
       const val = config.whiteLabeling;
 
       if (typeof val !== 'object') {
-        throw new TypeError('"whiteLabeling" must be a object');
+        throw new TypeError('"whiteLabeling" must be an object');
       }
 
       params.append('white_labeling_options', JSON.stringify(val));
@@ -775,12 +775,11 @@ class HelloSign extends Emitter {
     const container = cfg.container || document.body;
 
     this._setFrameURL(url, cfg);
-
-    this.emit(settings.events.OPEN, { url, iFrameUrl: this._iFrameURL });
-
     this._renderMarkup(container, cfg);
 
     this._isOpen = true;
+
+    this.emit(settings.events.OPEN, { url, iFrameUrl: this._iFrameURL });
 
     window.addEventListener('message', this._onMessage);
   }

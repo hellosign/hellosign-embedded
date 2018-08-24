@@ -1,77 +1,58 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const Package = require('./package.json');
+const globals = require('./globals');
 
-module.exports = [
-  {
-    entry: [
-      './src/embedded.scss',
-      './src/embedded.js',
+const base = {
+  entry: [
+    './src/embedded.scss',
+    './src/embedded.js',
+  ],
+  output: {
+    path: path.join(__dirname, 'umd'),
+    filename: 'embedded.js',
+    library: 'HelloSign',
+    libraryTarget: 'umd',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
     ],
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      ...globals,
+    }),
+  ],
+};
+
+const config = [
+  {
+    ...base,
     mode: 'development',
     devtool: 'inline-source-map',
     output: {
-      path: path.join(__dirname, 'umd'),
+      ...base.output,
       filename: 'embedded.development.js',
-      library: 'HelloSign',
-      libraryTarget: 'umd',
     },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /node_modules/,
-          use: 'babel-loader',
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            'style-loader',
-            'css-loader',
-            'sass-loader',
-          ],
-        },
-      ],
-    },
-    plugins: [
-      new webpack.DefinePlugin({
-        __PKG_NAME__: JSON.stringify(Package.name),
-        __PKG_VERSION__: JSON.stringify(Package.version),
-      }),
-    ],
   },
-  // {
-  //   entry: './src/embedded.js',
-  //   mode: 'production',
-  //   output: {
-  //     path: path.join(__dirname, 'umd'),
-  //     filename: 'embedded.production.min.js',
-  //     library: 'HelloSign',
-  //     libraryTarget: 'umd'
-  //   },
-  //   module: {
-  //     rules: [
-  //       {
-  //         test: /\.js$/,
-  //         exclude: /node_modules/,
-  //         use: 'babel-loader'
-  //       },
-  //       {
-  //         test: /\.scss$/,
-  //         use: [
-  //           'style-loader',
-  //           'css-loader',
-  //           'sass-loader'
-  //         ]
-  //       }
-  //     ]
-  //   },
-  //   plugins: [
-  //     new webpack.ProvidePlugin({
-  //       __PKG_NAME__: Package.name,
-  //       __PKG_VERSION__: Package.version,
-  //     })
-  //   ]
-  // }
+  {
+    ...base,
+    mode: 'production',
+    devtool: 'none',
+    output: {
+      ...base.output,
+      filename: 'embedded.production.min.js',
+    },
+  },
 ];
+
+module.exports = config;

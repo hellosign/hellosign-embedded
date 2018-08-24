@@ -1,3 +1,13 @@
+/**
+ * To enable debug messages, enter the following into your
+ * developer tools console:
+ *
+ *   localStorage.debug = 'hellosign-embedded:*';
+ *
+ * This will surface all debug messages under the
+ * "hellosign:" namespace.
+ */
+
 import debug from 'debug';
 
 const info = debug(`${__PKG_NAME__}:info`);
