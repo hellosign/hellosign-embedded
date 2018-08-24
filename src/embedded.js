@@ -797,6 +797,22 @@ class HelloSign extends Emitter {
 
     return super.emit(...args);
   }
+
+  /**
+   * @returns {?HTMLElement}
+   * @public
+   */
+  get element() {
+    return this._baseEl;
+  }
+
+  /**
+   * @returns {boolean}
+   * @public
+   */
+  get isOpen() {
+    return this._isOpen;
+  }
 }
 
 export default HelloSign;
