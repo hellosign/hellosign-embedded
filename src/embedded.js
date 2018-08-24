@@ -271,6 +271,27 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Validates and appends the requestingEmail parameter to
+   * the iFrame params object.
+   *
+   * @throws {TypeError} if requestingEmail is invalid
+   * @param {URLSearchParams} params
+   * @param {Object} config
+   * @private
+   */
+  _applyRequestingEmail(params, config) {
+    if ('requestingEmail' in config) {
+      const val = config.requestingEmail;
+
+      if (typeof val !== 'string') {
+        throw new TypeError('"requestingEmail" must be a string');
+      }
+
+      params.append('requester', val);
+    }
+  }
+
+  /**
    * Validates and appends the verifyDomain parameter to
    * the iFrame params object.
    *
@@ -339,6 +360,7 @@ class HelloSign extends Emitter {
     this._applyLocale(params, cfg);
     this._applyParentURL(params);
     this._applyRedirectTo(params, cfg);
+    this._applyRequestingEmail(params, cfg);
     this._applyVerifyDomain(params, cfg);
     this._applyVersion(params);
     this._applyWhiteLabeling(params, cfg);
