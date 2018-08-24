@@ -6,7 +6,7 @@ We're excited you're considering contributing to `hellosign-embedded`! Your patc
 
 * Make sure you have a [GitHub account](https://github.com/signup/free)
 * Make sure you have a [HelloSign account](http://www.hellosign.com)
-* Submit a new [issue ticket](https://github.com/HelloFax/hellosign-embedded/issues), assuming one does not already exist.
+* Submit a new [issue ticket](https://github.com/hellosign/hellosign-embedded/issues), assuming one does not already exist.
   * Clearly describe the issue including steps to reproduce when it is a bug.
   * Make sure to include the version you are using which has the issue (and confirm that the issue you are having has not been fixed in a later version)
 * Fork the repository on GitHub
@@ -16,18 +16,18 @@ We're excited you're considering contributing to `hellosign-embedded`! Your patc
 * Make commits of logical units.
 * Check for unnecessary whitespace with `git diff --check` before committing.
 * Make sure your commit messages are in [the proper format](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html).
+* Make sure your code is written so that is satisfies our [JavaScript style guide](https://github.com/hellosign/javascript).
 * Make sure you have added any necessary tests for your changes.
 * Run all unit tests, if available, to ensure nothing else was accidentally broken.
 
 ### Making trivial changes
 
-For changes of a trivial nature to comments and documentation, it is not
-always necessary to create a new issue ticket.
+For changes of a trivial nature to comments and documentation, it is not always necessary to create a new issue ticket.
 
 ## Submitting Changes
 
 * Push your changes to your fork of the repository.
-* Submit a pull request to the repository in the HelloFax organization.
+* Submit a pull request to the repository in the HelloSign organization.
 * Update your issue ticket to mark that you have submitted code and are ready for it to be reviewed (Status: Ready for Merge).
   * Include a link to the pull request in the ticket.
 * The HelloSign dev team looks at Pull Requests on a regular basis.
@@ -39,4 +39,3 @@ always necessary to create a new issue ticket.
 * [General GitHub documentation](http://help.github.com/)
 * [GitHub pull request documentation](http://help.github.com/send-pull-requests/)
 * [HelloSign API documentation](https://www.hellosign.com/api/documentation)
-* [HelloSign API HipChat room](https://www.hipchat.com/gq4BMFKt1)
