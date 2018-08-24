@@ -19,11 +19,11 @@ $ npm install hellosign-embedded
 ```js
 import HelloSign from 'hellosign-embedded';
 
-const client = new HelloSign({
+const client = new HelloSign();
+
+client.open(signUrl, {
   clientId: 'Your API client ID'
 });
-
-client.open(signUrl);
 ```
 
 
