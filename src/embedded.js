@@ -743,11 +743,25 @@ class HelloSign extends Emitter {
    */
 
   /**
+   * @typedef {Object} HelloSignOptions
+   * @property {boolean} [allowCancel=true]
+   * @property {string} [clientId]
+   * @property {HTMLElement} [container]
+   * @property {boolean} [debug=false]
+   * @property {boolean} [hideHeader=false]
+   * @property {string} [locale="en_us"]
+   * @property {string} [redirectTo]
+   * @property {number} [timeout=15000]
+   * @property {boolean} [verifyDomain=true]
+   * @property {Object} [whiteLabeling]
+   */
+
+  /**
    * Opens the url in HelloSign Embedded.
    *
    * @emits HelloSign#open
    * @param {string} url
-   * @param {Object} [opts={}]
+   * @param {HelloSignOptions} [opts={}]
    * @public
    */
   open(url, opts = {}) {
