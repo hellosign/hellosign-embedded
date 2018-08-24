@@ -760,6 +760,8 @@ class HelloSign extends Emitter {
   close() {
     debug.info('close()');
 
+    this.emit(settings.events.CLOSE);
+
     this._iFrameEl = false;
     this._iFrameURL = null;
     this._isOpen = false;
@@ -771,8 +773,6 @@ class HelloSign extends Emitter {
       this._closeBtnEl.removeEventListener('click', this._onCloseButtonClick);
       this._closeBtnEl = null;
     }
-
-    this.emit(settings.events.CLOSE);
 
     window.removeEventListener('message', this._onMessage);
   }
