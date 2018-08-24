@@ -1,10 +1,19 @@
 const Package = require('./package.json');
 
 module.exports = {
-  collectCoverage: true,
-  coverageDirectory: '.coverage',
-  globals: {
-    __PKG_NAME__: Package.name,
-    __PKG_VERSION__: Package.version,
-  },
+  projects: [
+    {
+      runner: 'jest-runner-eslint',
+      displayName: 'eslint',
+      testMatch: ['<rootDir>/src/**/*.js', '<rootDir>/index.js'],
+    },
+    {
+      collectCoverage: true,
+      coverageDirectory: '.coverage',
+      globals: {
+        __PKG_NAME__: Package.name,
+        __PKG_VERSION__: Package.version,
+      },
+    },
+  ],
 };
