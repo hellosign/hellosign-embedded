@@ -528,7 +528,7 @@ class HelloSign extends Emitter {
    * @event HelloSign#createTemplate
    * @type {Object}
    * @property {string} title
-   * @property {string[]} messages
+   * @property {string} message
    * @property {string[]} signerRoles
    * @property {Object} signatureRequestInfo
    */
@@ -759,6 +759,11 @@ class HelloSign extends Emitter {
    */
   close() {
     debug.info('close()');
+
+    // It's already closed!
+    if (!this._isOpen) {
+      return;
+    }
 
     this.emit(settings.events.CLOSE);
 
