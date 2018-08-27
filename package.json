@@ -3,7 +3,6 @@
   "version": "2.0.0",
   "description": "Embed HelloSign signature requests and templates from within your web application.",
   "main": "index.js",
-  "private": true,
   "scripts": {
     "build": "webpack",
     "test": "jest src"
