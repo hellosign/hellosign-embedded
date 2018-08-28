@@ -12,6 +12,7 @@ const base = {
     path: path.join(__dirname, 'umd'),
     filename: 'embedded.js',
     library: 'HelloSign',
+    libraryExport: 'default',
     libraryTarget: 'umd',
   },
   module: {
