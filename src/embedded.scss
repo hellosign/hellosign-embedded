@@ -6,7 +6,6 @@
 
 .x-hellosign-embedded {
   height: 100%;
-  position: relative;
 }
 
 .x-hellosign-embedded--in-modal {
@@ -16,7 +15,21 @@
   width: 100%;
 }
 
+.x-hellosign-embedded--in-container {
+  .x-hellosign-embedded__modal-screen,
+  .x-hellosign-embedded__modal-close {
+    display: none;
+  }
+}
+
+.x-hellosign-embedded--no-cancel {
+  .x-hellosign-embedded__modal-close {
+    display: none;
+  }
+}
+
 .x-hellosign-embedded__modal-screen {
+  display: block;
   background-color: rgba(0, 0, 0, 0.5);
   position: absolute;
   top: 0;
@@ -30,28 +43,36 @@
 }
 
 .x-hellosign-embedded__modal-content {
-  box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.25);
-  position: absolute;
-  top: 5vh;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 90vh;
-  min-height: 400px;
-  width: 80vw;
-  min-width: 512px;
-  max-width: 1024px;
+  height: 100%;
 
-  @include mobile {
-    overflow: hidden;
-    box-shadow: none;
-    height: 100%;
-    min-height: 0;
-    width: 100%;
-    min-width: 0;
-    transform: none;
-    left: 0;
-    top: 0;
+  .x-hellosign-embedded--in-modal & {
+    box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    top: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 90vh;
+    min-height: 400px;
+    width: 80vw;
+    min-width: 512px;
+    max-width: 1024px;
+
+    @include mobile {
+      overflow: hidden;
+      box-shadow: none;
+      height: 100%;
+      min-height: 0;
+      width: 100%;
+      min-width: 0;
+      transform: none;
+      left: 0;
+      top: 0;
+    }
   }
+}
+
+.x-hellosign-embedded__modal-close {
+  display: block;
 }
 
 .x-hellosign-embedded__modal-close-button {
@@ -68,17 +89,6 @@
   will-change: background-color opacity;
   box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.25);
   cursor: pointer;
-
-  &[disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:not([disabled]) {
-    &:hover {
-      background-color: #00b3e6;
-    }
-  }
 
   &::before,
   &::after {
@@ -102,7 +112,7 @@
 }
 
 .x-hellosign-embedded__iframe {
-  min-height: 400px; // IE11+ https://caniuse.com/#feat=minmaxwh
+  min-height: 400px;
   background-color: #F7F8F9;
   height: 100%;
   width: 100%;

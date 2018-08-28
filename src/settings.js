@@ -6,11 +6,14 @@
  */
 const classNames = {
   BASE: 'x-hellosign-embedded',
+  BASE_IN_CONTAINER: 'x-hellosign-embedded--in-container',
+  BASE_IN_MODAL: 'x-hellosign-embedded--in-modal',
+  BASE_NO_CANCEL: 'x-hellosign-embedded--no-cancel',
   IFRAME: 'x-hellosign-embedded__iframe',
-  IN_MODAL: 'x-hellosign-embedded--in-modal',
-  MODAL_SCREEN: 'x-hellosign-embedded__modal-screen',
-  MODAL_CONTENT: 'x-hellosign-embedded__modal-content',
+  MODAL_CLOSE: 'x-hellosign-embedded__modal-close',
   MODAL_CLOSE_BTN: 'x-hellosign-embedded__modal-close-button',
+  MODAL_CONTENT: 'x-hellosign-embedded__modal-content',
+  MODAL_SCREEN: 'x-hellosign-embedded__modal-screen',
 };
 
 /**

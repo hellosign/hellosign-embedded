@@ -18,11 +18,59 @@ describe('HelloSign', () => {
     expect(() => new HelloSign(false)).toThrow(/must be an object/);
   });
 
-  describe('methods', () => {
+  describe('accessors', () => {
+
+    describe('element()', () => {
+      test('returns the base element', () => {
+        const client = new HelloSign({ clientId: mockClientId });
+
+        client.open(mockSignURL);
+
+        expect(client.element).toBeInstanceOf(HTMLElement);
+
+        client.close();
+      });
+    });
+
+    describe('isOpen()', () => {
+      test('returns the open state', () => {
+        const client = new HelloSign({ clientId: mockClientId });
+
+        expect(client.isOpen).toEqual(false);
+
+        client.open(mockSignURL);
+
+        expect(client.isOpen).toEqual(true);
+
+        client.close();
+
+        expect(client.isOpen).toEqual(false);
+      });
+    });
+  });
+
+  describe.skip('methods', () => {
 
     describe('open()', () => {
 
-      test('emits the "close" event', (done) => {
+      test('closes the old window if embedded is already open', (done) => {
+        const client = new HelloSign({
+          clientId: mockClientId,
+        });
+
+        const fn = jest.fn(() => {
+          expect(fn).toBeCalledTimes(1);
+
+          done();
+        });
+
+        client.once(HelloSign.events.CLOSE, fn);
+
+        client.open(mockSignURL);
+        client.open(mockSignURL);
+      });
+
+      test('emits the "open" event', (done) => {
         const client = new HelloSign();
 
         const fn = jest.fn(() => {
@@ -405,15 +453,29 @@ describe('HelloSign', () => {
           done();
         });
 
+        client.once(HelloSign.events.CLOSE, fn);
+
         client.once(HelloSign.events.OPEN, () => {
           client.close();
         });
 
-        client.once(HelloSign.events.CLOSE, fn);
-
         client.open(mockSignURL, {
           clientId: mockClientId,
         });
+      });
+
+      test('does not attempt to close if not open', (done) => {
+        const client = new HelloSign();
+        const fn = jest.fn(() => {});
+
+        client.once(HelloSign.events.CLOSE, fn);
+
+        client.close();
+
+        setTimeout(() => {
+          expect(fn).toBeCalledTimes(0);
+          done();
+        }, 1000);
       });
     });
   });

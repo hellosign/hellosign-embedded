@@ -1,9 +1,9 @@
 import Emitter from 'tiny-emitter';
-import { safeHtml } from 'common-tags';
 
 import debug from './debug';
 import defaults from './defaults';
 import settings from './settings';
+import template from './template';
 
 class HelloSign extends Emitter {
 
@@ -35,13 +35,21 @@ class HelloSign extends Emitter {
   static locales = settings.locales;
 
   /**
+   * The base config object which "open" will extend.
+   *
+   * @type {?Object}
+   * @private
+   */
+  _baseConfig = null;
+
+  /**
    * A reference to the base HelloSign Embedded container
    * element.
    *
    * @type {?HTMLElement}
    * @private
    */
-  _baseEl;
+  _baseEl = null;
 
   /**
    * A reference to the close button element.
@@ -49,15 +57,15 @@ class HelloSign extends Emitter {
    * @type {?HTMLElement}
    * @private
    */
-  _closeBtnEl;
+  _closeBtnEl = null;
 
   /**
-   * The base config object which "open" will extend.
+   * The HelloSign Embedded document fragment.
    *
-   * @type {?Object}
+   * @type {?DocumentFragment}
    * @private
    */
-  _config;
+  _fragment = null;
 
   /**
    * The iFrame URL object.
@@ -65,7 +73,7 @@ class HelloSign extends Emitter {
    * @type {?URL}
    * @private
    */
-  _iFrameURL;
+  _iFrameURL = null;
 
   /**
    * A reference to the iFrame element.
@@ -73,7 +81,7 @@ class HelloSign extends Emitter {
    * @type {?HTMLElement}
    * @private
    */
-  _iFrameEl;
+  _iFrameEl = null;
 
   /**
    * The initialization tmieout timer.
@@ -81,7 +89,7 @@ class HelloSign extends Emitter {
    * @type {?number}
    * @private
    */
-  _initTimeout;
+  _initTimeout = null;
 
   /**
    * Whether the client is open or not.
@@ -89,13 +97,13 @@ class HelloSign extends Emitter {
    * @type {?boolean}
    * @private
    */
-  _isOpen;
+  _isOpen = false;
 
   /**
    * @type {Function}
    * @private
    */
-  _onCloseButtonClick = this._onCloseButtonClick.bind(this);
+  _onCloseBtnClick = this._onCloseBtnClick.bind(this);
 
   /**
    * @type {Function}
@@ -121,7 +129,7 @@ class HelloSign extends Emitter {
     debug.info('create new HelloSign instance with options', obj);
 
     if (obj && typeof obj === 'object') {
-      this._config = { ...obj };
+      this._baseConfig = { ...obj };
     } else {
       throw new TypeError('Configuration must be an object');
     }
@@ -373,83 +381,98 @@ class HelloSign extends Emitter {
    *
    * @param {string} url
    * @param {Object} cfg
+   * @returns {string}
    * @private
    */
-  _setFrameURL(url, cfg) {
+  _getFrameURL(url, cfg) {
     const frameURL = new URL(url);
     const frameParams = this._getFrameParams(frameURL, cfg);
 
     frameURL.search = frameParams.toString();
 
-    this._iFrameURL = frameURL;
+    return frameURL;
+  }
+
+  /**
+   *
+   *
+   * @private
+   */
+  _renderFragment() {
+    const fragment = document.createRange().createContextualFragment(template);
+
+    // Obtain element references.
+    this._baseEl = fragment.querySelector(`.${settings.classNames.BASE}`);
+    this._iFrameEl = fragment.querySelector(`.${settings.classNames.IFRAME}`);
+    this._closeBtnEl = fragment.querySelector(`.${settings.classNames.MODAL_CLOSE_BTN}`);
+
+    // Update iFrame URL.
+    this._iFrameEl.setAttribute('src', this._iFrameURL.href);
+
+    // Register event listeners.
+    this._closeBtnEl.addEventListener('click', this._onCloseBtnClick);
+
+    return fragment;
   }
 
   /**
    * Renders HelloSign Embedded into the DOM.
    *
    * @param {HTMLElement} container
-   * @param {Object} cfg
    * @private
    */
-  _renderMarkup(container, cfg) {
-    const { classNames, iframe } = settings;
+  _attachFragment(cfg) {
+    const fragment = this._renderFragment();
 
-    if (cfg.container) {
-      container.insertAdjacentHTML('beforeend', safeHtml`
-        <div class="${classNames.BASE}">
-          <iframe class="${classNames.IFRAME}" name="${iframe.NAME}" src="${this._iFrameURL.href}" />
-        </div>
-      `);
+    if (cfg.allowCancel) {
+      this._baseEl.classList.toggle(settings.classNames.BASE_NO_CANCEL, false);
     } else {
-      container.insertAdjacentHTML('beforeend', safeHtml`
-        <div class="${classNames.BASE} ${classNames.IN_MODAL}">
-          <div class="${classNames.MODAL_SCREEN}"></div>
-          <div class="${classNames.MODAL_CONTENT}">
-            <iframe class="${classNames.IFRAME}" name="${iframe.NAME}" src="${this._iFrameURL.href}" />
-          </div>
-        </div>
-      `);
+      this._baseEl.classList.toggle(settings.classNames.BASE_NO_CANCEL, true);
     }
 
-    this._baseEl = document.getElementsByClassName(classNames.BASE).item(0);
-    this._iFrameEl = document.getElementsByClassName(classNames.IFRAME).item(0);
+    if (cfg.container) {
+      this._baseEl.classList.toggle(settings.classNames.BASE_IN_CONTAINER, true);
+      this._baseEl.classList.toggle(settings.classNames.BASE_IN_MODAL, false);
 
-    if (!cfg.container && cfg.allowCancel) {
-      this._renderCloseButton();
+      cfg.container.appendChild(fragment);
+    } else {
+      this._baseEl.classList.toggle(settings.classNames.BASE_IN_CONTAINER, false);
+      this._baseEl.classList.toggle(settings.classNames.BASE_IN_MODAL, true);
+
+      document.body.appendChild(fragment);
     }
   }
 
   /**
-   * Renders the modal close button.
+   * Removes the HelloSign Embedded markup from the DOM.
+   *
    *
    * @private
    */
-  _renderCloseButton() {
-    const { classNames } = settings;
-
-    this._baseEl.insertAdjacentHTML('beforeend', safeHtml`
-      <button class="${classNames.MODAL_CLOSE_BTN}" type="button" title="Close" disabled></div>
-    `);
-
-    this._closeBtnEl = this._baseEl.getElementsByClassName(classNames.MODAL_CLOSE_BTN).item(0);
-    this._closeBtnEl.addEventListener('click', this._onCloseButtonClick);
+  _detachFragment() {
+    this._baseEl.parentElement.removeChild(this._baseEl);
   }
+
+  /**
+   * @typedef {Object} HelloSignMessage
+   * @property {string} type
+   * @property {Object} [payload]
+   */
 
   /**
    * Posts a cross-origin window message to the HelloSign
    * Embedded iFrame content window.
    *
-   * @param {Object} data
-   * @param {string} data.type
+   * @param {HelloSignMessage} msg
    * @private
    */
-  _sendMessage(data) {
-    debug.info('posting message', data);
+  _sendMessage(msg) {
+    debug.info('posting message', msg);
 
     const targetOrigin = this._iFrameURL.href;
     const targetWindow = this._iFrameEl.contentWindow;
 
-    targetWindow.postMessage(data, targetOrigin);
+    targetWindow.postMessage(msg, targetOrigin);
   }
 
   /**
@@ -474,22 +497,6 @@ class HelloSign extends Emitter {
       clearTimeout(this._initTimeout);
 
       this._initTimeout = null;
-    }
-  }
-
-  /**
-   * Removes the HelloSign Embedded markup from the DOM.
-   *
-   *
-   * @private
-   */
-  _clearMarkup() {
-    this._baseEl.parentElement.removeChild(this._baseEl);
-    this._baseEl = null;
-
-    if (this._closeBtnEl) {
-      this._closeBtnEl.addEventListener('click', this._onCloseButtonClick);
-      this._closeBtnEl = null;
     }
   }
 
@@ -526,10 +533,6 @@ class HelloSign extends Emitter {
    */
   _appDidInitialize(payload) {
     debug.info('app was initialized');
-
-    if (this._closeBtnEl) {
-      this._closeBtnEl.removeAttribute('disabled');
-    }
 
     this.emit(settings.events.INITIALIZE, payload);
   }
@@ -651,7 +654,7 @@ class HelloSign extends Emitter {
    * @param {Event} evt
    * @private
    */
-  _onCloseButtonClick(evt) {
+  _onCloseBtnClick(evt) {
     evt.preventDefault();
 
     this.close();
@@ -687,50 +690,64 @@ class HelloSign extends Emitter {
    * @private
    */
   _onMessage({ data, origin }) {
+    debug.info('received message', data, origin);
+
     if (/^https:\/\/app\.((dev|qa|staging)-)?hellosign\.com$/.test(origin)) {
+      debug.info('last message was sent from a known origin');
+
       if (typeof data === 'object') {
-        const { type, payload } = data;
+        this._delegateMessage(data);
+      }
+    } else {
+      debug.warn('last message was sent from an unknown origin');
+    }
+  }
 
-        debug.info('received message', data);
-
-        switch (type) {
-          case settings.messages.APP_ERROR: {
-            this._appDidError(payload);
-            break;
-          }
-          case settings.messages.APP_INITIALIZE: {
-            this._appDidInitialize(payload);
-            break;
-          }
-          case settings.messages.USER_CLOSE_REQUEST: {
-            this._userDidCloseRequest(payload);
-            break;
-          }
-          case settings.messages.USER_CREATE_TEMPLATE: {
-            this._userDidCreateTemplate(payload);
-            break;
-          }
-          case settings.messages.USER_DECLINE_REQUEST: {
-            this._userDidDeclineRequest(payload);
-            break;
-          }
-          case settings.messages.USER_REASSIGN_REQUEST: {
-            this._userDidReassignRequest(payload);
-            break;
-          }
-          case settings.messages.USER_SEND_REQUEST: {
-            this._userDidSendRequest(payload);
-            break;
-          }
-          case settings.messages.USER_SIGN_REQUEST: {
-            this._userDidSignRequest(payload);
-            break;
-          }
-          default: {
-            // Unhandled message.
-            debug.warn('unhandled cross-origin window message');
-          }
-        }
+  /**
+   * Called when a message is received by the window.
+   * Validates the message origin and delegates to the
+   * appropriate method based on the message type.
+   *
+   * @param {HelloSignMessage} msg
+   * @private
+   */
+  _delegateMessage({ type, payload }) {
+    switch (type) {
+      case settings.messages.APP_ERROR: {
+        this._appDidError(payload);
+        break;
+      }
+      case settings.messages.APP_INITIALIZE: {
+        this._appDidInitialize(payload);
+        break;
+      }
+      case settings.messages.USER_CLOSE_REQUEST: {
+        this._userDidCloseRequest(payload);
+        break;
+      }
+      case settings.messages.USER_CREATE_TEMPLATE: {
+        this._userDidCreateTemplate(payload);
+        break;
+      }
+      case settings.messages.USER_DECLINE_REQUEST: {
+        this._userDidDeclineRequest(payload);
+        break;
+      }
+      case settings.messages.USER_REASSIGN_REQUEST: {
+        this._userDidReassignRequest(payload);
+        break;
+      }
+      case settings.messages.USER_SEND_REQUEST: {
+        this._userDidSendRequest(payload);
+        break;
+      }
+      case settings.messages.USER_SIGN_REQUEST: {
+        this._userDidSignRequest(payload);
+        break;
+      }
+      default: {
+        // Unhandled message.
+        debug.warn('unhandled cross-origin window message');
       }
     }
   }
@@ -767,16 +784,20 @@ class HelloSign extends Emitter {
   open(url, opts = {}) {
     debug.info('open()', url, opts);
 
+    const cfg = {
+      ...defaults,
+      ...this._baseConfig,
+      ...opts,
+    };
+
+    // Close if embedded is already open.
     if (this._isOpen) {
       this.close();
     }
 
-    const cfg = { ...defaults, ...this._config, ...opts };
-    const container = cfg.container || document.body;
+    this._iFrameURL = this._getFrameURL(url, cfg);
 
-    this._setFrameURL(url, cfg);
-    this._renderMarkup(container, cfg);
-
+    this._attachFragment(cfg);
     this._isOpen = true;
 
     this.emit(settings.events.OPEN, { url, iFrameUrl: this._iFrameURL });
@@ -804,17 +825,16 @@ class HelloSign extends Emitter {
 
     this.emit(settings.events.CLOSE);
 
-    this._iFrameEl = false;
-    this._iFrameURL = null;
-    this._isOpen = false;
-
-    this._clearMarkup();
+    this._detachFragment();
     this._clearInitTimeout();
 
-    if (this._closeBtnEl) {
-      this._closeBtnEl.removeEventListener('click', this._onCloseButtonClick);
-      this._closeBtnEl = null;
-    }
+    this._closeBtnEl.removeEventListener('click', this._onCloseBtnClick);
+    this._closeBtnEl = null;
+
+    this._baseEl = null;
+    this._iFrameEl = null;
+    this._iFrameURL = null;
+    this._isOpen = false;
 
     window.removeEventListener('message', this._onMessage);
   }
