@@ -6,7 +6,6 @@
  */
 const classNames = {
   BASE: 'x-hellosign-embedded',
-  BASE_IN_CONTAINER: 'x-hellosign-embedded--in-container',
   BASE_IN_MODAL: 'x-hellosign-embedded--in-modal',
   BASE_NO_CANCEL: 'x-hellosign-embedded--no-cancel',
   IFRAME: 'x-hellosign-embedded__iframe',

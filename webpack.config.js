@@ -5,7 +5,7 @@ const globals = require('./globals');
 
 const base = {
   entry: [
-    './src/embedded.scss',
+    './src/sass/embedded.scss',
     './src/embedded.js',
   ],
   output: {

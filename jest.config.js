@@ -18,6 +18,5 @@ const globals = require('./globals');
 module.exports = {
   collectCoverage: true,
   coverageDirectory: '.coverage',
-  setupFiles: ['./setup.js'],
   globals,
 };
