@@ -703,12 +703,12 @@
                 } else if (evt.data == 'user-done') {
                     // Close iFrame
                     HelloSign.close();
-                } else if (evt.data.indexOf('hello:') === 0) {
+                } else if (typeof evt.data === 'string' && evt.data.indexOf('hello:') === 0) {
                     // Hello message - Extract token and send it back
                     var parts = evt.data.split(':');
                     var token = parts[1];
                     XWM.send('helloback:' + token, frameUrl, source);
-                } else if (messageListener && evt.data) {
+                } else if (messageListener && evt.data && typeof evt.data === 'string') {
 
                     // Forward to message callback
                     var eventData = {};
