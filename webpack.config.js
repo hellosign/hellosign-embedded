@@ -5,6 +5,8 @@ const globals = require('./globals');
 
 const base = {
   entry: [
+    'url-polyfill',
+    'url-search-params-polyfill',
     './src/sass/embedded.scss',
     './src/embedded.js',
   ],

@@ -51,6 +51,12 @@
   }
 }
 
+.x-hellosign-embedded__modal-close {
+  @include mobile() {
+    display: none;
+  }
+}
+
 .x-hellosign-embedded__modal-close-button {
   -webkit-appearance: none;
   position: absolute;

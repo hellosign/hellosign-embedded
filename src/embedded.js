@@ -284,22 +284,22 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the verifyDomain parameter to
-   * the iFrame params object.
+   * Validates and appends the skipDomainVerification
+   * parameter to the iFrame params object.
    *
-   * @throws {TypeError} if verifyDomain is invalid
+   * @throws {TypeError} if skipDomainVerification is invalid
    * @param {URLSearchParams} params
    * @param {Object} config
    * @private
    */
-  _applyVerifyDomain(params, config) {
-    const val = config.verifyDomain;
+  _applySkipDomainVerification(params, config) {
+    const val = config.skipDomainVerification;
 
     if (typeof val !== 'boolean') {
-      throw new TypeError('"verifyDomain" must be a boolean');
+      throw new TypeError('"skipDomainVerification" must be a boolean');
     }
 
-    params.append('skip_domain_verification', val ? 0 : 1);
+    params.append('skip_domain_verification', val ? 1 : 0);
   }
 
   /**
@@ -353,7 +353,7 @@ class HelloSign extends Emitter {
     this._applyParentURL(params);
     this._applyRedirectTo(params, cfg);
     this._applyRequestingEmail(params, cfg);
-    this._applyVerifyDomain(params, cfg);
+    this._applySkipDomainVerification(params, cfg);
     this._applyVersion(params);
     this._applyWhiteLabeling(params, cfg);
 
@@ -377,72 +377,68 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Renders the HelloSign Embedded markup in a template
-   * then returns the content as a document fragment.
+   * Renders the HelloSign Embedded markup.
+   *
+   * We would like to have used HTML Content Templates or
+   * Range.createContextualFragment() but we are concerned
+   * about browser support.
    *
    * @param {Object} cfg
-   * @returns {DocumentFragment}
+   * @returns {HTMLElement}
    * @private
    */
-  _renderFragment(cfg) {
-    const template = document.createElement('template');
+  _renderMarkup(cfg) {
+    const elem = document.createElement('div');
 
     if (cfg.container) {
-      template.innerHTML = safeHtml`
+      elem.innerHTML = safeHtml`
         <div class="${settings.classNames.BASE}">
           <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" />
         </div>
       `;
     } else {
-      template.innerHTML = safeHtml`
+      elem.innerHTML = safeHtml`
         <div class="${settings.classNames.BASE} ${settings.classNames.BASE_IN_MODAL}">
           <div class="${settings.classNames.MODAL_SCREEN}"></div>
+      ` + (
+        cfg.allowCancel ? safeHtml`
+          <div class=${settings.classNames.MODAL_CLOSE}>
+            <button class=${settings.classNames.MODAL_CLOSE_BTN} role="button" title="Close signature request"></button>
+          </div>
+        ` : ''
+      ) + safeHtml`
           <div class="${settings.classNames.MODAL_CONTENT}">
             <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" />
           </div>
         </div>
       `;
-
-      if (cfg.allowCancel) {
-        template.content.firstChild.insertAdjacentHTML('beforeend', safeHtml`
-          <div class=${settings.classNames.MODAL_CLOSE}>
-            <button class=${settings.classNames.MODAL_CLOSE_BTN} role="button" title="Close signature request"></button>
-          </div>
-        `);
-      }
     }
 
-    return template.content;
+    return elem.firstChild;
   }
 
   /**
-   * Renders the HelloSign Embedded fragment  into the DOM.
+   * Renders the HelloSign Embedded markup into the DOM.
    *
    * @param {Object} cfg
    * @private
    */
-  _appendFragment(cfg) {
-    const fragment = this._renderFragment(cfg);
-
-    // Obtain element references. Fragments inherit the
-    // methods of its parent (Node) and implements the
-    // ParentNode interface. Fragments are not Elements and
-    // therefore do not implement cleaner and more efficient
-    // selector methods such as getElementsByClassName etc.
-    // We must make do with querySelector.
-    this._baseEl = fragment.querySelector(`.${settings.classNames.BASE}`);
-    this._iFrameEl = fragment.querySelector(`.${settings.classNames.IFRAME}`);
+  _appendMarkup(cfg) {
+    this._baseEl = this._renderMarkup(cfg);
 
     // Listen for click events within the HelloSign
-    // Embedded DOM fragment. These will be delegated
+    // Embedded DOM markup. These will be delegated
     // depending on the source element.
     this._baseEl.addEventListener('click', this._onEmbeddedClick);
 
-    // Insert fragment into the DOM.
+    // Obtain element references.
+    this._iFrameEl = this._baseEl.getElementsByClassName(settings.classNames.IFRAME).item(0);
+
+    // Insert HelloSign Embedded markup into the DOM.
     if (cfg.container) {
-      cfg.container.appendChild(fragment);
+      cfg.container.appendChild(this._baseEl);
     } else {
-      document.body.appendChild(fragment);
+      document.body.appendChild(this._baseEl);
     }
   }
 
@@ -452,7 +448,7 @@ class HelloSign extends Emitter {
    *
    * @private
    */
-  _clearFragment() {
+  _clearMarkup() {
     this._baseEl.parentElement.removeChild(this._baseEl);
   }
 
@@ -476,6 +472,35 @@ class HelloSign extends Emitter {
     const targetWindow = this._iFrameEl.contentWindow;
 
     targetWindow.postMessage(msg, targetOrigin);
+  }
+
+  /**
+   * Sends the domain verification response.
+   *
+   * @param {string} token
+   * @private
+   */
+  _sendDomainVerificationMessage(token) {
+    this._sendMessage({
+      type: settings.messages.APP_VERIFY_DOMAIN_RESPONSE,
+      payload: {
+        token,
+      },
+    });
+  }
+
+  /**
+   * Sends the initialization error message.
+   *
+   * @private
+   */
+  _sendInitializationErrorMessage() {
+    this._sendMessage({
+      type: settings.messages.APP_ERROR,
+      payload: {
+        message: 'App failed to initialize before timeout',
+      },
+    });
   }
 
   /**
@@ -541,13 +566,25 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Called when the app requested domain verification.
+   *
+   * @param {Object} payload
+   * @param {string} token
+   */
+  _appDidRequestDomainVerification({ token }) {
+    debug.info('app requested domain verification', token);
+
+    this._sendDomainVerificationMessage(token);
+  }
+
+  /**
    * Called when the user closed the request.
    *
    * @param {Object} payload
    * @private
    */
   _userDidCloseRequest() {
-    debug.info('user closed the signature request window');
+    debug.info('user requested that the window be closed');
 
     this.close();
   }
@@ -679,14 +716,9 @@ class HelloSign extends Emitter {
   _onInitTimeout() {
     debug.error('failed to initialized app before timeout');
 
-    this._sendMessage({
-      type: settings.messages.APP_ERROR,
-      payload: {
-        message: 'App failed to initialize before timeout',
-      },
-    });
-
+    this._sendInitializationErrorMessage();
     this._clearInitTimeout();
+
     this.close();
   }
 
@@ -702,13 +734,9 @@ class HelloSign extends Emitter {
     debug.info('received message', data, origin);
 
     if (origin === this._iFrameURL.origin) {
-      debug.info('last message was sent from a valid origin');
-
       if (typeof data === 'object') {
         this._delegateMessage(data);
       }
-    } else {
-      debug.warn('last message was sent from an unknown origin');
     }
   }
 
@@ -728,6 +756,10 @@ class HelloSign extends Emitter {
       }
       case settings.messages.APP_INITIALIZE: {
         this._appDidInitialize(payload);
+        break;
+      }
+      case settings.messages.APP_VERIFY_DOMAIN_REQUEST: {
+        this._appDidRequestDomainVerification(payload);
         break;
       }
       case settings.messages.USER_CLOSE_REQUEST: {
@@ -778,7 +810,7 @@ class HelloSign extends Emitter {
    * @property {string} [locale="en_US"]
    * @property {string} [redirectTo]
    * @property {number} [timeout=15000]
-   * @property {boolean} [verifyDomain=true]
+   * @property {boolean} [skipDomainVerification=false]
    * @property {Object} [whiteLabeling]
    */
 
@@ -812,7 +844,7 @@ class HelloSign extends Emitter {
     }
 
     this._updateFrameUrl(url, cfg);
-    this._appendFragment(cfg);
+    this._appendMarkup(cfg);
 
     this._isOpen = true;
 
@@ -843,7 +875,7 @@ class HelloSign extends Emitter {
     }
 
     this._clearInitTimeout();
-    this._clearFragment();
+    this._clearMarkup();
 
     this._baseEl.removeEventListener('click', this._onEmbeddedClick);
 

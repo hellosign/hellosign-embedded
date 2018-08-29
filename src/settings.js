@@ -7,7 +7,6 @@
 const classNames = {
   BASE: 'x-hellosign-embedded',
   BASE_IN_MODAL: 'x-hellosign-embedded--in-modal',
-  BASE_NO_CANCEL: 'x-hellosign-embedded--no-cancel',
   IFRAME: 'x-hellosign-embedded__iframe',
   MODAL_CLOSE: 'x-hellosign-embedded__modal-close',
   MODAL_CLOSE_BTN: 'x-hellosign-embedded__modal-close-button',
@@ -72,6 +71,8 @@ const locales = {
 const messages = {
   APP_ERROR: 'hellosign:error',
   APP_INITIALIZE: 'hellosign:initialize',
+  APP_VERIFY_DOMAIN_REQUEST: 'hellosign:verifyDomainRequest',
+  APP_VERIFY_DOMAIN_RESPONSE: 'hellosign:verifyDomainResponse',
   USER_CLOSE_REQUEST: 'hellosign:userCloseRequest',
   USER_CREATE_TEMPLATE: 'hellosign:userCreateTemplate',
   USER_DECLINE_REQUEST: 'hellosign:userDeclineRequest',

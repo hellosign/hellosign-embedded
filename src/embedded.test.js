@@ -1,10 +1,16 @@
 import HelloSign from './embedded';
 import defaults from './defaults';
+import settings from './settings';
 
 const mockSignURL = 'https://app.hellosign.com/editor/embeddedSign?signature_id=abcdef0123456789abcdef0123456789';
 const mockClientId = 'abcdef0123456789abcdef0123456789';
 
 describe('HelloSign', () => {
+
+  afterEach(() => {
+    // Clear DOM.
+    document.getElementsByTagName('html')[0].innerHTML = '';
+  });
 
   test('is defined', () => {
     expect(HelloSign).toBeDefined();
@@ -49,7 +55,7 @@ describe('HelloSign', () => {
     });
   });
 
-  describe.skip('methods', () => {
+  describe('methods', () => {
 
     describe('open()', () => {
 
@@ -61,6 +67,8 @@ describe('HelloSign', () => {
         const fn = jest.fn(() => {
           expect(fn).toBeCalledTimes(1);
 
+          client.close();
+
           done();
         });
 
@@ -68,6 +76,36 @@ describe('HelloSign', () => {
 
         client.open(mockSignURL);
         client.open(mockSignURL);
+      });
+
+      test('appends markup into document body if no container is specified', () => {
+        const client = new HelloSign();
+        const expected = expect.stringContaining(settings.classNames.BASE);
+
+        client.open(mockSignURL, {
+          clientId: mockClientId,
+        });
+
+        expect(document.body.children.length).toBeGreaterThan(0);
+        expect(document.body.lastChild.className).toEqual(expected);
+
+        client.close();
+      });
+
+      test('appends markup into container if one is specified', () => {
+        const client = new HelloSign();
+        const container = document.createElement('div');
+        const expected = expect.stringContaining(settings.classNames.BASE);
+
+        client.open(mockSignURL, {
+          clientId: mockClientId,
+          container,
+        });
+
+        expect(container.children.length).toBeGreaterThan(0);
+        expect(container.firstChild.className).toEqual(expected);
+
+        client.close();
       });
 
       test('emits the "open" event', (done) => {
@@ -122,6 +160,17 @@ describe('HelloSign', () => {
         client.open(mockSignURL, {
           clientId: mockClientId,
         });
+      });
+
+      test('throws if "container" is not an element', () => {
+        const client = new HelloSign();
+
+        expect(() => {
+          client.open(mockSignURL, {
+            clientId: mockClientId,
+            container: 42,
+          });
+        }).toThrow(/"container" must be an element/);
       });
 
       test('throws if "debug" is not a boolean', () => {
@@ -362,18 +411,18 @@ describe('HelloSign', () => {
         });
       });
 
-      test('throws if "verifyDomain" is not a boolean', () => {
+      test('throws if "skipDomainVerification" is not a boolean', () => {
         const client = new HelloSign();
 
         expect(() => {
           client.open(mockSignURL, {
             clientId: mockClientId,
-            verifyDomain: 42,
+            skipDomainVerification: 42,
           });
-        }).toThrow(/"verifyDomain" must be a boolean/);
+        }).toThrow(/"skipDomainVerification" must be a boolean/);
       });
 
-      test('appends default value for "skip_domain_verification" to the iFrame URL if "verifyDomain" is not specified', (done) => {
+      test('appends default value for "skip_domain_verification" to the iFrame URL if "skipDomainVerification" is not specified', (done) => {
         const client = new HelloSign();
 
         client.on(HelloSign.events.OPEN, (data) => {
@@ -391,7 +440,7 @@ describe('HelloSign', () => {
         });
       });
 
-      test('appends "skip_domain_verification" to the iFrame URL if "verifyDomain" is valid', (done) => {
+      test('appends "skip_domain_verification" to the iFrame URL if "skipDomainVerification" is valid', (done) => {
         const client = new HelloSign();
 
         client.on(HelloSign.events.OPEN, (data) => {
@@ -406,7 +455,7 @@ describe('HelloSign', () => {
 
         client.open(mockSignURL, {
           clientId: mockClientId,
-          verifyDomain: false,
+          skipDomainVerification: true,
         });
       });
 
@@ -445,6 +494,26 @@ describe('HelloSign', () => {
 
     describe('close()', () => {
 
+      test('closes when the close button is clicked', (done) => {
+        const client = new HelloSign();
+
+        client.open(mockSignURL, {
+          clientId: mockClientId,
+        });
+
+        const fn = jest.fn(() => {
+          expect(fn).toBeCalledTimes(1);
+          done();
+        });
+
+        client.once(HelloSign.events.CLOSE, fn);
+
+        const elem = client.element;
+        const closeBtn = elem.getElementsByClassName(settings.classNames.MODAL_CLOSE_BTN).item(0);
+
+        closeBtn.click();
+      });
+
       test('emits the "close" event', (done) => {
         const client = new HelloSign();
 
@@ -455,13 +524,11 @@ describe('HelloSign', () => {
 
         client.once(HelloSign.events.CLOSE, fn);
 
-        client.once(HelloSign.events.OPEN, () => {
-          client.close();
-        });
-
         client.open(mockSignURL, {
           clientId: mockClientId,
         });
+
+        client.close();
       });
 
       test('does not attempt to close if not open', (done) => {
@@ -476,6 +543,44 @@ describe('HelloSign', () => {
           expect(fn).toBeCalledTimes(0);
           done();
         }, 1000);
+      });
+
+      test('removes markup from the DOM when closed', (done) => {
+        const client = new HelloSign();
+
+        const fn = jest.fn(() => {
+          expect(document.body.getElementsByClassName(settings.classNames.BASE).length).toBe(0);
+
+          done();
+        });
+
+        client.once(HelloSign.events.CLOSE, fn);
+
+        client.open(mockSignURL, {
+          clientId: mockClientId,
+        });
+
+        client.close();
+      });
+
+      test('removes markup from container the DOM when closed', (done) => {
+        const client = new HelloSign();
+        const container = document.createElement('div');
+
+        const fn = jest.fn(() => {
+          expect(container.getElementsByClassName(settings.classNames.BASE).length).toBe(0);
+
+          done();
+        });
+
+        client.once(HelloSign.events.CLOSE, fn);
+
+        client.open(mockSignURL, {
+          clientId: mockClientId,
+          container,
+        });
+
+        client.close();
       });
     });
   });

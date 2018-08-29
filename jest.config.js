@@ -18,5 +18,6 @@ const globals = require('./globals');
 module.exports = {
   collectCoverage: true,
   coverageDirectory: '.coverage',
+  testURL: 'http://localhost/',
   globals,
 };
