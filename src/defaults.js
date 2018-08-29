@@ -4,6 +4,6 @@ export default {
   allowCancel: true,
   debug: false,
   locale: settings.locales.EN_US,
-  timeout: 15000,
   skipDomainVerification: false,
+  timeout: 15000,
 };

@@ -809,8 +809,8 @@ class HelloSign extends Emitter {
    * @property {boolean} [hideHeader=false]
    * @property {string} [locale="en_US"]
    * @property {string} [redirectTo]
-   * @property {number} [timeout=15000]
    * @property {boolean} [skipDomainVerification=false]
+   * @property {number} [timeout=15000]
    * @property {Object} [whiteLabeling]
    */
 
@@ -845,6 +845,7 @@ class HelloSign extends Emitter {
 
     this._updateFrameUrl(url, cfg);
     this._appendMarkup(cfg);
+    this._startInitTimeout(cfg.timeout);
 
     this._isOpen = true;
 
