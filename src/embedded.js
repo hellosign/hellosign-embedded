@@ -827,6 +827,7 @@ class HelloSign extends Emitter {
    * @property {boolean} [hideHeader=false]
    * @property {string} [locale="en_US"]
    * @property {string} [redirectTo]
+   * @property {string} [requestingEmail]
    * @property {boolean} [skipDomainVerification=false]
    * @property {number} [timeout=30000]
    * @property {Object} [whiteLabeling]
