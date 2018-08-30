@@ -563,6 +563,8 @@ class HelloSign extends Emitter {
     debug.info('app was initialized');
 
     this.emit(settings.events.INITIALIZE, payload);
+
+    this._clearInitTimeout();
   }
 
   /**
