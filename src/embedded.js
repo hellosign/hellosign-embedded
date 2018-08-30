@@ -828,7 +828,7 @@ class HelloSign extends Emitter {
    * @property {string} [locale="en_US"]
    * @property {string} [redirectTo]
    * @property {boolean} [skipDomainVerification=false]
-   * @property {number} [timeout=15000]
+   * @property {number} [timeout=30000]
    * @property {Object} [whiteLabeling]
    */
 
@@ -843,16 +843,16 @@ class HelloSign extends Emitter {
   open(url, opts = {}) {
     debug.info('open()', url, opts);
 
+    // Close if embedded is already open.
+    if (this._isOpen) {
+      this.close();
+    }
+
     this._config = {
       ...defaults,
       ...this._baseConfig,
       ...opts,
     };
-
-    // Close if embedded is already open.
-    if (this._isOpen) {
-      this.close();
-    }
 
     // Check if container is valid.
     if (this._config.container) {
