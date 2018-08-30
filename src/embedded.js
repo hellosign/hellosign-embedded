@@ -52,6 +52,14 @@ class HelloSign extends Emitter {
   _baseEl = null;
 
   /**
+   * The final config object.
+   *
+   * @type {?Object}
+   * @private
+   */
+  _config = null;
+
+  /**
    * The iFrame URL object.
    *
    * @type {?URL}
@@ -110,7 +118,7 @@ class HelloSign extends Emitter {
   constructor(obj = {}) {
     super();
 
-    debug.info('create new HelloSign instance with options', obj);
+    debug.info('created new HelloSign instance with options', obj);
 
     if (obj && typeof obj === 'object') {
       this._baseConfig = { ...obj };
@@ -125,11 +133,10 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if clientId is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyClientId(params, config) {
-    const val = config.clientId;
+  _applyClientId(params) {
+    const val = this._config.clientId;
 
     if (!val) {
       throw new TypeError('"clientId" is required');
@@ -148,11 +155,10 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if debug is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyDebug(params, config) {
-    const val = config.debug;
+  _applyDebug(params) {
+    const val = this._config.debug;
 
     if (typeof val !== 'boolean') {
       throw new TypeError('"debug" must be a boolean');
@@ -167,12 +173,11 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if finalButtonText is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyFinalButtonText(params, config) {
-    if ('finalButtonText' in config) {
-      const val = config.finalButtonText;
+  _applyFinalButtonText(params) {
+    if ('finalButtonText' in this._config) {
+      const val = this._config.finalButtonText;
 
       if (typeof val !== 'string') {
         throw new TypeError('"finalButtonText" must be a string');
@@ -192,12 +197,11 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if hideHeader is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyHideHeader(params, config) {
-    if ('hideHeader' in config) {
-      const val = config.hideHeader;
+  _applyHideHeader(params) {
+    if ('hideHeader' in this._config) {
+      const val = this._config.hideHeader;
 
       if (typeof val !== 'boolean') {
         throw new TypeError('"hideHeader" must be a boolean');
@@ -213,11 +217,10 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if locale is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyLocale(params, config) {
-    const val = config.locale;
+  _applyLocale(params) {
+    const val = this._config.locale;
 
     if (typeof val !== 'string') {
       throw new TypeError('"locale" must be a string');
@@ -247,12 +250,11 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if redirectTo is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyRedirectTo(params, config) {
-    if ('redirectTo' in config) {
-      const val = config.redirectTo;
+  _applyRedirectTo(params) {
+    if ('redirectTo' in this._config) {
+      const val = this._config.redirectTo;
 
       if (typeof val !== 'string') {
         throw new TypeError('"redirectTo" must be a string');
@@ -268,12 +270,11 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if requestingEmail is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyRequestingEmail(params, config) {
-    if ('requestingEmail' in config) {
-      const val = config.requestingEmail;
+  _applyRequestingEmail(params) {
+    if ('requestingEmail' in this._config) {
+      const val = this._config.requestingEmail;
 
       if (typeof val !== 'string') {
         throw new TypeError('"requestingEmail" must be a string');
@@ -289,11 +290,10 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if skipDomainVerification is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applySkipDomainVerification(params, config) {
-    const val = config.skipDomainVerification;
+  _applySkipDomainVerification(params) {
+    const val = this._config.skipDomainVerification;
 
     if (typeof val !== 'boolean') {
       throw new TypeError('"skipDomainVerification" must be a boolean');
@@ -308,12 +308,11 @@ class HelloSign extends Emitter {
    *
    * @throws {TypeError} if whiteLabeling is invalid
    * @param {URLSearchParams} params
-   * @param {Object} config
    * @private
    */
-  _applyWhiteLabeling(params, config) {
-    if ('whiteLabeling' in config) {
-      const val = config.whiteLabeling;
+  _applyWhiteLabeling(params) {
+    if ('whiteLabeling' in this._config) {
+      const val = this._config.whiteLabeling;
 
       if (typeof val !== 'object') {
         throw new TypeError('"whiteLabeling" must be an object');
@@ -338,24 +337,23 @@ class HelloSign extends Emitter {
    * Validates and crates the iFrame params object.
    *
    * @param {URL} frameURL
-   * @param {Object} cfg
    * @returns {URLSearchParams}
    * @private
    */
-  _getFrameParams(frameURL, cfg) {
+  _getFrameParams(frameURL) {
     const params = new URLSearchParams(frameURL.search);
 
-    this._applyClientId(params, cfg);
-    this._applyDebug(params, cfg);
-    this._applyFinalButtonText(params, cfg);
-    this._applyHideHeader(params, cfg);
-    this._applyLocale(params, cfg);
+    this._applyClientId(params);
+    this._applyDebug(params);
+    this._applyFinalButtonText(params);
+    this._applyHideHeader(params);
+    this._applyLocale(params);
     this._applyParentURL(params);
-    this._applyRedirectTo(params, cfg);
-    this._applyRequestingEmail(params, cfg);
-    this._applySkipDomainVerification(params, cfg);
+    this._applyRedirectTo(params);
+    this._applyRequestingEmail(params);
+    this._applySkipDomainVerification(params);
     this._applyVersion(params);
-    this._applyWhiteLabeling(params, cfg);
+    this._applyWhiteLabeling(params);
 
     return params;
   }
@@ -364,12 +362,11 @@ class HelloSign extends Emitter {
    * Calculates and sets the iFrame frame src.
    *
    * @param {string} url
-   * @param {Object} cfg
    * @private
    */
-  _updateFrameUrl(url, cfg) {
+  _updateFrameUrl(url) {
     const frameURL = new URL(url);
-    const frameParams = this._getFrameParams(frameURL, cfg);
+    const frameParams = this._getFrameParams(frameURL);
 
     frameURL.search = frameParams.toString();
 
@@ -383,14 +380,13 @@ class HelloSign extends Emitter {
    * Range.createContextualFragment() but we are concerned
    * about browser support.
    *
-   * @param {Object} cfg
    * @returns {HTMLElement}
    * @private
    */
-  _renderMarkup(cfg) {
+  _renderMarkup() {
     const elem = document.createElement('div');
 
-    if (cfg.container) {
+    if (this._config.container) {
       elem.innerHTML = safeHtml`
         <div class="${settings.classNames.BASE}">
           <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" />
@@ -401,7 +397,7 @@ class HelloSign extends Emitter {
         <div class="${settings.classNames.BASE} ${settings.classNames.BASE_IN_MODAL}">
           <div class="${settings.classNames.MODAL_SCREEN}"></div>
       ` + (
-        cfg.allowCancel ? safeHtml`
+        this._config.allowCancel ? safeHtml`
           <div class=${settings.classNames.MODAL_CLOSE}>
             <button class=${settings.classNames.MODAL_CLOSE_BTN} role="button" title="Close signature request"></button>
           </div>
@@ -420,11 +416,10 @@ class HelloSign extends Emitter {
   /**
    * Renders the HelloSign Embedded markup into the DOM.
    *
-   * @param {Object} cfg
    * @private
    */
-  _appendMarkup(cfg) {
-    this._baseEl = this._renderMarkup(cfg);
+  _appendMarkup() {
+    this._baseEl = this._renderMarkup();
 
     // Listen for click events within the HelloSign
     // Embedded DOM markup. These will be delegated
@@ -435,8 +430,8 @@ class HelloSign extends Emitter {
     this._iFrameEl = this._baseEl.getElementsByClassName(settings.classNames.IFRAME).item(0);
 
     // Insert HelloSign Embedded markup into the DOM.
-    if (cfg.container) {
-      cfg.container.appendChild(this._baseEl);
+    if (this._config.container) {
+      this._config.container.appendChild(this._baseEl);
     } else {
       document.body.appendChild(this._baseEl);
     }
@@ -475,12 +470,30 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Sends the configuration message to the app.
+   *
+   * @private
+   */
+  _sendConfigurationMessage() {
+    debug.info('sending app configuration message');
+
+    this._sendMessage({
+      type: settings.messages.APP_CONFIGURE,
+      payload: {
+        allowCancel: this._config.allowCancel,
+      },
+    });
+  }
+
+  /**
    * Sends the domain verification response.
    *
    * @param {string} token
    * @private
    */
   _sendDomainVerificationMessage(token) {
+    debug.info('sending domain verification message', token);
+
     this._sendMessage({
       type: settings.messages.APP_VERIFY_DOMAIN_RESPONSE,
       payload: {
@@ -495,6 +508,8 @@ class HelloSign extends Emitter {
    * @private
    */
   _sendInitializationErrorMessage() {
+    debug.info('sending initialization error message');
+
     this._sendMessage({
       type: settings.messages.APP_ERROR,
       payload: {
@@ -509,10 +524,10 @@ class HelloSign extends Emitter {
    * @param {number} waitMs
    * @private
    */
-  _startInitTimeout(waitMs) {
+  _startInitTimeout() {
     this._clearInitTimeout();
 
-    this._initTimeout = setTimeout(this._onInitTimeout, waitMs);
+    this._initTimeout = setTimeout(this._onInitTimeout, this._config.timeout);
   }
 
   /**
@@ -564,6 +579,7 @@ class HelloSign extends Emitter {
 
     this.emit(settings.events.INITIALIZE, payload);
 
+    this._sendConfigurationMessage();
     this._clearInitTimeout();
   }
 
@@ -716,7 +732,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _onInitTimeout() {
-    debug.error('failed to initialized app before timeout');
+    debug.error('app failed to initialize before timeout');
 
     this._sendInitializationErrorMessage();
     this._clearInitTimeout();
@@ -827,7 +843,7 @@ class HelloSign extends Emitter {
   open(url, opts = {}) {
     debug.info('open()', url, opts);
 
-    const cfg = {
+    this._config = {
       ...defaults,
       ...this._baseConfig,
       ...opts,
@@ -839,23 +855,23 @@ class HelloSign extends Emitter {
     }
 
     // Check if container is valid.
-    if (cfg.container) {
-      if (!(cfg.container instanceof HTMLElement)) {
+    if (this._config.container) {
+      if (!(this._config.container instanceof HTMLElement)) {
         throw new TypeError('"container" must be an element');
       }
     }
 
-    this._updateFrameUrl(url, cfg);
-    this._appendMarkup(cfg);
-    this._startInitTimeout(cfg.timeout);
+    this._updateFrameUrl(url);
+    this._appendMarkup();
+    this._startInitTimeout();
 
     this._isOpen = true;
 
     window.addEventListener('message', this._onMessage);
 
     this.emit(settings.events.OPEN, {
-      url,
       iFrameUrl: this._iFrameURL.href,
+      url,
     });
   }
 
@@ -882,6 +898,7 @@ class HelloSign extends Emitter {
 
     this._baseEl.removeEventListener('click', this._onEmbeddedClick);
 
+    this._config = null;
     this._baseEl = null;
     this._iFrameEl = null;
     this._iFrameURL = null;

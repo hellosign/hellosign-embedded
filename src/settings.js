@@ -69,6 +69,7 @@ const locales = {
  * @readonly
  */
 const messages = {
+  APP_CONFIGURE: 'hellosign:configure',
   APP_ERROR: 'hellosign:error',
   APP_INITIALIZE: 'hellosign:initialize',
   APP_VERIFY_DOMAIN_REQUEST: 'hellosign:verifyDomainRequest',
