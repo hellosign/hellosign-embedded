@@ -1,4 +1,4 @@
-# Hellosign Embedded
+# HelloSign Embedded
 
 > Embed [HelloSign][external_hellosign] signature requests and templates from within your web application.
 
@@ -9,26 +9,34 @@
 
 <br/>
 
-🎉 **HelloSign Embedded v2** is now available! Please check the [migration guide][wiki_migration-guide] if you need help upgrading from v1 to v2.
 
-## Install
+## Usage
 
-```
-$ npm install hellosign-embedded
-```
+> The instructions below are for HelloSign Embedded v2. We recommend using it instead of v1 for new projects. Please check the [migration guide][wiki_migration-guide] if you need help upgrading from v1 to v2.
 
+1. Start by installing the HelloSign Embedded library from [npm](https://npmjs.com).
 
-## Demo
+    ```bash
+    npm install hellosign-embedded
+    ```
 
-```js
-import HelloSign from 'hellosign-embedded';
+2. In your frontend app, import `hellosign-embedded` and instantiate a new client with your API app's client ID.
 
-const client = new HelloSign();
+    ```js
+    import HelloSign from 'hellosign-embedded';
 
-client.open(signUrl, {
-  clientId: 'Your API client ID'
-});
-```
+    const client = new HelloSign({
+      clientId: 'Your client ID'
+    });
+    ```
+
+3. When you're ready to launch HelloSign Embedded, simply call `open()` on the client with your signature request's signing URL.
+
+    ```js
+    client.open(signUrl);
+    ```
+
+    For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_quickstart] on the Wiki. For more information on how to use HelloSign Embedded, visit the [API Documentation][wiki_api-documentation].
 
 
 ## Resources
