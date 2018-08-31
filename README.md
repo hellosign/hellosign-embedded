@@ -2,7 +2,7 @@
 
 **Welcome!**
 
-HelloSign Embedded is a JavaScript library which allows you to embed HelloSign signature requests and templates from within a web application.
+HelloSign Embedded allows you to embed HelloSign signature requests and templates from within your web application.
 
 For more information, review our [API documentation](https://www.hellosign.com/api/documentation).
 
@@ -24,31 +24,27 @@ For more information, review our [API documentation](https://www.hellosign.com/a
 
 ## Installation
 
-**Via npm**
+**npm**
 
 ```
 $ npm install hellosign-embedded
 ```
 
-**Via CDN**
+**CDN links**
+
+HelloSign is also available over a CDN.
 
 ```html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.LATEST.min.js"></script>
+<script crossorigin src="https://unpkg.com/hellosign-embedded@1/umd/embedded.development.js"></script>
 ```
 
-This will always use the latest published version of the library. Alternately, omit the `.min` for the development version.
+The version above is only meant for development, and is not suitable for production. A minified and optimized production version of HelloSign Embedded is available at:
 
 ```html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.LATEST.js"></script>
+<script crossorigin src="https://unpkg.com/hellosign-embedded@1/umd/embedded.production.min.js"></script>
 ```
 
-And if you'd prefer to use a specific version of the HelloSign Embedded library, you can specify its version in the URL.
-
-```html
-<script type="text/javascript" src="https://s3.amazonaws.com/cdn.hellosign.com/public/js/hellosign-embedded.1.2.11.min.js"></script>
-```
-
-We recommend using the latest version of the library so that you'll receive security and feature updates, however be aware that if any breaking changes are introduced, your app may need to be updated to support them.
+To load a specific version of `hellosign-embedded`, replace `1` with the version number, tag, or semver range. More information about how to use unpkg can be found [here](https://unpkg.com/).
 
 
 ## Usage
@@ -124,6 +120,11 @@ Opens an embedded signature request in an iFrame with the given options.
 
         The signature request URL to open in the embedded iFrame.
 
+    * `uxVersion` *Number* (required)
+
+        An integer representing the version of the embedded signing UX to display to users, where `1` is the legacy UX and `2` is the responsive UX. It is currently required that you specify `uxVersion: 2`. This option is in the process of being phased out, but is required in the interim.
+
+
     * `requester` *String* (required*)
 
         The email of the individual issuing the signature request. This option is **required** only for "Me and Others" signature requests.
@@ -141,7 +142,7 @@ Opens an embedded signature request in an iFrame with the given options.
         A function which is called when window messages are received from the embedded iFrame. See [`window.postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage). The callback passes the following as arguments:
 
         * `message` *Object*
-          * `message.event` *String* - The event that was sent from the embedded iFrame. A list of possible message events can be found [here](https://github.com/HelloFax/hellosign-embedded/blob/master/src/embedded.js#L300).
+          * `message.event` *String* - The event that was sent from the embedded iFrame. A list of possible message events can be found [here](https://app.hellosign.com/api/embeddedSigningWalkthrough#EmbeddedSigningNotes).
 
     * `userCulture` *String*
 

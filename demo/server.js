@@ -1,11 +1,12 @@
 const bodyParser = require('body-parser')
 const express = require('express');
 const hellosign = require('hellosign-sdk');
+const path = require('path');
 
 const app = express();
 
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static(path.join(__dirname, '/dist')));
 
 app.post('/create-signature-request', (req, res) => {
   const { apiKey, clientId } = req.body;

@@ -321,6 +321,7 @@
         EVENT_SIGNED: 'signature_request_signed',
         EVENT_DECLINED: 'signature_request_declined',
         EVENT_CANCELED: 'signature_request_canceled',
+        EVENT_REASSIGNED: 'signature_request_reassigned',
         EVENT_SENT: 'signature_request_sent',
         EVENT_TEMPLATE_CREATED: 'template_created',
         EVENT_ERROR: 'error',
@@ -351,6 +352,7 @@
             // - requester                String. The email of the person issuing a signature request. Required for allowing 'Me + Others' requests
             // - whiteLabelingOptions     Object. An associative array to be used to customize the app's signer page
             // - healthCheckTimeoutMs     Integer. The number of milliseconds to wait for a response from the iframe. If no response after that time the iframe will be closed. 15000 milliseconds is recommended.
+            // - finalButtonText          String. The text to use for the final send/continue button if you'd like to override it's default text. May only be set to "Send" or "Continue".
 
             var redirectUrl = this.safeUrl(params['redirectUrl']);
             var messageListener = params['messageListener'];
@@ -369,6 +371,9 @@
             }
             if (typeof params['hideHeader'] !== 'undefined') {
                 this.hideHeader = (params['hideHeader'] === true || params['hideHeader'] == 'true');
+            }
+            if (typeof params['finalButtonText'] !== 'undefined') {
+                this.finalButtonText = params['finalButtonText'];
             }
             if (typeof params['whiteLabelingOptions'] === 'object') {
                 this.whiteLabelingOptions = JSON.stringify(params['whiteLabelingOptions']);
@@ -413,6 +418,9 @@
             }
             if (this.whiteLabelingOptions) {
                 frameUrl += '&white_labeling_options=' + encodeURI(this.whiteLabelingOptions);
+            }
+            if (this.finalButtonText) {
+                frameUrl += '&final_button_text=' + this.finalButtonText;
             }
 
             frameUrl += '&js_version=' + this.VERSION;
@@ -661,15 +669,19 @@
                     messageListener({
                         'event': HelloSign.EVENT_DECLINED
                     });
+                } else if (evt.data == 'reassign') {
+                  messageListener({
+                    'event': HelloSign.EVENT_REASSIGNED
+                  });
                 } else if (evt.data == 'user-done') {
                     // Close iFrame
                     HelloSign.close();
-                } else if (evt.data.indexOf('hello:') === 0) {
+                } else if (typeof evt.data === 'string' && evt.data.indexOf('hello:') === 0) {
                     // Hello message - Extract token and send it back
                     var parts = evt.data.split(':');
                     var token = parts[1];
                     XWM.send('helloback:' + token, frameUrl, source);
-                } else if (messageListener && evt.data) {
+                } else if (messageListener && evt.data && typeof evt.data === 'string') {
 
                     // Forward to message callback
                     var eventData = {};
@@ -955,6 +967,12 @@
 
     function _supportPageOffset() {
         return window.pageXOffset !== undefined;
+    }
+
+    // Also add HelloSign as global variable for AMD implementations.
+    // This will prevent older integrations from breaking.
+    if (typeof define === 'function' && define.amd) {
+      window.HelloSign = HelloSign;
     }
 
     // Export the HS object
