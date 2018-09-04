@@ -60,6 +60,14 @@ class HelloSign extends Emitter {
   _config = null;
 
   /**
+   * The embedded flow type.
+   *
+   * @type {?string}
+   * @private
+   */
+  _embeddedType = null;
+
+  /**
    * The iFrame URL object.
    *
    * @type {?URL}
@@ -374,6 +382,25 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Updates the type of embedded request base on the URL.
+   *
+   * @param {string} url
+   * @returns {void}
+   * @private
+   */
+  _updateEmbeddedType(url) {
+    if (url.includes('embeddedSign')) {
+      this._embeddedType = settings.types.EMBEDDED_SIGN;
+    } else if (url.includes('embeddedTemplate')) {
+      this._embeddedType = settings.types.EMBEDDED_TEMPLATE;
+    } else if (url.includes('embeddedRequest')) {
+      this._embeddedType = settings.types.EMBEDDED_REQUEST;
+    } else {
+      this._embeddedType = settings.types.UNKNOWN;
+    }
+  }
+
+  /**
    * Renders the HelloSign Embedded markup.
    *
    * We would like to have used HTML Content Templates or
@@ -519,27 +546,44 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Starts the initialization timeout timer.
-   *
-   * @param {number} waitMs
-   * @private
-   */
-  _startInitTimeout() {
-    this._clearInitTimeout();
-
-    this._initTimeout = setTimeout(this._onInitTimeout, this._config.timeout);
-  }
-
-  /**
    * Clears the initialization timeout timer.
    *
    * @private
    */
   _clearInitTimeout() {
     if (this._initTimeout) {
+      debug.info('clearing initialization timeout');
+
       clearTimeout(this._initTimeout);
 
       this._initTimeout = null;
+    }
+  }
+
+  /**
+   * Starts the initialization timeout timer.
+   *
+   * @private
+   */
+  _startInitTimeout() {
+    if (this._embeddedType === settings.types.EMBEDDED_SIGN) {
+      debug.info('starting initialization timeout');
+
+      this._clearInitTimeout();
+
+      this._initTimeout = setTimeout(this._onInitTimeout, this._config.timeout);
+    }
+  }
+
+  /**
+   * Starts the initialization timeout timer if this
+   * embedded flow is for embedded signing.
+   *
+   * @private
+   */
+  _maybeStartInitTimeout() {
+    if (this._embeddedType === settings.types.EMBEDDED_SIGN) {
+      this._startInitTimeout();
     }
   }
 
@@ -734,6 +778,11 @@ class HelloSign extends Emitter {
   _onInitTimeout() {
     debug.error('app failed to initialize before timeout');
 
+    // Display error to the user instead of just closing the
+    // signature request window.
+    // eslint-disable-next-line no-alert
+    alert('Something went wrong when preparing your signature request. Please try again.');
+
     this._sendInitializationErrorMessage();
     this._clearInitTimeout();
 
@@ -863,8 +912,9 @@ class HelloSign extends Emitter {
     }
 
     this._updateFrameUrl(url);
+    this._updateEmbeddedType(url);
     this._appendMarkup();
-    this._startInitTimeout();
+    this._maybeStartInitTimeout();
 
     this._isOpen = true;
 
@@ -901,6 +951,7 @@ class HelloSign extends Emitter {
 
     this._config = null;
     this._baseEl = null;
+    this._embeddedType = null;
     this._iFrameEl = null;
     this._iFrameURL = null;
     this._isOpen = false;

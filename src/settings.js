@@ -82,10 +82,24 @@ const messages = {
   USER_SIGN_REQUEST: 'hellosign:userSignRequest',
 };
 
+/**
+ * Embedded signature request types.
+ *
+ * @enum {string}
+ * @readonly
+ */
+const types = {
+  EMBEDDED_SIGN: 'embeddedSign',
+  EMBEDDED_TEMPLATE: 'embeddedTemplate',
+  EMBEDDED_REQUEST: 'embeddedRequest',
+  UNKNOWN: 'unknown',
+};
+
 export default {
   classNames,
   events,
   iframe,
   locales,
   messages,
+  types,
 };
