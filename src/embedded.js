@@ -35,6 +35,15 @@ class HelloSign extends Emitter {
   static locales = settings.locales;
 
   /**
+   * HelloSign Embedded cross-origin window messages.
+   *
+   * @enum {string}
+   * @static
+   * @readonly
+   */
+  static messages = settings.messages;
+
+  /**
    * The base config object which "open" will extend.
    *
    * @type {?Object}
