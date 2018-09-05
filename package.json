@@ -7,7 +7,7 @@
   "scripts": {
     "build": "webpack",
     "test": "jest src",
-    "version": "node version.js"
+    "version": "node scripts/version.js"
   },
   "repository": {
     "type": "git",
