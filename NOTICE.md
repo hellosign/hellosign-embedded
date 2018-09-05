@@ -1,4 +1,4 @@
-# Notices
+# Notice
 
 This project uses third party material from the projects listed below.
 
