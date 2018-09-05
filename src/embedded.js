@@ -599,6 +599,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#error
    * @param {Object} payload
+   * @private
    */
   _appDidError(payload) {
     debug.error('app encountered an error with code:', payload.code);
@@ -617,6 +618,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#initialize
    * @param {Object} payload
+   * @private
    */
   _appDidInitialize(payload) {
     debug.info('app was initialized');
@@ -631,12 +633,36 @@ class HelloSign extends Emitter {
    * Called when the app requested domain verification.
    *
    * @param {Object} payload
-   * @param {string} token
+   * @param {string} payload.token
+   * @private
    */
   _appDidRequestDomainVerification({ token }) {
     debug.info('app requested domain verification', token);
 
     this._sendDomainVerificationMessage(token);
+  }
+
+  /**
+   * @event HelloSign#message
+   * @type {Object}
+   * @property {string} type
+   * @property {?Object} payload
+   */
+
+  /**
+   * Called when HelloSign Embedded receives a cross-origin
+   * window message.
+   *
+   * @emits HelloSign#message
+   * @param {MessageEvent} evt
+   * @private
+   */
+  _appDidSendMessage({ data, origin }) {
+    debug.info('received message', data, origin);
+
+    this.emit(settings.events.MESSAGE, data);
+
+    this._delegateMessage(data);
   }
 
   /**
@@ -665,6 +691,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#createTemplate
    * @param {Object} payload
+   * @private
    */
   _userDidCreateTemplate(payload) {
     debug.info('user created the signature request template');
@@ -684,6 +711,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#decline
    * @param {Object} payload
+   * @private
    */
   _userDidDeclineRequest(payload) {
     debug.info('user declined the signature request');
@@ -705,6 +733,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#reassign
    * @param {Object} payload
+   * @private
    */
   _userDidReassignRequest(payload) {
     debug.info('user reassigned the signature request with reason:', payload.reason);
@@ -724,6 +753,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#send
    * @param {Object} payload
+   * @private
    */
   _userDidSendRequest(payload) {
     debug.info('user sent the signature request');
@@ -742,6 +772,7 @@ class HelloSign extends Emitter {
    *
    * @emits HelloSign#sign
    * @param {Object} payload
+   * @private
    */
   _userDidSignRequest(payload) {
     debug.info('user signed the signature request');
@@ -797,12 +828,10 @@ class HelloSign extends Emitter {
    * @param {MessageEvent} evt
    * @private
    */
-  _onMessage({ data, origin }) {
-    debug.info('received message', data, origin);
-
+  _onMessage(message) {
     if (origin === this._iFrameURL.origin) {
       if (typeof data === 'object') {
-        this._delegateMessage(data);
+        this._appDidSendMessage(message);
       }
     }
   }

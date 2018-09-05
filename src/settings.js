@@ -27,6 +27,7 @@ const events = {
   CLOSE: 'close',
   CREATE_TEMPLATE: 'createTemplate',
   DECLINE: 'decline',
+  MESSAGE: 'message',
   OPEN: 'open',
   REASSIGN: 'reassign',
   SIGN: 'sign',
