@@ -423,6 +423,7 @@ class HelloSign extends Emitter {
       elem.innerHTML = safeHtml`
         <div class="${settings.classNames.BASE} ${settings.classNames.BASE_IN_MODAL}">
           <div class="${settings.classNames.MODAL_SCREEN}"></div>
+          <div class="${settings.classNames.MODAL_CONTENT}">
       ` + (
         this._config.allowCancel ? safeHtml`
           <div class=${settings.classNames.MODAL_CLOSE}>
@@ -430,7 +431,6 @@ class HelloSign extends Emitter {
           </div>
         ` : ''
       ) + safeHtml`
-          <div class="${settings.classNames.MODAL_CONTENT}">
             <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" />
           </div>
         </div>
