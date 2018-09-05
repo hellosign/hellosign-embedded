@@ -1,12 +1,25 @@
 language: node_js
 node_js:
   - "node"
-before_script: npm run build
+before_script:
+  - npm run build
+  - npm run version # Store the npm package version.
+before_deploy:
+  - export NPM_PACKAGE_VERSION=$(cat version) # Get the npm package version.
 deploy:
+  - provider: s3
+    access_key_id: $S3_ACCESS_KEY_ID
+    secret_access_key: $S3_SECRET_ACCESS_KEY
+    bucket: $S3_BUCKET
+    skip_cleanup: true
+    upload_dir: public/js/hellosign-embedded/${NPM_PACKAGE_VERSION}
+    local_dir: umd
+    on:
+      branch: master
   - provider: npm
     email: "api@hellosign.com"
     api_key: $NPM_API_KEY
-    skip_cleanup: true # We're publishing build files.
+    skip_cleanup: true
     tag: latest
     on:
       branch: master

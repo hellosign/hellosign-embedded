@@ -3,10 +3,11 @@
   "version": "2.0.0-5",
   "description": "Embed HelloSign signature requests and templates from within your web application.",
   "main": "index.js",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "test": "jest src"
+    "test": "jest src",
+    "version": "node version.js"
   },
   "repository": {
     "type": "git",
@@ -27,7 +28,7 @@
   "bugs": {
     "url": "https://github.com/hellosign/hellosign-embedded/issues"
   },
-  "homepage": "https://github.com/hellosign/hellosign-embedded#readme",
+  "homepage": "https://github.com/hellosign/hellosign-embedded",
   "dependencies": {
     "common-tags": "^1.8.0",
     "debug": "^3.1.0",
@@ -36,7 +37,6 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.53",
     "@babel/plugin-proposal-class-properties": "^7.0.0-beta.53",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0-rc.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.53",
     "@babel/plugin-transform-object-assign": "^7.0.0-beta.53",
     "@babel/preset-env": "^7.0.0-beta.53",

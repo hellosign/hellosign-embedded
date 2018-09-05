@@ -1,8 +1,4 @@
-const Package = require('./package.json');
-
-const globals = {
-  __PKG_NAME__: `"${Package.name}"`,
-  __PKG_VERSION__: `"${Package.version}"`,
+module.exports = {
+  __PKG_NAME__: `"${process.env.npm_package_name}"`,
+  __PKG_VERSION__: `"${process.env.npm_package_version}"`,
 };
-
-module.exports = globals;

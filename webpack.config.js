@@ -3,7 +3,7 @@ const webpack = require('webpack');
 
 const globals = require('./globals');
 
-const base = {
+const config = {
   entry: [
     'url-polyfill',
     'url-search-params-polyfill',
@@ -37,25 +37,26 @@ const base = {
   ],
 };
 
-const config = [
-  {
-    ...base,
-    mode: 'development',
-    devtool: 'inline-source-map',
-    output: {
-      ...base.output,
-      filename: 'embedded.development.js',
-    },
+const devConfig = {
+  ...config,
+  name: 'dev',
+  mode: 'development',
+  devtool: 'inline-source-map',
+  output: {
+    ...config.output,
+    filename: 'embedded.development.js',
   },
-  {
-    ...base,
-    mode: 'production',
-    devtool: 'none',
-    output: {
-      ...base.output,
-      filename: 'embedded.production.min.js',
-    },
-  },
-];
+};
 
-module.exports = config;
+const prodConfig = {
+  ...config,
+  name: 'prod',
+  mode: 'production',
+  devtool: 'none',
+  output: {
+    ...config.output,
+    filename: 'embedded.production.min.js',
+  },
+};
+
+module.exports = [devConfig, prodConfig];
