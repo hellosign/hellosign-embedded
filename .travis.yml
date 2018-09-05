@@ -7,6 +7,7 @@ before_script:
 before_deploy:
   - export NPM_PACKAGE_VERSION=$(cat version) # Get the npm package version.
 deploy:
+  # Publishes build files to HelloSign's S3 CDN.
   - provider: s3
     access_key_id: $S3_ACCESS_KEY_ID
     secret_access_key: $S3_SECRET_ACCESS_KEY
@@ -16,10 +17,19 @@ deploy:
     local_dir: umd
     on:
       branch: master
+  # Publishes to npm.
   - provider: npm
     email: "api@hellosign.com"
     api_key: $NPM_API_KEY
     skip_cleanup: true
     tag: latest
+    on:
+      branch: master
+  # Publishes a GitHub release automatically.
+  - provider: releases
+    api_key: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: umd/*
+    skip_cleanup: true
     on:
       branch: master
