@@ -1,4 +1,6 @@
+const pkg = require('./package.json');
+
 module.exports = {
-  __PKG_NAME__: `"${process.env.npm_package_name}"`,
-  __PKG_VERSION__: `"${process.env.npm_package_version}"`,
+  __PKG_NAME__: pkg.name,
+  __PKG_VERSION__: pkg.version,
 };

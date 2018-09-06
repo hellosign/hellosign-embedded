@@ -1,5 +1,6 @@
 import HelloSign from './embedded';
 import defaults from './defaults';
+import pkg from '../package.json';
 import settings from './settings';
 
 const mockSignURL = 'https://app.hellosign.com/editor/embeddedSign?signature_id=abcdef0123456789abcdef0123456789';
@@ -271,6 +272,24 @@ describe('HelloSign', () => {
         client.open(mockSignURL, {
           clientId: mockClientId,
           hideHeader: true,
+        });
+      });
+
+      test('appends "js_version" to the iFrame URL', (done) => {
+        const client = new HelloSign();
+
+        client.on(HelloSign.events.OPEN, (data) => {
+          const url = new URL(data.iFrameUrl);
+
+          client.close();
+
+          expect(url.searchParams.has('js_version')).toBe(true);
+          expect(url.searchParams.get('js_version')).toBe(pkg.version);
+          done();
+        });
+
+        client.open(mockSignURL, {
+          clientId: mockClientId,
         });
       });
 
