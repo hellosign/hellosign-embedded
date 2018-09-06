@@ -50,7 +50,7 @@ class HelloSign extends Emitter {
    * @static
    * @readonly
    */
-  static version = String(__PKG_VERSION__);
+  static version = __PKG_VERSION__;
 
   /**
    * The base config object which "open" will extend.
@@ -356,7 +356,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _applyVersion(params) {
-    params.append('js_version', String(__PKG_VERSION__));
+    params.append('js_version', JSON.parse(__PKG_VERSION__));
   }
 
   /**

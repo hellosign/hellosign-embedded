@@ -6,8 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "test": "jest src",
-    "version": "node scripts/version.js"
+    "test": "jest src"
   },
   "repository": {
     "type": "git",

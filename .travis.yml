@@ -3,9 +3,8 @@ node_js:
   - "node"
 before_script:
   - npm run build
-  - npm run version # Store the npm package version.
 before_deploy:
-  - export NPM_PACKAGE_VERSION=$(cat version) # Get the npm package version.
+  - export NPM_PACKAGE_VERSION=$(node -p "require('./package.json').version")
 deploy:
   - provider: s3
     access_key_id: $S3_ACCESS_KEY_ID
