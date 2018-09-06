@@ -44,6 +44,15 @@ class HelloSign extends Emitter {
   static messages = settings.messages;
 
   /**
+   * HelloSign Embedded version number.
+   *
+   * @enum {string}
+   * @static
+   * @readonly
+   */
+  static version = __PKG_VERSION__;
+
+  /**
    * The base config object which "open" will extend.
    *
    * @type {?Object}
