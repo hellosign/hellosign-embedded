@@ -356,7 +356,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _applyVersion(params) {
-    params.append('js_version', '2.0.0'); // XXX
+    params.append('js_version', __PKG_VERSION__);
   }
 
   /**
