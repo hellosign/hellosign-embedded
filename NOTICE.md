@@ -30,7 +30,7 @@ The MIT License (MIT) applies to:
   - `common-tags`
     > Copyright © Declan de Wet
 
-  - `css-loader`, `eslint`, `sass-Loader`, `style-loader`, `webpack`, `webpack-cli`
+  - `css-loader`, `eslint`, `sass-loader`, `style-loader`, `webpack`, `webpack-cli`
     > Copyright JS Foundation and other contributors
 
   - `debug`
