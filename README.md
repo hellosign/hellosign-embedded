@@ -24,8 +24,6 @@ For more information, review our [API documentation](https://www.hellosign.com/a
 
 ## Installation
 
-## Installation
-
 **npm**
 
 ```
@@ -82,8 +80,7 @@ To load a specific version of `hellosign-embedded`, replace `1` with the version
       url: signUrlFromSdk,
       allowCancel: true,
       debug: true,
-      skipDomainVerification: true,
-      uxVersion: 2
+      skipDomainVerification: true
     });
     ```
 
