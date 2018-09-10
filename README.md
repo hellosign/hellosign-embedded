@@ -1,4 +1,4 @@
-# hellosign-embedded [![Build Status](https://travis-ci.org/HelloFax/hellosign-embedded.svg?branch=master)](https://travis-ci.org/HelloFax/hellosign-embedded)
+# hellosign-embedded [![Build Status](https://travis-ci.org/HelloFax/hellosign-embedded.svg?branch=master)](https://travis-ci.org/HelloFax/hellosign-embedded) [![Greenkeeper badge](https://badges.greenkeeper.io/HelloFax/hellosign-embedded.svg)](https://greenkeeper.io/)
 
 **Welcome!**
 
