@@ -271,7 +271,6 @@
     var HelloSign = {
 
         VERSION: require('../package.json').version,
-        DEFAULT_UX_VERSION: 1,
         IFRAME_WIDTH_RATIO: 0.8,
         DEFAULT_WIDTH: 900,
         DEFAULT_HEIGHT: 900,
@@ -350,7 +349,6 @@
             // - container                DOM element that will contain the iframe on the page (default = document.body)
             // - height                   Height of the iFrame (only applicable when a container is specified)
             // - hideHeader               Boolean. When true, the header will be hidden (default = false). This is only functional for customers with embedded branding enabled.
-            // - uxVersion                Integer. The version of the embedded user experience to display to signers (1 = legacy, 2 = responsive). This option is only honored if your account has accessed the API prior to Nov 14, 2015.
             // - requester                String. The email of the person issuing a signature request. Required for allowing 'Me + Others' requests
             // - whiteLabelingOptions     Object. An associative array to be used to customize the app's signer page
             // - healthCheckTimeoutMs     Integer. The number of milliseconds to wait for a response from the iframe. If no response after that time the iframe will be closed. 15000 milliseconds is recommended.
@@ -359,13 +357,12 @@
             var redirectUrl = this.safeUrl(params['redirectUrl']);
             var messageListener = params['messageListener'];
             var frameUrl = this.safeUrl(params['url']);
-            this.uxVersion = params['uxVersion'] || this.DEFAULT_UX_VERSION;
-            this.isDefaultUX = (this.uxVersion === this.DEFAULT_UX_VERSION);
             this.healthCheckTimeoutMs = params['healthCheckTimeoutMs'];
 
-            if (this.uxVersion) {
-                frameUrl += (frameUrl.indexOf('?') > 0 ? '&' : '?') + 'ux_version=' + this.uxVersion;
+            if (!frameUrl) {
+              throw new TypeError('Must provide arguments to open()');
             }
+
             if (typeof params['debug'] !== 'undefined') {
                 this.isDebugEnabled = (params['debug'] === true || params['debug'] == 'true');
             }
@@ -490,45 +487,43 @@
                 }
             };
 
-            if (this.uxVersion > 1) {
-                if (this.isInPage) {
-                    // Adjust the iFrame style to fit the in-page container
-                    styles['wrapper']['width'] = '100%';
-                    styles['wrapper']['height'] = windowDims.heightString;
-                    styles['iframe']['width'] = '100%';
-                    styles['iframe']['height'] = windowDims.heightString;
-                    styles['iframe']['border'] = 'none';
-                    styles['iframe']['box-shadow'] = 'none';
-                    styles['cancelButton']['display'] = 'none';
+            if (this.isInPage) {
+                // Adjust the iFrame style to fit the in-page container
+                styles['wrapper']['width'] = '100%';
+                styles['wrapper']['height'] = windowDims.heightString;
+                styles['iframe']['width'] = '100%';
+                styles['iframe']['height'] = windowDims.heightString;
+                styles['iframe']['border'] = 'none';
+                styles['iframe']['box-shadow'] = 'none';
+                styles['cancelButton']['display'] = 'none';
 
-                    // This is an iOS hack.  Apparently iOS ignores widths set
-                    // with a non-pixel value, which means iFrames get expanded
-                    // to the full width of their content.  Setting a pixel
-                    // value and then using `min-width` is the workaround for
-                    // this.
-                    // See:  http://stackoverflow.com/questions/23083462/how-to-get-an-iframe-to-be-responsive-in-ios-safari
-                    if (this.isMobile) {
-                        styles['iframe']['width'] = '1px';
-                        styles['iframe']['min-width'] = '100%';
-                    }
+                // This is an iOS hack.  Apparently iOS ignores widths set
+                // with a non-pixel value, which means iFrames get expanded
+                // to the full width of their content.  Setting a pixel
+                // value and then using `min-width` is the workaround for
+                // this.
+                // See:  http://stackoverflow.com/questions/23083462/how-to-get-an-iframe-to-be-responsive-in-ios-safari
+                if (this.isMobile) {
+                    styles['iframe']['width'] = '1px';
+                    styles['iframe']['min-width'] = '100%';
                 }
-                else if (this.isMobile) {
-                    var mobileDims = this.getMobileDimensions();
-                    // Adjust the iFrame style to fit the whole screen
-                    styles['wrapper']['position'] = 'absolute';
-                    styles['wrapper']['top'] = '0';
-                    styles['wrapper']['left'] = '0';
-                    styles['wrapper']['width'] = mobileDims.widthString;
-                    styles['wrapper']['height'] = mobileDims.heightString;
-                    styles['iframe']['position'] = 'absolute';
-                    styles['iframe']['top'] = 0;
-                    styles['iframe']['left'] = 0;
-                    styles['iframe']['width'] = mobileDims.widthString;
-                    styles['iframe']['height'] = mobileDims.heightString;
-                    styles['iframe']['border'] = 'none';
-                    styles['iframe']['box-shadow'] = 'none';
-                    styles['cancelButton']['display'] = 'none';
-                }
+            }
+            else if (this.isMobile) {
+                var mobileDims = this.getMobileDimensions();
+                // Adjust the iFrame style to fit the whole screen
+                styles['wrapper']['position'] = 'absolute';
+                styles['wrapper']['top'] = '0';
+                styles['wrapper']['left'] = '0';
+                styles['wrapper']['width'] = mobileDims.widthString;
+                styles['wrapper']['height'] = mobileDims.heightString;
+                styles['iframe']['position'] = 'absolute';
+                styles['iframe']['top'] = 0;
+                styles['iframe']['left'] = 0;
+                styles['iframe']['width'] = mobileDims.widthString;
+                styles['iframe']['height'] = mobileDims.heightString;
+                styles['iframe']['border'] = 'none';
+                styles['iframe']['box-shadow'] = 'none';
+                styles['cancelButton']['display'] = 'none';
             }
 
             // Build overlay
@@ -556,28 +551,10 @@
             }
 
             if (!this.isInPage) {
-
-                if (this.isMobile && this.isDefaultUX) {
-                    // If this is a mobile device, poll the window dimensions to see
-                    // if the zoom scale changes and resize the iFrame. This prevents
-                    // the user from zooming and getting into a state where they can't
-                    // submit the embedded request
-                    var zoomScale = document.body.clientWidth / window.innerWidth;
-                    var detectZoom = function _detectZoom() {
-                        var newZoomScale = document.body.clientWidth / window.innerWidth;
-                        if (zoomScale !== newZoomScale) {
-                            zoomScale = newZoomScale;
-                            resizeIFrame();
-                        }
-                    };
-                    window.onscroll = detectZoom;
-                }
-                else {
-                    // When the window is resized, also resize the iframe if necessary
-                    // NOTE: Only do this when the iFrame is displayed as a popup, it does not really make sense when it's in-page
-                    // Also used for new mobile ux
-                    window.onresize = resizeIFrame;
-                }
+                // When the window is resized, also resize the iframe if necessary
+                // NOTE: Only do this when the iFrame is displayed as a popup, it does not really make sense when it's in-page
+                // Also used for new mobile ux
+                window.onresize = resizeIFrame;
             }
 
             // Build the iFrame
@@ -589,16 +566,12 @@
             this.iframe.setAttribute('src', frameUrl);
             this.iframe.setAttribute('scrolling', 'no'); // This needs to stay as 'no' or else iPads, etc. get broken
             this.iframe.setAttribute('frameborder', '0');
-            if (this.isDefaultUX) {
-                this.iframe.setAttribute('width', this.DEFAULT_WIDTH);
-            }
-
             this.iframe.setAttribute('height', windowDims.heightRaw);
 
             // TODO: Detecting 'embeddedSign' in the frameUrl is a hack. Clean
             // this up once the embedded close button has been implemented for
             // embedded requesting and templates.
-            if (frameUrl.indexOf('embeddedSign') === -1 || params['uxVersion'] != null && params['uxVersion'] < 2) {
+            if (frameUrl.indexOf('embeddedSign') === -1) {
               if (!this.isInPage && (params['allowCancel'] === true || params['allowCancel'] === undefined) && !this.cancelButton) {
                   this.cancelButton = document.createElement('a');
                   this.cancelButton.setAttribute('id', 'hsEmbeddedCancel');
@@ -644,12 +617,12 @@
                 this.cancelButton.setAttribute('style', s);
             }
 
-            if (!this.isInPage && (!this.isMobile || this.isDefaultUX)) {
+            if (!this.isInPage && !this.isMobile) {
                 // Run resizeIFrame to make sure it fits best from the beginning
                 resizeIFrame();
             }
 
-            if (this.isMobile && !this.isDefaultUX && window === window.top) {
+            if (this.isMobile && window === window.top) {
                 // Only set the meta tags for the top window
                 MetaTagHelper.set();
             }
@@ -675,7 +648,7 @@
             XWM.receive(function _parentWindowCallback(evt){
                 var source = evt.source || 'hsEmbeddedFrame';
 
-                if (evt.data === 'initialize' && params['uxVersion'] > 1) {
+                if (evt.data === 'initialize') {
                     if (self.healthCheckTimeoutMs) clearTimeout(self._healthCheckTimeoutHandle);
                     // remove container from payload to prevent circular reference error
                     var payload = Object.assign({}, params);
@@ -685,7 +658,7 @@
                     // Close iFrame
                     HelloSign.close();
 
-                    if (messageListener && params['uxVersion'] > 1) {
+                    if (messageListener) {
                         messageListener({
                             'event': HelloSign.EVENT_CANCELED
                         });
@@ -743,7 +716,7 @@
         close: function() {
 
             // Reset viewport settings
-            if (this.isMobile && !this.isDefaultUX && window === window.top) {
+            if (this.isMobile && window === window.top) {
                 MetaTagHelper.restore();
             }
 
@@ -864,7 +837,7 @@
             }
             var height = this.isInPage && customHeight ? customHeight : Math.max(this.MIN_HEIGHT, windowHeight - 60);
 
-            var width = this.uxVersion > 1 ? Math.min(this.DEFAULT_WIDTH, windowWidth * this.IFRAME_WIDTH_RATIO) : this.DEFAULT_WIDTH;
+            var width = Math.min(this.DEFAULT_WIDTH, windowWidth * this.IFRAME_WIDTH_RATIO);
 
             return {
                 'widthString':  width + 'px',
@@ -889,14 +862,14 @@
 
             if (isPortrait) {
                 dims = {
-                    'widthString': this.isDefaultUX ? '100vw' : screenWidth + 'px',
-                    'heightString': this.isDefaultUX ? '100vh' : '100%' // 100vh needed for old signer page, but cuts off some newer UX elements
+                    'widthString': screenWidth + 'px',
+                    'heightString': '100%'
                 };
             } else {
                 // Landscape
                 dims = {
                     'widthString': windowWidth + 'px',
-                    'heightString': this.isDefaultUX ? '100vh' : '100%'
+                    'heightString': '100%'
                 };
             }
             // Always fill screen on mobile
