@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const pkg = require('./pkg.json');
+const pkg = require('./package.json');
 
 const config = {
   entry: [

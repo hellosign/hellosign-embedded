@@ -1,4 +1,4 @@
-const pkg = require('./pkg.json');
+const pkg = require('./package.json');
 
 module.exports = {
   projects: [
