@@ -4,6 +4,3 @@
 dist
 node_modules
 umd
-
-*.log
-*.bak
