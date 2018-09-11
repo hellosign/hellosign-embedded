@@ -21,4 +21,8 @@ describe('settings', () => {
   test('exports messages', () => {
     expect(settings.messages).toBeDefined();
   });
+
+  test('exports types', () => {
+    expect(settings.types).toBeDefined();
+  });
 });
