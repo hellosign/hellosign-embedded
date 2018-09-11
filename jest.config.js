@@ -1,4 +1,4 @@
-const globals = require('./globals');
+const pkg = require('./pkg.json');
 
 module.exports = {
   projects: [
@@ -11,7 +11,10 @@ module.exports = {
       collectCoverage: true,
       coverageDirectory: '.coverage',
       testURL: 'http://localhost/',
-      globals,
+      globals: {
+        __PKG_NAME__: JSON.stringify(pkg.name),
+        __PKG_VERSION__: JSON.stringify(pkg.version),
+      }
     },
   ],
 };

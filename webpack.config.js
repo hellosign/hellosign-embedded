@@ -1,7 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 
-const globals = require('./globals');
+const pkg = require('./pkg.json');
 
 const config = {
   entry: [
@@ -32,7 +32,8 @@ const config = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      ...globals,
+      __PKG_NAME__: JSON.stringify(pkg.name),
+      __PKG_VERSION__: JSON.stringify(pkg.version),
     }),
   ],
 };
