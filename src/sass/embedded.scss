@@ -88,12 +88,12 @@
     top: 10px;
   }
 
-  // Top right to bottom left white line.
+  // Bottom-left to top-right white line.
   &::before {
     transform: rotateZ(45deg);
   }
 
-  // Top right to bottom left white line.
+  // Top-left to bottom-right white line.
   &::after {
     transform: rotateZ(-45deg);
   }
