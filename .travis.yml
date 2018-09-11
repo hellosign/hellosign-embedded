@@ -16,7 +16,7 @@ deploy:
     on:
       branch: master
   - provider: npm
-    email: "api@hellosign.com"
+    email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
     skip_cleanup: true
     tag: latest
