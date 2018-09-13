@@ -356,7 +356,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _applyVersion(params) {
-    params.append('js_version', JSON.parse(__PKG_VERSION__));
+    params.append('js_version', __PKG_VERSION__);
   }
 
   /**
@@ -861,8 +861,8 @@ class HelloSign extends Emitter {
    * @private
    */
   _onMessage(message) {
-    if (origin === this._iFrameURL.origin) {
-      if (typeof data === 'object') {
+    if (message.origin === this._iFrameURL.origin) {
+      if (typeof message.data === 'object') {
         this._appDidSendMessage(message);
       }
     }
