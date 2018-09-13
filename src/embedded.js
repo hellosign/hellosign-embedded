@@ -419,6 +419,20 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Returns a boolean indicating whether the close button
+   * should be shown.
+   *
+   * @returns {boolean}
+   * @private
+   */
+  _shouldShowCancelButton() {
+    return (
+      this._config.allowCancel &&
+      this._embeddedType !== settings.types.EMBEDDED_SIGN
+    );
+  }
+
+  /**
    * Renders the HelloSign Embedded markup.
    *
    * We would like to have used HTML Content Templates or
@@ -443,7 +457,7 @@ class HelloSign extends Emitter {
           <div class="${settings.classNames.MODAL_SCREEN}"></div>
           <div class="${settings.classNames.MODAL_CONTENT}">
       ` + (
-        this._config.allowCancel ? safeHtml`
+        this._shouldShowCancelButton() ? safeHtml`
           <div class=${settings.classNames.MODAL_CLOSE}>
             <button class=${settings.classNames.MODAL_CLOSE_BTN} role="button" title="Close signature request"></button>
           </div>
