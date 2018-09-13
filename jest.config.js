@@ -12,9 +12,9 @@ module.exports = {
       coverageDirectory: '.coverage',
       testURL: 'http://localhost/',
       globals: {
-        __PKG_NAME__: JSON.stringify(pkg.name),
-        __PKG_VERSION__: JSON.stringify(pkg.version),
-      }
+        __PKG_NAME__: pkg.name,
+        __PKG_VERSION__: pkg.version,
+      },
     },
   ],
 };

@@ -4,6 +4,7 @@ import pkg from '../package.json';
 import settings from './settings';
 
 const mockSignURL = 'https://app.hellosign.com/editor/embeddedSign?signature_id=abcdef0123456789abcdef0123456789';
+const mockRequestURL = 'https://app.hellosign.com/editor/embeddedRequest?signature_id=abcdef0123456789abcdef0123456789';
 const mockClientId = 'abcdef0123456789abcdef0123456789';
 
 describe('HelloSign', () => {
@@ -516,7 +517,8 @@ describe('HelloSign', () => {
       test('closes when the close button is clicked', (done) => {
         const client = new HelloSign();
 
-        client.open(mockSignURL, {
+        // Never visible when signing.
+        client.open(mockRequestURL, {
           clientId: mockClientId,
         });
 

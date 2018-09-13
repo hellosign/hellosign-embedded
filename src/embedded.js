@@ -426,10 +426,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _shouldShowCancelButton() {
-    return (
-      this._config.allowCancel &&
-      this._embeddedType !== settings.types.EMBEDDED_SIGN
-    );
+    return this._config.allowCancel && this._embeddedType !== settings.types.EMBEDDED_SIGN;
   }
 
   /**
