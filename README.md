@@ -43,7 +43,7 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 * [Quickstart][wiki_quickstart]
 * [API Documentation][wiki_api-documentation]
 * [Walkthroughs][external_walkthroughs]
-* [Changelog][wiki_changelog]
+* [Changelog][changelog]
 * [Demo][external_demo]
 
 <br/>
@@ -57,7 +57,7 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 
 
 
-[license]: ./LICENSE.md
+[changelog]: ./CHANGELOG.md
 
 [badge_npm-version]: https://img.shields.io/npm/v/hellosign-embedded.svg
 [badge_npm-downloads]: https://img.shields.io/npm/dm/hellosign-embedded.svg
