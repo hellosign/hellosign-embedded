@@ -595,13 +595,11 @@ class HelloSign extends Emitter {
    * @private
    */
   _startInitTimeout() {
-    if (this._embeddedType === settings.types.EMBEDDED_SIGN) {
-      debug.info('starting initialization timeout');
+    debug.info('starting initialization timeout');
 
-      this._clearInitTimeout();
+    this._clearInitTimeout();
 
-      this._initTimeout = setTimeout(this._onInitTimeout, this._config.timeout);
-    }
+    this._initTimeout = setTimeout(this._onInitTimeout, this._config.timeout);
   }
 
   /**
