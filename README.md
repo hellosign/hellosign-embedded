@@ -65,7 +65,7 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 [badge_travis]: https://img.shields.io/travis/hellosign/hellosign-embedded/master.svg
 
 [wiki_home]: ./wiki
-[wiki_api-documentation]: ./wiki/API-Documentation-%28v2%29
+[wiki_api-documentation]: ./wiki/API-Documentation-(v2)
 [wiki_changelog]: ./wiki/Changelog
 [wiki_migration-guide]: ./wiki/Migration-Guide-(v1-to-v2)
 [wiki_quickstart]: ./wiki/Quickstart
