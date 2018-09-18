@@ -536,20 +536,6 @@ describe('HelloSign', () => {
         client.close();
       });
 
-      test('does not attempt to close if not open', (done) => {
-        const client = new HelloSign();
-        const fn = jest.fn(() => {});
-
-        client.once(HelloSign.events.CLOSE, fn);
-
-        client.close();
-
-        setTimeout(() => {
-          expect(fn).toBeCalledTimes(0);
-          done();
-        }, 1000);
-      });
-
       test('removes markup from the DOM when closed', (done) => {
         const client = new HelloSign();
 
