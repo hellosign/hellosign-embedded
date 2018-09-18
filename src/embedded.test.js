@@ -107,15 +107,11 @@ describe('HelloSign', () => {
       test('emits the "open" event', (done) => {
         const client = new HelloSign();
 
-        const fn = jest.fn(() => {
-          expect(fn).toBeCalledTimes(1);
-
+        client.once(HelloSign.events.OPEN, () => {
           client.close();
 
           done();
         });
-
-        client.once(HelloSign.events.OPEN, fn);
 
         client.open(mockSignURL, {
           clientId: mockClientId,
@@ -516,12 +512,9 @@ describe('HelloSign', () => {
           clientId: mockClientId,
         });
 
-        const fn = jest.fn(() => {
-          expect(fn).toBeCalledTimes(1);
+        client.once(HelloSign.events.CLOSE, () => {
           done();
         });
-
-        client.once(HelloSign.events.CLOSE, fn);
 
         const elem = client.element;
         const closeBtn = elem.getElementsByClassName(settings.classNames.MODAL_CLOSE_BTN).item(0);
@@ -532,12 +525,9 @@ describe('HelloSign', () => {
       test('emits the "close" event', (done) => {
         const client = new HelloSign();
 
-        const fn = jest.fn(() => {
-          expect(fn).toBeCalledTimes(1);
+        client.once(HelloSign.events.CLOSE, () => {
           done();
         });
-
-        client.once(HelloSign.events.CLOSE, fn);
 
         client.open(mockSignURL, {
           clientId: mockClientId,
