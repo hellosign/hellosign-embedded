@@ -61,23 +61,17 @@ describe('HelloSign', () => {
 
     describe('open()', () => {
 
-      test('closes the old window if embedded is already open', (done) => {
+      test('closes the old window if embedded is already open', () => {
         const client = new HelloSign({
           clientId: mockClientId,
         });
 
-        const fn = jest.fn(() => {
-          expect(fn).toBeCalledTimes(1);
-
-          client.close();
-
-          done();
-        });
-
-        client.once(HelloSign.events.CLOSE, fn);
-
         client.open(mockSignURL);
         client.open(mockSignURL);
+
+        expect(document.getElementsByClassName(HelloSign.classNames.BASE).length).toBe(1);
+
+        client.close();
       });
 
       test('appends markup into document body if no container is specified', () => {
