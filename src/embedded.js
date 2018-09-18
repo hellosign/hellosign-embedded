@@ -102,7 +102,7 @@ class HelloSign extends Emitter {
   _iFrameEl = null;
 
   /**
-   * The initialization tmieout timer.
+   * The initialization timeout timer.
    *
    * @type {?number}
    * @private
