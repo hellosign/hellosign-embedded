@@ -10,7 +10,8 @@ module.exports = {
       testMatch: ['<rootDir>/src/**/*.js', '<rootDir>/index.js'],
     },
     {
-      testURL: 'http://localhost/',
+      testURL: 'https://app.hellosign.com',
+      setupFiles: ['<rootDir>/test/setup.js'],
       globals: {
         __PKG_NAME__: pkg.name,
         __PKG_VERSION__: pkg.version,
