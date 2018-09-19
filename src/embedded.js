@@ -635,7 +635,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * @event HelloSign#initialize
+   * @event HelloSign#ready
    * @type {Object}
    * @property {string} signatureId
    */
@@ -643,14 +643,14 @@ class HelloSign extends Emitter {
   /**
    * Called when the app was initialized.
    *
-   * @emits HelloSign#initialize
+   * @emits HelloSign#ready
    * @param {Object} payload
    * @private
    */
   _appDidInitialize(payload) {
     debug.info('app was initialized');
 
-    this.emit(settings.events.INITIALIZE, payload);
+    this.emit(settings.events.READY, payload);
 
     this._sendConfigurationMessage();
     this._clearInitTimeout();
@@ -856,7 +856,9 @@ class HelloSign extends Emitter {
    * @private
    */
   _onMessage(message) {
-    if (message.origin === this._iFrameURL.origin) {
+    const strippedOrigin = message.origin.replace(/^(.*)\/$/, '$1');
+
+    if (strippedOrigin === this._iFrameURL.origin) {
       if (typeof message.data === 'object') {
         this._appDidSendMessage(message);
       }
@@ -1037,6 +1039,14 @@ class HelloSign extends Emitter {
    */
   get element() {
     return this._baseEl;
+  }
+
+  /**
+   * @returns {?HTMLElement}
+   * @public
+   */
+  get iFrame() {
+    return this._iFrameEl;
   }
 
   /**

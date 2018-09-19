@@ -22,13 +22,13 @@ const classNames = {
  */
 const events = {
   ERROR: 'error',
-  INITIALIZE: 'initialize',
   SEND: 'send',
   CLOSE: 'close',
   CREATE_TEMPLATE: 'createTemplate',
   DECLINE: 'decline',
   MESSAGE: 'message',
   OPEN: 'open',
+  READY: 'ready',
   REASSIGN: 'reassign',
   SIGN: 'sign',
 };
