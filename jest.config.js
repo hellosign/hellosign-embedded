@@ -1,6 +1,8 @@
 const pkg = require('./package.json');
 
 module.exports = {
+  collectCoverage: true,
+  coverageDirectory: '.coverage',
   projects: [
     {
       runner: 'jest-runner-eslint',
@@ -8,8 +10,6 @@ module.exports = {
       testMatch: ['<rootDir>/src/**/*.js', '<rootDir>/index.js'],
     },
     {
-      collectCoverage: true,
-      coverageDirectory: '.coverage',
       testURL: 'http://localhost/',
       globals: {
         __PKG_NAME__: pkg.name,
