@@ -856,7 +856,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _onMessage(message) {
-    const strippedOrigin = message.origin.replace(/^(.*)\/$/, '$1');
+    const strippedOrigin = message.origin.replace(/\/$/, '');
 
     if (strippedOrigin === this._iFrameURL.origin) {
       if (typeof message.data === 'object') {
