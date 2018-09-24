@@ -42,7 +42,6 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 
 * [Quickstart][wiki_quickstart]
 * [API Documentation][wiki_api-documentation]
-* [Walkthroughs][external_walkthroughs]
 * [Changelog][changelog]
 * [Demo][external_demo]
 
@@ -74,4 +73,3 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 [external_hellosign]: https://hellosign.com
 [external_npm]: https://npmjs.org/package/hellosign-embedded
 [external_travis]: https://travis-ci.org/hellosign/hellosign-embedded.svg?branch=master
-[external_walkthroughs]: https://app.hellosign.com/api/embeddedSigningWalkthrough
