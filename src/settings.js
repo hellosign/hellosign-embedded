@@ -93,7 +93,6 @@ const types = {
   EMBEDDED_SIGN: 'embeddedSign',
   EMBEDDED_TEMPLATE: 'embeddedTemplate',
   EMBEDDED_REQUEST: 'embeddedRequest',
-  UNKNOWN: 'unknown',
 };
 
 export default {

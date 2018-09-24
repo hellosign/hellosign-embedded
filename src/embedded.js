@@ -413,8 +413,6 @@ class HelloSign extends Emitter {
       this._embeddedType = settings.types.EMBEDDED_TEMPLATE;
     } else if (url.includes('embeddedRequest')) {
       this._embeddedType = settings.types.EMBEDDED_REQUEST;
-    } else {
-      this._embeddedType = settings.types.UNKNOWN;
     }
   }
 

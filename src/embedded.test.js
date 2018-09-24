@@ -861,14 +861,5 @@ describe('HelloSign', () => {
         client.open(mockTemplatetURL);
       });
     });
-
-    describe('unknown', () => {
-
-      test('opens an unknown embedded url', () => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        client.open('http://example.com');
-      });
-    });
   });
 });
