@@ -248,14 +248,14 @@ describe('HelloSign', () => {
         }).toThrow(/"hideHeader" must be a boolean/);
       });
 
-      test('appends "hideHeader" to the iFrame URL if "hideHeader" is valid', (done) => {
+      test('appends "hide_header" to the iFrame URL if "hideHeader" is valid', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.iFrameUrl);
 
-          expect(url.searchParams.has('hideHeader')).toBe(true);
-          expect(url.searchParams.get('hideHeader')).toBe('true');
+          expect(url.searchParams.has('hide_header')).toBe(true);
+          expect(url.searchParams.get('hide_header')).toBe('true');
           done();
         });
 

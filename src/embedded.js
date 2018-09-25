@@ -218,7 +218,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the hideHeader parameter to the
+   * Validates and appends the hide_header parameter to the
    * iFrame params object.
    *
    * @throws {TypeError} if hideHeader is invalid
@@ -233,7 +233,7 @@ class HelloSign extends Emitter {
         throw new TypeError('"hideHeader" must be a boolean');
       }
 
-      params.append('hideHeader', val);
+      params.append('hide_header', val);
     }
   }
 
