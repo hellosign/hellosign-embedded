@@ -154,7 +154,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the clientId parameter to the
+   * Validates and appends the "client_id" parameter to the
    * iFrame params object.
    *
    * @throws {TypeError} if clientId is invalid
@@ -176,7 +176,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the debug parameter to the
+   * Validates and appends the "debug" parameter to the
    * iFrame params object.
    *
    * @throws {TypeError} if debug is invalid
@@ -194,8 +194,8 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the finalButtonText parameter to
-   * the iFrame params object.
+   * Validates and appends the "final_button_text" parameter
+   * to the iFrame params object.
    *
    * @throws {TypeError} if finalButtonText is invalid
    * @param {URLSearchParams} params
@@ -218,7 +218,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the hide_header parameter to the
+   * Validates and appends the "hide_header" parameter to the
    * iFrame params object.
    *
    * @throws {TypeError} if hideHeader is invalid
@@ -238,8 +238,8 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the locale parameter to the
-   * iFrame params object.
+   * Validates and appends the "user_culture" parameter to
+   * the iFrame params object.
    *
    * @throws {TypeError} if locale is invalid
    * @param {URLSearchParams} params
@@ -260,7 +260,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Appends the parentUrl parameter to the iFrame params
+   * Appends the "parent_url" parameter to the iFrame params
    * object.
    *
    * @param {URLSearchParams} params
@@ -271,8 +271,8 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the redirectTo parameter to the
-   * iFrame params object.
+   * Validates and appends the "redirect_url" parameter to
+   * the iFrame params object.
    *
    * @throws {TypeError} if redirectTo is invalid
    * @param {URLSearchParams} params
@@ -291,8 +291,8 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the requestingEmail parameter to
-   * the iFrame params object.
+   * Validates and appends the "requester" parameter to the
+   * iFrame params object.
    *
    * @throws {TypeError} if requestingEmail is invalid
    * @param {URLSearchParams} params
@@ -311,7 +311,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the skipDomainVerification
+   * Validates and appends the "skip_domain_verification"
    * parameter to the iFrame params object.
    *
    * @throws {TypeError} if skipDomainVerification is invalid
@@ -329,8 +329,8 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the whiteLabeling parameter to
-   * the iFrame params object.
+   * Validates and appends the "white_labeling_options"
+   * parameter to the iFrame params object.
    *
    * @throws {TypeError} if whiteLabeling is invalid
    * @param {URLSearchParams} params
@@ -349,7 +349,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Appends the version parameter to the iFrame params
+   * Appends the "js_version" parameter to the iFrame params
    * object.
    *
    * @param {URLSearchParams} params
