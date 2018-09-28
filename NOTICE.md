@@ -24,35 +24,35 @@ This project uses third party material from the projects listed below.
 
 The MIT License (MIT) applies to:
 
-  - `babel`
+  - Babel
     > Copyright (c) 2014-2018 Sebastian McKenzie and other contributors
 
-  - `common-tags`
+  - Common Tags
     > Copyright © Declan de Wet
 
-  - `css-loader`, `eslint`, `sass-loader`, `style-loader`, `webpack`, `webpack-cli`
+  - CSS Loader, ESLint, SASS Loader, Style Loader, Webpack, Webpack CLI
     > Copyright JS Foundation and other contributors
 
-  - `debug`
+  - Debug
     > Copyright (c) 2014 TJ Holowaychuk <tj@vision-media.ca>
 
-  - `eslint-plugin-compat`
+  - ESLint Plugin Compat
     > Copyright (c) 2016 Amila Welihinda
 
-  - `jest`
+  - Jest
     > Copyright (c) 2014-present, Facebook, Inc.
 
-  - `jest-runner-eslint`
+  - Jest Runner ESLint
     > Copyright (c) 2017  <rogelioguzmanh@gmail.com>
 
-  - `node-sass`
+  - Node SASS
     > Copyright (c) 2013-2016 Andrew Nesbitt
 
-  - `tiny-emitter`
+  - Tiny Emitter
     > Copyright (c) 2017 Scott Corgan
 
-  - `url-polyfill`
+  - URL Polyfill
     > Copyright (c) 2017 Valentin Richard
 
-  - `url-search-params-polyfill`
+  - URL Search Params Polyfill
     > Copyright (c) 2016 Jerry Bendy
