@@ -56,17 +56,17 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 
 
 
-[changelog]: ./CHANGELOG.md
+[changelog]: https://github.com/hellosign/hellosign-embedded/CHANGELOG.md
 
 [badge_npm-version]: https://img.shields.io/npm/v/hellosign-embedded.svg
 [badge_npm-downloads]: https://img.shields.io/npm/dm/hellosign-embedded.svg
 [badge_david]: https://img.shields.io/david/hellosign/hellosign-embedded.svg
 [badge_travis]: https://img.shields.io/travis/hellosign/hellosign-embedded/master.svg
 
-[wiki_home]: ./wiki
-[wiki_api-documentation]: ./wiki/API-Documentation-(v2)
-[wiki_migration-guide]: ./wiki/Migration-Guide-(v1-to-v2)
-[wiki_quickstart]: ./wiki/Quickstart
+[wiki_home]: https://github.com/hellosign/hellosign-embedded/wiki
+[wiki_api-documentation]: https://github.com/hellosign/hellosign-embedded/wiki/API-Documentation-(v2)
+[wiki_migration-guide]: https://github.com/hellosign/hellosign-embedded/wiki/Migration-Guide-(v1-to-v2)
+[wiki_quickstart]: https://github.com/hellosign/hellosign-embedded/wiki/Quickstart
 
 [external_david]: https://david-dm.org/hellosign/hellosign-embedded
 [external_demo]: https://github.com/hellosign/hellosign-embedded-demo
