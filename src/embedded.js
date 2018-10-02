@@ -246,13 +246,24 @@ class HelloSign extends Emitter {
    * @private
    */
   _applyLocale(params) {
+    const locales = settings.locales;
     const val = this._config.locale;
 
     if (typeof val !== 'string') {
       throw new TypeError('"locale" must be a string');
     }
 
-    if (!Object.values(settings.locales).includes(val)) {
+    // Stop-gap until Object.values() is more widely
+    // supported.
+    //
+    // The Array.prototype.some method (IE9+) tests whether
+    // at least one element in the array passes the test
+    // implemented by the provided function.
+    const isSupportedLocale = Object.keys(locales).some((key) => {
+      return locales[key] === val;
+    });
+
+    if (!isSupportedLocale) {
       throw new TypeError(`"${val}" is not a supported locale`);
     }
 
