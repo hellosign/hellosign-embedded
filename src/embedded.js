@@ -454,7 +454,7 @@ class HelloSign extends Emitter {
     if (this._config.container) {
       elem.innerHTML = safeHtml`
         <div class="${settings.classNames.BASE}">
-          <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" />
+          <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" scrolling="no" />
         </div>
       `;
     } else {
