@@ -469,7 +469,7 @@ class HelloSign extends Emitter {
           </div>
         ` : ''
       ) + safeHtml`
-            <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" />
+            <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" scrolling="no" />
           </div>
         </div>
       `;

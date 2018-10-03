@@ -103,6 +103,11 @@
   min-height: 400px;
   background-color: $hellosign-plume;
   height: 100%;
-  width: 100%;
   border: none;
+
+  // Fix 100% width iFrame on iOS.
+  // https://stackoverflow.com/a/20142280
+  min-width: 100%;
+  width: 100px;
+  *width: 100%;
 }
