@@ -209,7 +209,7 @@ class HelloSign extends Emitter {
         throw new TypeError('"finalButtonText" must be a string');
       }
 
-      if (!['Send', 'Continue'].includes(val)) {
+      if (['Send', 'Continue'].indexOf(val) === -1) {
         throw new TypeError('"finalButtonText" must be either "Send" or "Continue"');
       }
 
@@ -418,11 +418,11 @@ class HelloSign extends Emitter {
    * @private
    */
   _updateEmbeddedType(url) {
-    if (url.includes('embeddedSign')) {
+    if (url.indexOf('embeddedSign') >= 0) {
       this._embeddedType = settings.types.EMBEDDED_SIGN;
-    } else if (url.includes('embeddedTemplate')) {
+    } else if (url.indexOf('embeddedTemplate') >= 0) {
       this._embeddedType = settings.types.EMBEDDED_TEMPLATE;
-    } else if (url.includes('embeddedRequest')) {
+    } else if (url.indexOf('embeddedRequest') >= 0) {
       this._embeddedType = settings.types.EMBEDDED_REQUEST;
     }
   }
