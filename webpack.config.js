@@ -5,7 +5,6 @@ const pkg = require('./package.json');
 
 const config = {
   entry: [
-    '@babel/polyfill/noconflict',
     'url-polyfill',
     'url-search-params-polyfill',
     './src/sass/embedded.scss',

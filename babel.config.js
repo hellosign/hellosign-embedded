@@ -2,8 +2,12 @@ module.exports = {
   presets: [
     ['@babel/preset-env', {
       targets: {
-        browsers: ['ie >= 11'],
+        // Officially we support IE11+, but we'll include a
+        // a few extra polyfills to be nice. It doesn't add
+        // much more weight.
+        browsers: ['IE >= 9'],
       },
+      useBuiltIns: 'usage',
     }],
   ],
   plugins: [
