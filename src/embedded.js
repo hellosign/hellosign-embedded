@@ -209,7 +209,7 @@ class HelloSign extends Emitter {
         throw new TypeError('"finalButtonText" must be a string');
       }
 
-      if (['Send', 'Continue'].indexOf(val) === -1) {
+      if (!['Send', 'Continue'].includes(val)) {
         throw new TypeError('"finalButtonText" must be either "Send" or "Continue"');
       }
 
@@ -246,24 +246,13 @@ class HelloSign extends Emitter {
    * @private
    */
   _applyLocale(params) {
-    const locales = settings.locales;
     const val = this._config.locale;
 
     if (typeof val !== 'string') {
       throw new TypeError('"locale" must be a string');
     }
 
-    // Stop-gap until Object.values() is more widely
-    // supported.
-    //
-    // The Array.prototype.some method (IE9+) tests whether
-    // at least one element in the array passes the test
-    // implemented by the provided function.
-    const isSupportedLocale = Object.keys(locales).some((key) => {
-      return locales[key] === val;
-    });
-
-    if (!isSupportedLocale) {
+    if (!Object.values(settings.locales).includes(val)) {
       throw new TypeError(`"${val}" is not a supported locale`);
     }
 
@@ -418,11 +407,11 @@ class HelloSign extends Emitter {
    * @private
    */
   _updateEmbeddedType(url) {
-    if (url.indexOf('embeddedSign') >= 0) {
+    if (url.includes('embeddedSign')) {
       this._embeddedType = settings.types.EMBEDDED_SIGN;
-    } else if (url.indexOf('embeddedTemplate') >= 0) {
+    } else if (url.includes('embeddedTemplate')) {
       this._embeddedType = settings.types.EMBEDDED_TEMPLATE;
-    } else if (url.indexOf('embeddedRequest') >= 0) {
+    } else if (url.includes('embeddedRequest')) {
       this._embeddedType = settings.types.EMBEDDED_REQUEST;
     }
   }
