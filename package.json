@@ -54,7 +54,7 @@
     "sass-loader": "^7.1.0",
     "standard-version": "^4.4.0",
     "style-loader": "^0.23.0",
-    "url-polyfill": "^1.1.0",
+    "url-polyfill": "^1.0.14",
     "url-search-params-polyfill": "^5.0.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2"
