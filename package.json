@@ -1,6 +1,6 @@
 {
   "name": "hellosign-embedded",
-  "version": "2.0.0-12",
+  "version": "2.0.0-13",
   "description": "Embed HelloSign signature requests and templates from within your web application.",
   "main": "index.js",
   "license": "MIT",
