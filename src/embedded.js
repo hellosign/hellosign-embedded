@@ -691,13 +691,19 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Called when the user closed the request.
+   * @event HelloSign#cancel
+   */
+
+  /**
+   * Called when the user canceled the request.
    *
-   * @param {Object} payload
+   * @emits HelloSign#cancel
    * @private
    */
-  _userDidCloseRequest() {
-    debug.info('user requested that the window be closed');
+  _userDidCancelRequest() {
+    debug.info('user canceled the signature request');
+
+    this.emit(settings.events.CANCEL);
 
     this.close();
   }
@@ -742,6 +748,24 @@ class HelloSign extends Emitter {
     debug.info('user declined the signature request');
 
     this.emit(settings.events.DECLINE, payload);
+  }
+
+  /**
+   * @event HelloSign#finish
+   */
+
+  /**
+   * Called when the user finished the request.
+   *
+   * @emits HelloSign#finish
+   * @private
+   */
+  _userDidFinishRequest() {
+    debug.info('user finished the signature request');
+
+    this.emit(settings.events.FINISH);
+
+    this.close();
   }
 
   /**
@@ -820,7 +844,7 @@ class HelloSign extends Emitter {
     if (elem.classList.contains(settings.classNames.MODAL_CLOSE_BTN)) {
       evt.preventDefault();
 
-      this.close();
+      this._userDidCancelRequest();
     }
   }
 
@@ -885,8 +909,8 @@ class HelloSign extends Emitter {
         this._appDidRequestDomainVerification(payload);
         break;
       }
-      case settings.messages.USER_CLOSE_REQUEST: {
-        this._userDidCloseRequest(payload);
+      case settings.messages.USER_CANCEL_REQUEST: {
+        this._userDidCancelRequest();
         break;
       }
       case settings.messages.USER_CREATE_TEMPLATE: {
@@ -895,6 +919,10 @@ class HelloSign extends Emitter {
       }
       case settings.messages.USER_DECLINE_REQUEST: {
         this._userDidDeclineRequest(payload);
+        break;
+      }
+      case settings.messages.USER_FINISH_REQUEST: {
+        this._userDidFinishRequest();
         break;
       }
       case settings.messages.USER_REASSIGN_REQUEST: {
@@ -911,7 +939,7 @@ class HelloSign extends Emitter {
       }
       default: {
         // Unhandled message.
-        debug.warn('unhandled cross-origin window message');
+        debug.warn('unhandled cross-origin window message', type);
       }
     }
   }
