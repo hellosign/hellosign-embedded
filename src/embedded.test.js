@@ -602,7 +602,7 @@ describe('HelloSign', () => {
         }, 3000);
       });
 
-      test('sends the "ready" event when app has initialized', (done) => {
+      test('emits the "ready" event when app has initialized', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.READY, (data) => {
@@ -622,7 +622,7 @@ describe('HelloSign', () => {
         client.open(mockSignURL);
       });
 
-      test('sends the "error" event when app has errored', (done) => {
+      test('emits the "error" event when app has errored', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.ERROR, (data) => {
@@ -644,7 +644,29 @@ describe('HelloSign', () => {
         client.open(mockSignURL);
       });
 
-      test('sends the "sign" event when the signature request has been signed', (done) => {
+      test('emits the "message" event when the app has posted a message', (done) => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        const message = {
+          type: HelloSign.messages.APP_INITIALIZE,
+          payload: {
+            signatureId: mockSignatureId,
+          },
+        };
+
+        client.once(HelloSign.events.MESSAGE, (data) => {
+          expect(data).toMatchObject(message);
+          done();
+        });
+
+        client.once('open', () => {
+          mockPostMessage(message);
+        });
+
+        client.open(mockSignURL);
+      });
+
+      test('emits the "sign" event when the signature request has been signed', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.SIGN, (data) => {
@@ -664,7 +686,7 @@ describe('HelloSign', () => {
         client.open(mockSignURL);
       });
 
-      test('sends the "reassign" event when the signature request has been reassigned', (done) => {
+      test('emits the "reassign" event when the signature request has been reassigned', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.REASSIGN, (data) => {
@@ -690,7 +712,7 @@ describe('HelloSign', () => {
         client.open(mockSignURL);
       });
 
-      test('sends the "decline" event when the signature request has been declined', (done) => {
+      test('emits the "decline" event when the signature request has been declined', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.DECLINE, (data) => {
@@ -712,7 +734,23 @@ describe('HelloSign', () => {
         client.open(mockSignURL);
       });
 
-      test('closes when the app has sent a close request message', (done) => {
+      test('emits the "finish" event when the signature request has been finished', (done) => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        client.once(HelloSign.events.FINISH, () => {
+          done();
+        });
+
+        client.once('open', () => {
+          mockPostMessage({
+            type: HelloSign.messages.USER_FINISH_REQUEST,
+          });
+        });
+
+        client.open(mockSignURL);
+      });
+
+      test('closes when the signature request has been canceled', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.CLOSE, () => {
@@ -721,7 +759,23 @@ describe('HelloSign', () => {
 
         client.once('open', () => {
           mockPostMessage({
-            type: HelloSign.messages.USER_CLOSE_REQUEST,
+            type: HelloSign.messages.USER_CANCEL_REQUEST,
+          });
+        });
+
+        client.open(mockSignURL);
+      });
+
+      test('closes when the signature request has been finished', (done) => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        client.once(HelloSign.events.CLOSE, () => {
+          done();
+        });
+
+        client.once('open', () => {
+          mockPostMessage({
+            type: HelloSign.messages.USER_FINISH_REQUEST,
           });
         });
 
@@ -764,7 +818,7 @@ describe('HelloSign', () => {
         expect(closeBtn.length).toBe(1);
       });
 
-      test('sends the "send" event when the signature request has been sent', (done) => {
+      test('emits the "send" event when the signature request has been sent', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.SEND, (data) => {
@@ -780,22 +834,6 @@ describe('HelloSign', () => {
               signatureRequestId: mockSignatureRequestId,
               signatureId: mockSignatureId,
             },
-          });
-        });
-
-        client.open(mockRequestURL);
-      });
-
-      test('closes when the app has sent a close request message', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        client.once(HelloSign.events.CLOSE, () => {
-          done();
-        });
-
-        client.once('open', () => {
-          mockPostMessage({
-            type: HelloSign.messages.USER_CLOSE_REQUEST,
           });
         });
 
@@ -821,7 +859,7 @@ describe('HelloSign', () => {
         expect(closeBtn.length).toBe(1);
       });
 
-      test('sends the "createTmeplate" event when the signature request template has been created', (done) => {
+      test('sends the "createTemplate" event when the signature request template has been created', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once(HelloSign.events.CREATE_TEMPLATE, (data) => {
@@ -839,22 +877,6 @@ describe('HelloSign', () => {
               signatureRequestInfo: {},
               signerRoles: ['Signer'],
             },
-          });
-        });
-
-        client.open(mockTemplatetURL);
-      });
-
-      test('closes when the app has sent a close request message', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        client.once(HelloSign.events.CLOSE, () => {
-          done();
-        });
-
-        client.once('open', () => {
-          mockPostMessage({
-            type: HelloSign.messages.USER_CLOSE_REQUEST,
           });
         });
 
