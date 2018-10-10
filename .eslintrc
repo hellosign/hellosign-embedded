@@ -1,0 +1,30 @@
+{
+  "extends": "@hellosign",
+  "parser": "babel-eslint",
+  "env": {
+    "jest": true
+  },
+  "globals": {
+    "__PKG_NAME__": true,
+    "__PKG_VERSION__": true
+  },
+  "plugins": [
+    "compat"
+  ],
+  "rules": {
+    "arrow-body-style": "off",
+    "class-methods-use-this": "off",
+    "compat/compat": "error",
+    "global-require": "off",
+    "no-else-return": "off",
+    "no-underscore-dangle": "off",
+    "padded-blocks": "off",
+    "prefer-destructuring": "off"
+  },
+  "settings": {
+    "polyfills": [
+      "url",
+      "urlsearchparams"
+    ]
+  }
+}
