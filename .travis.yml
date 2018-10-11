@@ -22,10 +22,3 @@ deploy:
     tag: latest
     on:
       branch: master
-  - provider: releases
-    api_key: $GITHUB_OAUTH_TOKEN
-    file_glob: true
-    file: umd/*
-    skip_cleanup: true
-    on:
-      branch: master
