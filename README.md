@@ -56,7 +56,7 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 
 
 
-[changelog]: https://github.com/hellosign/hellosign-embedded/CHANGELOG.md
+[changelog]: https://github.com/hellosign/hellosign-embedded/blob/master/CHANGELOG.md
 
 [badge_npm-version]: https://img.shields.io/npm/v/hellosign-embedded.svg
 [badge_npm-downloads]: https://img.shields.io/npm/dm/hellosign-embedded.svg
