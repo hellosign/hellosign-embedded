@@ -1,43 +1,63 @@
 const path = require('path');
+const webpack = require('webpack');
 
-module.exports = [
-  {
-    entry: './src/embedded.js',
-    mode: 'development',
-    devtool: 'inline-source-map',
-    output: {
-      path: path.join(__dirname, 'umd'),
-      filename: 'embedded.development.js',
-      library: 'HelloSign',
-      libraryTarget: 'umd'
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: 'babel-loader'
-        }
-      ]
-    }
+const pkg = require('./package.json');
+
+const config = {
+  entry: [
+    'url-polyfill',
+    'url-search-params-polyfill',
+    './src/sass/embedded.scss',
+    './src/embedded.js',
+  ],
+  output: {
+    path: path.join(__dirname, 'umd'),
+    filename: 'embedded.js',
+    library: 'HelloSign',
+    libraryExport: 'default',
+    libraryTarget: 'umd',
   },
-  {
-    entry: './src/embedded.js',
-    mode: 'production',
-    output: {
-      path: path.join(__dirname, 'umd'),
-      filename: 'embedded.production.min.js',
-      library: 'HelloSign',
-      libraryTarget: 'umd'
-    },
-    module: {
-      rules: [
-        {
-          test: /\.js$/,
-          exclude: /(node_modules|bower_components)/,
-          use: 'babel-loader'
-        }
-      ]
-    }
-  }
-];
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: 'babel-loader',
+      },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
+      },
+    ],
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __PKG_NAME__: JSON.stringify(pkg.name),
+      __PKG_VERSION__: JSON.stringify(pkg.version),
+    }),
+  ],
+};
+
+const devConfig = {
+  ...config,
+  name: 'dev',
+  mode: 'development',
+  devtool: 'inline-source-map',
+  output: {
+    ...config.output,
+    filename: 'embedded.development.js',
+  },
+};
+
+const prodConfig = {
+  ...config,
+  name: 'prod',
+  mode: 'production',
+  devtool: 'none',
+  output: {
+    ...config.output,
+    filename: 'embedded.production.min.js',
+  },
+};
+
+module.exports = [devConfig, prodConfig];

@@ -1,38 +1,63 @@
 {
   "name": "hellosign-embedded",
-  "version": "1.6.1",
+  "version": "2.0.0",
   "description": "Embed HelloSign signature requests and templates from within your web application.",
-  "homepage": "https://github.com/HelloFax/hellosign-embedded",
   "main": "index.js",
-  "license": "ISC",
+  "license": "MIT",
   "scripts": {
     "build": "webpack",
-    "demo": "npm run build && npm start --prefix=demo",
-    "prerelease": "node scripts/pre-release.js",
-    "setup": "npm install && npm run build && npm run setup --prefix=demo",
-    "test": "mocha test"
+    "release": "standard-version",
+    "release:beta": "standard-version --prerelease beta",
+    "test": "jest src"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/HelloFax/hellosign-embedded.git"
+    "url": "git+https://github.com/hellosign/hellosign-embedded.git"
   },
+  "keywords": [
+    "hellosign",
+    "embedded",
+    "esignature",
+    "esign",
+    "sign"
+  ],
   "author": {
     "name": "HelloSign",
-    "email": "api@hellosign.com",
+    "email": "apisupport@hellosign.com",
     "url": "https://hellosign.com"
   },
+  "bugs": {
+    "url": "https://github.com/hellosign/hellosign-embedded/issues"
+  },
+  "homepage": "https://github.com/hellosign/hellosign-embedded",
+  "dependencies": {
+    "common-tags": "^1.8.0",
+    "debug": "^3.2.5",
+    "tiny-emitter": "^2.0.2"
+  },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.42",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0-beta.42",
-    "@babel/plugin-transform-object-assign": "^7.0.0-beta.42",
-    "@babel/preset-env": "^7.0.0-beta.42",
-    "babel-loader": "^8.0.0-beta.2",
-    "chai": "^4.1.2",
-    "jsdom": "^11.6.2",
-    "jsdom-global": "^3.0.2",
-    "mocha": "^5.0.4",
-    "webpack": "^4.2.0",
-    "webpack-cli": "^2.0.13"
+    "@babel/core": "^7.1.2",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "@hellosign/eslint-config": "^1.3.1",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.0",
+    "eslint": "^5.6.1",
+    "eslint-plugin-compat": "^2.6.1",
+    "jest": "^23.6.0",
+    "jest-runner-eslint": "^0.6.0",
+    "node-sass": "^4.9.3",
+    "sass-loader": "^7.1.0",
+    "standard-version": "^4.4.0",
+    "style-loader": "^0.23.0",
+    "url-polyfill": "^1.0.14",
+    "url-search-params-polyfill": "^5.0.0",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   },
   "files": [
     "umd",
