@@ -349,6 +349,17 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Appends the "ux_version" parameter to the iFrame
+   * params object.
+   *
+   * @param {URLSearchParams} params
+   * @private
+   */
+  _applyUxVersion(params) {
+    params.append('ux_version', '2');
+  }
+
+  /**
    * Appends the "js_version" parameter to the iFrame params
    * object.
    *
@@ -378,6 +389,7 @@ class HelloSign extends Emitter {
     this._applyRedirectTo(params);
     this._applyRequestingEmail(params);
     this._applySkipDomainVerification(params);
+    this._applyUxVersion(params);
     this._applyVersion(params);
     this._applyWhiteLabeling(params);
 
