@@ -4,37 +4,83 @@ node_js:
 before_script:
   - npm run build
 deploy:
+
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting alpha, beta,
+  # or stable versions to HelloSign's S3 bucket so that
+  # they may be served and distributed globally via
+  # HelloSign's CDN powered by CloudFront.
+  #
+  # cdn.hellosign.com/public/js/embedded
   - provider: s3
+    skip_cleanup: true
     access_key_id: $S3_ACCESS_KEY_ID
     secret_access_key: $S3_SECRET_ACCESS_KEY
     bucket: $S3_BUCKET
-    skip_cleanup: true
     upload_dir: public/js/embedded/${TRAVIS_TAG}
     local_dir: umd
     on:
       tags: true
-      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)\.[0-9]+)?$ # All releases.
-  - provider: releases
-    api_key: $GITHUB_OAUTH_TOKEN
-    file_glob: true
-    file: umd/*
-    skip_cleanup: true
-    on:
-      tags: true
-      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ # Stable releases only.
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)\.[0-9]+)?$
+
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only stable
+  # versions to npm tagged as "latest".
+  #
+  # npmjs.com/package/hellosign-embedded
   - provider: npm
+    skip_cleanup: true
     email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
-    skip_cleanup: true
     tag: latest
     on:
       tags: true
-      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ # Stable releases only.
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$
+
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only alpha or
+  # beta versions to npm tagged as "next".
+  #
+  # npmjs.com/package/hellosign-embedded
   - provider: npm
+    skip_cleanup: true
     email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
-    skip_cleanup: true
     tag: next
     on:
       tags: true
-      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$ # Pre-releases only.
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$
+
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only stable
+  # versions to GitHub releases.
+  #
+  # github.com/hellosign/hellosign-embedded/releases
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: umd/*
+    tag_name: $TRAVIS_TAG
+    target_commitish: $TRAVIS_COMMIT
+    on:
+      tags: true
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$
+
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only alpha or
+  # beta versions to GitHub releases and tagged as
+  # "prerelease".
+  #
+  # github.com/hellosign/hellosign-embedded/releases
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: umd/*
+    tag_name: $TRAVIS_TAG
+    target_commitish: $TRAVIS_COMMIT
+    prerelease: true
+    on:
+      tags: true
+      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$
