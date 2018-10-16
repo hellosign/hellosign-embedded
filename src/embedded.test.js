@@ -219,7 +219,7 @@ describe('HelloSign', () => {
           client.open(mockSignURL, {
             finalButtonText: 'foobar',
           });
-        }).toThrow(/"finalButtonText" must be either "Send" or "Continue"/);
+        }).toThrow(/"finalButtonText" must be one of/);
       });
 
       test('appends "final_button_text" to the iFrame URL if "finalButtonText" is valid', (done) => {

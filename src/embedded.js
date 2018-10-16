@@ -209,8 +209,8 @@ class HelloSign extends Emitter {
         throw new TypeError('"finalButtonText" must be a string');
       }
 
-      if (!['Send', 'Continue'].includes(val)) {
-        throw new TypeError('"finalButtonText" must be either "Send" or "Continue"');
+      if (!['Save', 'Send', 'Continue'].includes(val)) {
+        throw new TypeError('"finalButtonText" must be one of "Save", "Send", or "Continue"');
       }
 
       params.append('final_button_text', val);
