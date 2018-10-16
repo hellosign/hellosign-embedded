@@ -569,10 +569,10 @@ describe('HelloSign', () => {
 
         const closeBtn = document.getElementsByClassName(settings.classNames.MODAL_CLOSE_BTN);
 
-        expect(closeBtn.length).toBe(0);
+        expect(closeBtn.length).toBe(1);
       });
 
-      test('doesn\t throw when sent an unrecognized message', (done) => {
+      test('doesn\'t throw when sent an unrecognized message', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
         client.once('open', () => {
