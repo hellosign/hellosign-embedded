@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.1"></a>
+## [2.0.1](https://github.com/hellosign/hellosign-embedded/compare/v2.0.0...v2.0.1) (2018-10-17)
+
+* Add close button to Embedded signing workflow ([176cfb8](https://github.com/hellosign/hellosign-embedded/commit/176cfb8))
+* Allow "Save" to be used as final button text ([ab9456d](https://github.com/hellosign/hellosign-embedded/commit/ab9456d))
+* Automatically apply UX version 2 to all requests ([8542a37](https://github.com/hellosign/hellosign-embedded/commit/8542a37))
+* README Changelog link ([1749ed2](https://github.com/hellosign/hellosign-embedded/commit/1749ed2))
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/hellosign/hellosign-embedded/compare/v1.6.0...v2.0.0) (2018-10-11)
 
