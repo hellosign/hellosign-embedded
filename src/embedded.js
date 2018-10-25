@@ -78,14 +78,6 @@ class HelloSign extends Emitter {
   _config = null;
 
   /**
-   * The embedded flow type.
-   *
-   * @type {?string}
-   * @private
-   */
-  _embeddedType = null;
-
-  /**
    * The iFrame URL object.
    *
    * @type {?URL}
@@ -116,6 +108,14 @@ class HelloSign extends Emitter {
    * @private
    */
   _isOpen = false;
+
+  /**
+   * Whether the app is ready or not.
+   *
+   * @type {?boolean}
+   * @private
+   */
+  _isReady = false;
 
   /**
    * @type {Function}
@@ -412,23 +412,6 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Updates the type of embedded request base on the URL.
-   *
-   * @param {string} url
-   * @returns {void}
-   * @private
-   */
-  _updateEmbeddedType(url) {
-    if (url.includes('embeddedSign')) {
-      this._embeddedType = settings.types.EMBEDDED_SIGN;
-    } else if (url.includes('embeddedTemplate')) {
-      this._embeddedType = settings.types.EMBEDDED_TEMPLATE;
-    } else if (url.includes('embeddedRequest')) {
-      this._embeddedType = settings.types.EMBEDDED_REQUEST;
-    }
-  }
-
-  /**
    * Renders the HelloSign Embedded markup.
    *
    * We would like to have used HTML Content Templates or
@@ -615,18 +598,6 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Starts the initialization timeout timer if this
-   * embedded flow is for embedded signing.
-   *
-   * @private
-   */
-  _maybeStartInitTimeout() {
-    if (this._embeddedType === settings.types.EMBEDDED_SIGN) {
-      this._startInitTimeout();
-    }
-  }
-
-  /**
    * @event HelloSign#error
    * @type {Object}
    * @property {string} signatureId
@@ -661,6 +632,8 @@ class HelloSign extends Emitter {
    */
   _appDidInitialize(payload) {
     debug.info('app was initialized');
+
+    this._isReady = true;
 
     this.emit(settings.events.READY, payload);
 
@@ -858,7 +831,11 @@ class HelloSign extends Emitter {
     if (elem.classList.contains(settings.classNames.MODAL_CLOSE_BTN)) {
       evt.preventDefault();
 
-      this._sendCancelRequestMessage();
+      if (this._isReady) {
+        this._sendCancelRequestMessage();
+      } else {
+        this.close();
+      }
     }
   }
 
@@ -1010,17 +987,15 @@ class HelloSign extends Emitter {
     }
 
     this._updateFrameUrl(url);
-    this._updateEmbeddedType(url);
     this._appendMarkup();
-    this._maybeStartInitTimeout();
+    this._startInitTimeout();
 
     this._isOpen = true;
 
     window.addEventListener('message', this._onMessage);
 
     this.emit(settings.events.OPEN, {
-      iFrameUrl: this._iFrameURL.href,
-      url,
+      url: this._iFrameURL.href,
     });
   }
 
@@ -1049,10 +1024,10 @@ class HelloSign extends Emitter {
 
     this._config = null;
     this._baseEl = null;
-    this._embeddedType = null;
     this._iFrameEl = null;
     this._iFrameURL = null;
     this._isOpen = false;
+    this._isReady = false;
 
     window.removeEventListener('message', this._onMessage);
 
@@ -1095,6 +1070,14 @@ class HelloSign extends Emitter {
    */
   get isOpen() {
     return this._isOpen;
+  }
+
+  /**
+   * @returns {boolean}
+   * @public
+   */
+  get isReady() {
+    return this._isReady;
   }
 }
 
