@@ -525,6 +525,19 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Sends a cancel request message to the app.
+   *
+   * @private
+   */
+  _sendCancelRequestMessage() {
+    debug.info('sending cancel request message');
+
+    this._sendMessage({
+      type: settings.messages.USER_CANCEL_REQUEST,
+    });
+  }
+
+  /**
    * Sends the configuration message to the app.
    *
    * @private
@@ -845,7 +858,7 @@ class HelloSign extends Emitter {
     if (elem.classList.contains(settings.classNames.MODAL_CLOSE_BTN)) {
       evt.preventDefault();
 
-      this._userDidCancelRequest();
+      this._sendCancelRequestMessage();
     }
   }
 
