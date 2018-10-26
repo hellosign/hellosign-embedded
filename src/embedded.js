@@ -604,6 +604,20 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Starts the initialization timeout timerif the workflow
+   * is embedded signing.
+   *
+   * @private
+   */
+  _maybeStartInitTimeout() {
+    if (this._iFrameURL.href.includes('embeddedSign')) {
+      // Start the initialization timeout because this is
+      // embedded signing.
+      this._startInitTimeout();
+    }
+  }
+
+  /**
    * @event HelloSign#error
    * @type {Object}
    * @property {string} signatureId
