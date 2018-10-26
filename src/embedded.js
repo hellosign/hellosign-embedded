@@ -133,6 +133,12 @@ class HelloSign extends Emitter {
    * @type {Function}
    * @private
    */
+  _onBeforeUnload = this._onBeforeUnload.bind(this);
+
+  /**
+   * @type {Function}
+   * @private
+   */
   _onMessage = this._onMessage.bind(this);
 
   /**
@@ -861,6 +867,28 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Called when the user navigates away from the page in
+   * some way. Although modern browsers will likely block
+   * this message, the browser may still natively confirm
+   * with the user if they want to leave or stay on the
+   * page.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/Events/beforeunload
+   * @param {BeforeUnloadEvent} evt
+   * @private
+   */
+  _onBeforeUnload(evt) {
+    if (this._isReady) {
+      if (!confirm('Are you sure you want to close this signature request?')) {
+        evt.preventDefault();
+
+        // Chrome requires returnValue to be set.
+        evt.returnValue = '';
+      }
+    }
+  }
+
+  /**
    * Called when a message is received by the window.
    * Validates the message origin and delegates to the
    * appropriate method based on the message type.
@@ -988,11 +1016,12 @@ class HelloSign extends Emitter {
 
     this._updateFrameUrl(url);
     this._appendMarkup();
-    this._startInitTimeout();
+    this._maybeStartInitTimeout();
 
     this._isOpen = true;
 
     window.addEventListener('message', this._onMessage);
+    window.addEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.OPEN, {
       url: this._iFrameURL.href,
@@ -1030,6 +1059,7 @@ class HelloSign extends Emitter {
     this._isReady = false;
 
     window.removeEventListener('message', this._onMessage);
+    window.removeEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.CLOSE);
   }
