@@ -655,10 +655,10 @@ class HelloSign extends Emitter {
 
     this._isReady = true;
 
-    this.emit(settings.events.READY, payload);
-
     this._sendConfigurationMessage();
     this._clearInitTimeout();
+
+    this.emit(settings.events.READY, payload);
   }
 
   /**
@@ -893,6 +893,7 @@ class HelloSign extends Emitter {
    */
   _onBeforeUnload(evt) {
     if (this._isReady) {
+      /* eslint-disable-next-line no-restricted-globals */
       if (!confirm('Are you sure you want to close this signature request? You will lose your changes.')) {
         evt.preventDefault();
 

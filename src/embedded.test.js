@@ -82,6 +82,33 @@ describe('HelloSign', () => {
         expect(client.isOpen).toEqual(false);
       });
     });
+
+    describe('#isReady()', () => {
+      test('returns the ready state', (done) => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        expect(client.isReady).toEqual(false);
+
+        client.once('open', () => {
+          mockPostMessage({
+            type: HelloSign.messages.APP_INITIALIZE,
+          });
+        });
+
+        client.once('ready', () => {
+          expect(client.isReady).toEqual(true);
+
+          client.close();
+        });
+
+        client.once('close', () => {
+          expect(client.isReady).toEqual(false);
+          done();
+        });
+
+        client.open(mockSignURL);
+      });
+    });
   });
 
   describe('methods', () => {
@@ -814,19 +841,6 @@ describe('HelloSign', () => {
         expect(closeBtn.length).toBe(1);
       });
 
-      test('closes the signature request if it does not initialize before the timeout', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        client.open(mockRequestURL, {
-          timeout: 2000,
-        });
-
-        setTimeout(() => {
-          expect(client.isOpen).toBe(false);
-          done();
-        }, 3000);
-      });
-
       test('emits the "ready" event when app has initialized', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
@@ -882,19 +896,6 @@ describe('HelloSign', () => {
         const closeBtn = document.getElementsByClassName(settings.classNames.MODAL_CLOSE_BTN);
 
         expect(closeBtn.length).toBe(1);
-      });
-
-      test('closes the signature request if it does not initialize before the timeout', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        client.open(mockTemplatetURL, {
-          timeout: 2000,
-        });
-
-        setTimeout(() => {
-          expect(client.isOpen).toBe(false);
-          done();
-        }, 3000);
       });
 
       test('emits the "ready" event when app has initialized', (done) => {
