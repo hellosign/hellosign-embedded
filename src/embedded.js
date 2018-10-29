@@ -893,7 +893,7 @@ class HelloSign extends Emitter {
    */
   _onBeforeUnload(evt) {
     if (this._isReady) {
-      if (!confirm('Are you sure you want to close this signature request?')) {
+      if (!confirm('Are you sure you want to close this signature request? You will lose your changes.')) {
         evt.preventDefault();
 
         // Chrome requires returnValue to be set.
