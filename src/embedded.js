@@ -78,14 +78,6 @@ class HelloSign extends Emitter {
   _config = null;
 
   /**
-   * The embedded flow type.
-   *
-   * @type {?string}
-   * @private
-   */
-  _embeddedType = null;
-
-  /**
    * The iFrame URL object.
    *
    * @type {?URL}
@@ -118,6 +110,14 @@ class HelloSign extends Emitter {
   _isOpen = false;
 
   /**
+   * Whether the app is ready or not.
+   *
+   * @type {?boolean}
+   * @private
+   */
+  _isReady = false;
+
+  /**
    * @type {Function}
    * @private
    */
@@ -128,6 +128,12 @@ class HelloSign extends Emitter {
    * @private
    */
   _onInitTimeout = this._onInitTimeout.bind(this);
+
+  /**
+   * @type {Function}
+   * @private
+   */
+  _onBeforeUnload = this._onBeforeUnload.bind(this);
 
   /**
    * @type {Function}
@@ -412,23 +418,6 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Updates the type of embedded request base on the URL.
-   *
-   * @param {string} url
-   * @returns {void}
-   * @private
-   */
-  _updateEmbeddedType(url) {
-    if (url.includes('embeddedSign')) {
-      this._embeddedType = settings.types.EMBEDDED_SIGN;
-    } else if (url.includes('embeddedTemplate')) {
-      this._embeddedType = settings.types.EMBEDDED_TEMPLATE;
-    } else if (url.includes('embeddedRequest')) {
-      this._embeddedType = settings.types.EMBEDDED_REQUEST;
-    }
-  }
-
-  /**
    * Renders the HelloSign Embedded markup.
    *
    * We would like to have used HTML Content Templates or
@@ -525,6 +514,19 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Sends a cancel request message to the app.
+   *
+   * @private
+   */
+  _sendCancelRequestMessage() {
+    debug.info('sending cancel request message');
+
+    this._sendMessage({
+      type: settings.messages.USER_CANCEL_REQUEST,
+    });
+  }
+
+  /**
    * Sends the configuration message to the app.
    *
    * @private
@@ -602,13 +604,15 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Starts the initialization timeout timer if this
-   * embedded flow is for embedded signing.
+   * Starts the initialization timeout timerif the workflow
+   * is embedded signing.
    *
    * @private
    */
   _maybeStartInitTimeout() {
-    if (this._embeddedType === settings.types.EMBEDDED_SIGN) {
+    if (this._iFrameURL.href.includes('embeddedSign')) {
+      // Start the initialization timeout because this is
+      // embedded signing.
       this._startInitTimeout();
     }
   }
@@ -649,10 +653,12 @@ class HelloSign extends Emitter {
   _appDidInitialize(payload) {
     debug.info('app was initialized');
 
-    this.emit(settings.events.READY, payload);
+    this._isReady = true;
 
     this._sendConfigurationMessage();
     this._clearInitTimeout();
+
+    this.emit(settings.events.READY, payload);
   }
 
   /**
@@ -845,7 +851,11 @@ class HelloSign extends Emitter {
     if (elem.classList.contains(settings.classNames.MODAL_CLOSE_BTN)) {
       evt.preventDefault();
 
-      this._userDidCancelRequest();
+      if (this._isReady) {
+        this._sendCancelRequestMessage();
+      } else {
+        this.close();
+      }
     }
   }
 
@@ -868,6 +878,29 @@ class HelloSign extends Emitter {
     this._clearInitTimeout();
 
     this.close();
+  }
+
+  /**
+   * Called when the user navigates away from the page in
+   * some way. Although modern browsers will likely block
+   * this message, the browser may still natively confirm
+   * with the user if they want to leave or stay on the
+   * page.
+   *
+   * @see https://developer.mozilla.org/en-US/docs/Web/Events/beforeunload
+   * @param {BeforeUnloadEvent} evt
+   * @private
+   */
+  _onBeforeUnload(evt) {
+    if (this._isReady) {
+      /* eslint-disable-next-line no-restricted-globals */
+      if (!confirm('Are you sure you want to close this signature request? You will lose your changes.')) {
+        evt.preventDefault();
+
+        // Chrome requires returnValue to be set.
+        evt.returnValue = '';
+      }
+    }
   }
 
   /**
@@ -997,17 +1030,16 @@ class HelloSign extends Emitter {
     }
 
     this._updateFrameUrl(url);
-    this._updateEmbeddedType(url);
     this._appendMarkup();
     this._maybeStartInitTimeout();
 
     this._isOpen = true;
 
     window.addEventListener('message', this._onMessage);
+    window.addEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.OPEN, {
-      iFrameUrl: this._iFrameURL.href,
-      url,
+      url: this._iFrameURL.href,
     });
   }
 
@@ -1036,12 +1068,13 @@ class HelloSign extends Emitter {
 
     this._config = null;
     this._baseEl = null;
-    this._embeddedType = null;
     this._iFrameEl = null;
     this._iFrameURL = null;
     this._isOpen = false;
+    this._isReady = false;
 
     window.removeEventListener('message', this._onMessage);
+    window.removeEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.CLOSE);
   }
@@ -1082,6 +1115,14 @@ class HelloSign extends Emitter {
    */
   get isOpen() {
     return this._isOpen;
+  }
+
+  /**
+   * @returns {boolean}
+   * @public
+   */
+  get isReady() {
+    return this._isReady;
   }
 }
 
