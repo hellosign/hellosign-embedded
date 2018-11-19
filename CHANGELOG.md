@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/hellosign/hellosign-embedded/compare/v2.0.1...v2.1.0) (2018-11-19)
+
+
+### Features
+
+* **DEV-4831:** Adds close confirmation dialog message when `beforeunload` fires. ([4ac9cca](https://github.com/hellosign/hellosign-embedded/commit/4ac9cca))
+
+
+
 <a name="2.0.1"></a>
 ## [2.0.1](https://github.com/hellosign/hellosign-embedded/compare/v2.0.0...v2.0.1) (2018-10-17)
 
@@ -15,7 +25,7 @@ All notable changes to this project will be documented in this file. See [standa
 # [2.0.0](https://github.com/hellosign/hellosign-embedded/compare/v1.6.0...v2.0.0) (2018-10-11)
 
 
-* [DEV-4322] HelloSign Embedded v2 (#80) ([2702594](https://github.com/hellosign/hellosign-embedded/commit/2702594)), closes [#80](https://github.com/hellosign/hellosign-embedded/issues/80) [#27](https://github.com/hellosign/hellosign-embedded/issues/27) [#31](https://github.com/hellosign/hellosign-embedded/issues/31) [#36](https://github.com/hellosign/hellosign-embedded/issues/36) [#40](https://github.com/hellosign/hellosign-embedded/issues/40) [#47](https://github.com/hellosign/hellosign-embedded/issues/47) [#57](https://github.com/hellosign/hellosign-embedded/issues/57) [#75](https://github.com/hellosign/hellosign-embedded/issues/75)
+* **DEV-4322:** HelloSign Embedded v2 (#80) ([2702594](https://github.com/hellosign/hellosign-embedded/commit/2702594)), closes [#80](https://github.com/hellosign/hellosign-embedded/issues/80) [#27](https://github.com/hellosign/hellosign-embedded/issues/27) [#31](https://github.com/hellosign/hellosign-embedded/issues/31) [#36](https://github.com/hellosign/hellosign-embedded/issues/36) [#40](https://github.com/hellosign/hellosign-embedded/issues/40) [#47](https://github.com/hellosign/hellosign-embedded/issues/47) [#57](https://github.com/hellosign/hellosign-embedded/issues/57) [#75](https://github.com/hellosign/hellosign-embedded/issues/75)
 
 
 ### BREAKING CHANGES
