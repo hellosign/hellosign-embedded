@@ -604,7 +604,7 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Starts the initialization timeout timerif the workflow
+   * Starts the initialization timeout timer if the workflow
    * is embedded signing.
    *
    * @private
