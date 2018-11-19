@@ -112,7 +112,7 @@ class HelloSign extends Emitter {
   /**
    * Whether the app is ready or not.
    *
-   * @type {?boolean}
+   * @type {boolean}
    * @private
    */
   _isReady = false;
