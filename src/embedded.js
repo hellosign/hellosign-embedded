@@ -893,7 +893,7 @@ class HelloSign extends Emitter {
    */
   _onBeforeUnload(evt) {
     if (this._isReady) {
-      /* eslint-disable-next-line no-restricted-globals */
+      /* eslint-disable-next-line no-restricted-globals, no-alert */
       if (!confirm('Are you sure you want to close this signature request? You will lose your changes.')) {
         evt.preventDefault();
 
