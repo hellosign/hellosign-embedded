@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.2"></a>
+## [2.1.2](https://github.com/hellosign/hellosign-embedded/compare/v2.0.1...v2.1.2) (2019-01-22)
+
+
+### Bug Fixes
+
+* Change close button hover color to something more neutral ([8fd0386](https://github.com/hellosign/hellosign-embedded/commit/8fd0386))
+* Only export development version when importing via module ([c6a63cf](https://github.com/hellosign/hellosign-embedded/commit/c6a63cf)), closes [#93](https://github.com/hellosign/hellosign-embedded/issues/93) [#95](https://github.com/hellosign/hellosign-embedded/issues/95)
+
+
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/hellosign/hellosign-embedded/compare/v2.0.1...v2.1.1) (2018-11-20)
 
