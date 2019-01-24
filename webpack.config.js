@@ -21,7 +21,11 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        // Ordinarily we would `exclude: /node_modules/`
+        // here, however some depdendencies use ES6 and
+        // other new syntax. To ensure that our lib works
+        // for as many users as possible, we pipe node
+        // modules through Babel as well. See #99.
         use: 'babel-loader',
       },
       {
