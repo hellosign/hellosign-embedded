@@ -49,7 +49,7 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 <br/>
 <hr/>
 
-&copy; 2018 [HelloSign][external_hellosign]. All rights reserved.
+&copy; 2019 [HelloSign][external_hellosign]. All rights reserved.
 
 
 
