@@ -72,4 +72,4 @@ For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_
 [external_demo]: https://app.hellosign.com/api/embeddedTest
 [external_hellosign]: https://hellosign.com
 [external_npm]: https://npmjs.org/package/hellosign-embedded
-[external_travis]: https://travis-ci.org/hellosign/hellosign-embedded.svg?branch=master
+[external_travis]: https://travis-ci.org/hellosign/hellosign-embedded?branch=master
