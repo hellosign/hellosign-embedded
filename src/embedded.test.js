@@ -428,7 +428,7 @@ describe('HelloSign', () => {
           client.open(mockSignURL, {
             skipDomainVerification: 42,
           });
-        }).toThrow(/"skipDomainVerification" must be a boolean/);
+        }).toThrow(/"testMode" must be a boolean/);
       });
 
       test('appends default value for "skip_domain_verification" to the iFrame URL if "skipDomainVerification" is not specified', (done) => {
@@ -458,6 +458,46 @@ describe('HelloSign', () => {
 
         client.open(mockSignURL, {
           skipDomainVerification: true,
+        });
+      });
+
+      test('throws if "testMode" is not a boolean', () => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        expect(() => {
+          client.open(mockSignURL, {
+            testMode: 42,
+          });
+        }).toThrow(/"testMode" must be a boolean/);
+      });
+
+      test('appends default value for "skip_domain_verification" to the iFrame URL if "testMode" is not specified', (done) => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        client.on(HelloSign.events.OPEN, (data) => {
+          const url = new URL(data.url);
+
+          expect(url.searchParams.has('skip_domain_verification')).toBe(true);
+          expect(url.searchParams.get('skip_domain_verification')).toBe('0');
+          done();
+        });
+
+        client.open(mockSignURL);
+      });
+
+      test('appends "skip_domain_verification" to the iFrame URL if "testMode" is valid', (done) => {
+        client = new HelloSign({ clientId: mockClientId });
+
+        client.on(HelloSign.events.OPEN, (data) => {
+          const url = new URL(data.url);
+
+          expect(url.searchParams.has('skip_domain_verification')).toBe(true);
+          expect(url.searchParams.get('skip_domain_verification')).toBe('1');
+          done();
+        });
+
+        client.open(mockSignURL, {
+          testMode: true,
         });
       });
 
