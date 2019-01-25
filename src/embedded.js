@@ -320,15 +320,15 @@ class HelloSign extends Emitter {
    * Validates and appends the "skip_domain_verification"
    * parameter to the iFrame params object.
    *
-   * @throws {TypeError} if skipDomainVerification is invalid
+   * @throws {TypeError} if testMode is invalid
    * @param {URLSearchParams} params
    * @private
    */
-  _applySkipDomainVerification(params) {
-    const val = this._config.skipDomainVerification;
+  _applyTestMode(params) {
+    const val = this._config.skipDomainVerification || this._config.testMode;
 
     if (typeof val !== 'boolean') {
-      throw new TypeError('"skipDomainVerification" must be a boolean');
+      throw new TypeError('"testMode" must be a boolean');
     }
 
     params.append('skip_domain_verification', val ? 1 : 0);
@@ -394,7 +394,7 @@ class HelloSign extends Emitter {
     this._applyParentURL(params);
     this._applyRedirectTo(params);
     this._applyRequestingEmail(params);
-    this._applySkipDomainVerification(params);
+    this._applyTestMode(params);
     this._applyUxVersion(params);
     this._applyVersion(params);
     this._applyWhiteLabeling(params);
@@ -996,6 +996,7 @@ class HelloSign extends Emitter {
    * @property {string} [redirectTo]
    * @property {string} [requestingEmail]
    * @property {boolean} [skipDomainVerification=false]
+   * @property {boolean} [testMode=false]
    * @property {number} [timeout=30000]
    * @property {Object} [whiteLabeling]
    */

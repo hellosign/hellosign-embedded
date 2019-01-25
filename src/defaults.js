@@ -5,5 +5,6 @@ export default {
   debug: false,
   locale: settings.locales.EN_US,
   skipDomainVerification: false,
+  testMode: false,
   timeout: 30000, // 30 seconds
 };
