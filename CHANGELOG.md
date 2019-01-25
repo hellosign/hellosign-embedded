@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.com/hellosign/hellosign-embedded/compare/v2.1.3...v2.2.0) (2019-01-25)
+
+
+### Bug Fixes
+
+* Transform modules via Babel to CommonJS instead of UMD ([48d560a](https://github.com/hellosign/hellosign-embedded/commit/48d560a))
+
+
+### Features
+
+* add `testMode` as an alias to `skipDomainVerification` ([6d5178b](https://github.com/hellosign/hellosign-embedded/commit/6d5178b))
+
+
+
 <a name="2.1.3"></a>
 ## [2.1.3](https://github.com/hellosign/hellosign-embedded/compare/v2.1.2...v2.1.3) (2019-01-24)
 
