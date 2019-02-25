@@ -258,6 +258,9 @@ class HelloSign extends Emitter {
       throw new TypeError('"locale" must be a string');
     }
 
+    // Object.values() has been polyfilled, eslint-compat
+    // need not raise an exception for it.
+    // eslint-disable-next-line
     if (!Object.values(settings.locales).includes(val)) {
       throw new TypeError(`"${val}" is not a supported locale`);
     }
