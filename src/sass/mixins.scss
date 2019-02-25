@@ -1,5 +1,9 @@
 @mixin mobile {
-  @media screen and (max-width: 767px) {
+  // Viewport width is less than 768px (iPad portrait), or
+  // the viewport is 900px wide but has an aspect ratio of
+  // 16:9 (like an iPhone in landscape).
+  @media only screen and (max-width: 767px),
+         only screen and (max-width: 900px) and (min-aspect-ratio: 16/9) {
     @content;
   }
 }
