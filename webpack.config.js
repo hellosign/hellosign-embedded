@@ -16,6 +16,12 @@ const config = {
     library: 'HelloSign',
     libraryExport: 'default',
     libraryTarget: 'umd',
+
+    // Fixes "ReferenceError: window is not defined" errors
+    // when using server-side rendering (SSR).
+    //
+    // See https://github.com/hellosign/hellosign-embedded/issues/107
+    globalObject: 'typeof self !== \'undefined\' ? self : this',
   },
   module: {
     rules: [
