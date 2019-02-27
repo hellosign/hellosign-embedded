@@ -2,13 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [2.3.0-beta.0](https://github.com/hellosign/hellosign-embedded/compare/v2.2.0...v2.3.0-beta.0) (2019-02-25)
+# [2.3.0](https://github.com/hellosign/hellosign-embedded/compare/v2.3.0-beta.0...v2.3.0) (2019-02-27)
 
 
 ### Bug Fixes
 
 * **DEV-5419:** Close button alignment on IE11 ([844b8a3](https://github.com/hellosign/hellosign-embedded/commit/844b8a3)), closes [#105](https://github.com/hellosign/hellosign-embedded/issues/105)
-* **DEV-5511:** Fix window reference error when using SSR ([da3375e](https://github.com/hellosign/hellosign-embedded/commit/da3375e))
 
 
 ### Features
