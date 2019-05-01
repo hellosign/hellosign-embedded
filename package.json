@@ -52,7 +52,7 @@
     "eslint-plugin-compat": "^2.7.0",
     "jest": "^24.1.0",
     "jest-runner-eslint": "^0.7.3",
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
     "standard-version": "^5.0.0",
     "style-loader": "^0.23.1",
