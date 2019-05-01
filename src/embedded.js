@@ -300,8 +300,9 @@
             ES_MX: 'es_MX',
             PT_BR: 'pt_BR',
             PL_PL: 'pl_PL',
+            JA_JP: 'ja_JP',
             init: function() {
-                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX, this.PT_BR, this.PL_PL];
+                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX, this.PT_BR, this.PL_PL, this.JA_JP];
                 return this;
             }
         }.init(),
