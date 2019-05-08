@@ -58,6 +58,7 @@ const locales = {
   ES_ES: 'es_ES', // Spanish (Spain)
   ES_MX: 'es_MX', // Spanish (Mexico)
   FR_FR: 'fr_FR', // French (France)
+  IT_IT: 'it_IT', // Italian (Italy)
   JA_JP: 'ja_JP', // Japanese (Japan)
   NL_NL: 'nl_NL', // Dutch (Netherlands)
   PL_PL: 'pl_PL', // Polish (Poland)
