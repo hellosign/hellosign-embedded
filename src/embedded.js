@@ -104,7 +104,7 @@ class HelloSign extends Emitter {
   /**
    * Whether the client is open or not.
    *
-   * @type {?boolean}
+   * @type {boolean}
    * @private
    */
   _isOpen = false;
@@ -116,6 +116,14 @@ class HelloSign extends Emitter {
    * @private
    */
   _isReady = false;
+
+  /**
+   * Whether the signature request has been sent or signed.
+   *
+   * @type {boolean}
+   * @private
+   */
+  _isSentOrSigned = false;
 
   /**
    * @type {Function}
@@ -817,6 +825,8 @@ class HelloSign extends Emitter {
   _userDidSendRequest(payload) {
     debug.info('user sent the signature request');
 
+    this._isSentOrSigned = true;
+
     this.emit(settings.events.SEND, payload);
   }
 
@@ -836,6 +846,8 @@ class HelloSign extends Emitter {
   _userDidSignRequest(payload) {
     debug.info('user signed the signature request');
 
+    this._isSentOrSigned = true;
+
     this.emit(settings.events.SIGN, payload);
   }
 
@@ -854,7 +866,15 @@ class HelloSign extends Emitter {
     if (elem.classList.contains(settings.classNames.MODAL_CLOSE_BTN)) {
       evt.preventDefault();
 
-      if (this._isReady) {
+      // If the app is ready but has not yet been sent or
+      // signed, close via the app. Otherwise, we force
+      // close without notifying the app. This is because
+      // the close button can represent a "cancel" or a
+      // "close" depdending on the state of the request,
+      // but Embedded is not aware of this state. Therefore
+      // we send the close request down to the app so that
+      // the app can determine the proper close type.
+      if (this._isReady && !this._isSentOrSigned) {
         this._sendCancelRequestMessage();
       } else {
         this.close();
@@ -934,50 +954,39 @@ class HelloSign extends Emitter {
    */
   _delegateMessage({ type, payload }) {
     switch (type) {
-      case settings.messages.APP_ERROR: {
+      case settings.messages.APP_ERROR:
         this._appDidError(payload);
         break;
-      }
-      case settings.messages.APP_INITIALIZE: {
+      case settings.messages.APP_INITIALIZE:
         this._appDidInitialize(payload);
         break;
-      }
-      case settings.messages.APP_VERIFY_DOMAIN_REQUEST: {
+      case settings.messages.APP_VERIFY_DOMAIN_REQUEST:
         this._appDidRequestDomainVerification(payload);
         break;
-      }
-      case settings.messages.USER_CANCEL_REQUEST: {
+      case settings.messages.USER_CANCEL_REQUEST:
         this._userDidCancelRequest();
         break;
-      }
-      case settings.messages.USER_CREATE_TEMPLATE: {
+      case settings.messages.USER_CREATE_TEMPLATE:
         this._userDidCreateTemplate(payload);
         break;
-      }
-      case settings.messages.USER_DECLINE_REQUEST: {
+      case settings.messages.USER_DECLINE_REQUEST:
         this._userDidDeclineRequest(payload);
         break;
-      }
-      case settings.messages.USER_FINISH_REQUEST: {
+      case settings.messages.USER_FINISH_REQUEST:
         this._userDidFinishRequest();
         break;
-      }
-      case settings.messages.USER_REASSIGN_REQUEST: {
+      case settings.messages.USER_REASSIGN_REQUEST:
         this._userDidReassignRequest(payload);
         break;
-      }
-      case settings.messages.USER_SEND_REQUEST: {
+      case settings.messages.USER_SEND_REQUEST:
         this._userDidSendRequest(payload);
         break;
-      }
-      case settings.messages.USER_SIGN_REQUEST: {
+      case settings.messages.USER_SIGN_REQUEST:
         this._userDidSignRequest(payload);
         break;
-      }
-      default: {
+      default:
         // Unhandled message.
         debug.warn('unhandled cross-origin window message', type);
-      }
     }
   }
 
@@ -1076,6 +1085,7 @@ class HelloSign extends Emitter {
     this._iFrameURL = null;
     this._isOpen = false;
     this._isReady = false;
+    this._isSentOrSigned = false;
 
     window.removeEventListener('message', this._onMessage);
     window.removeEventListener('beforeunload', this._onBeforeUnload);
