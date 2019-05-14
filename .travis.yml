@@ -26,6 +26,6 @@ deploy:
     email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
     skip_cleanup: true
-    tag: $TRAVIS_TAG
+    tag: legacy
     on:
       tags: true
