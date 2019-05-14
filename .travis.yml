@@ -12,7 +12,7 @@ deploy:
     upload_dir: public/js
     local_dir: release
     on:
-      branch: master
+      tags: true
   - provider: s3
     access_key_id: $S3_ACCESS_KEY_ID
     secret_access_key: $S3_SECRET_ACCESS_KEY
@@ -21,11 +21,11 @@ deploy:
     upload_dir: js
     local_dir: release
     on:
-      branch: master
+      tags: true
   - provider: npm
-    email: "api@hellosign.com"
+    email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
     skip_cleanup: true
-    tag: latest
+    tag: $TRAVIS_TAG
     on:
-      branch: master
+      tags: true
