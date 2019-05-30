@@ -2,18 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [2.4.0](https://github.com/hellosign/hellosign-embedded/compare/v2.3.0...v2.4.0) (2019-05-10)
-
-
-### Bug Fixes
-
-* **DEV-5984:** Allow close after user has been redirected ([0fbf3e3](https://github.com/hellosign/hellosign-embedded/commit/0fbf3e3))
-* **DEV-5992:** Update url-polyfill to latest to fix issue with IE11 ([72e44b6](https://github.com/hellosign/hellosign-embedded/commit/72e44b6))
+# [2.5.0](https://github.com/hellosign/hellosign-embedded/compare/v2.4.0...v2.5.0) (2019-05-30)
 
 
 ### Features
 
-* **DEV-5737:** Add Japanese locale support ([a7015fd](https://github.com/hellosign/hellosign-embedded/commit/a7015fd))
+* **DEV-5970:** Add Italian locale support ([44d6e25](https://github.com/hellosign/hellosign-embedded/commit/44d6e25))
 
 
 
