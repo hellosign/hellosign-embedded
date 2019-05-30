@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+# [2.5.0](https://github.com/hellosign/hellosign-embedded/compare/v2.4.0...v2.5.0) (2019-05-30)
+
+
+### Features
+
+* **DEV-5970:** Add Italian locale support ([44d6e25](https://github.com/hellosign/hellosign-embedded/commit/44d6e25))
+
+
+
+<a name="2.3.0"></a>
+# [2.3.0](https://github.com/hellosign/hellosign-embedded/compare/v2.2.0...v2.3.0) (2019-02-27)
+
+
+### Bug Fixes
+
+* **DEV-5419:** Close button alignment on IE11 ([844b8a3](https://github.com/hellosign/hellosign-embedded/commit/844b8a3)), closes [#105](https://github.com/hellosign/hellosign-embedded/issues/105)
+
+
+### Features
+
+* Use mobile layout for mobile devices in landscape orientation ([7f736a8](https://github.com/hellosign/hellosign-embedded/commit/7f736a8))
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.com/hellosign/hellosign-embedded/compare/v2.1.3...v2.2.0) (2019-01-25)
 
