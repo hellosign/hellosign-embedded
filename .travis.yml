@@ -2,136 +2,82 @@ language: node_js
 node_js:
   - "node"
 before_script:
-  if: $TRAVIS_TAG =~ ^v1\.
-    - npm run prerelease
-  if: $TRAVIS_TAG =~ ^v2\.
-    - npm run build
+  - npm run build
 deploy:
 
-  if: $TRAVIS_TAG =~ ^v1\.
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting alpha, beta,
+  # or stable versions of v2 to HelloSign's S3 bucket so
+  # that they may be served and distributed globally via
+  # HelloSign's CDN powered by CloudFront.
+  #
+  # cdn.hellosign.com/public/js/embedded
+  - provider: s3
+    skip_cleanup: true
+    access_key_id: $S3_ACCESS_KEY_ID
+    secret_access_key: $S3_SECRET_ACCESS_KEY
+    bucket: $S3_BUCKET
+    upload_dir: public/js/embedded/${TRAVIS_TAG}
+    local_dir: umd
+    on:
+      tags: true
 
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting stable
-    # versions of v1 to HelloSign's S3 bucket so that they
-    # may be served and distributed globally via
-    # HelloSign's CDN powered by CloudFront.
-    #
-    # cdn.hellosign.com/public/js
-    - provider: s3
-      skip_cleanup: true
-      access_key_id: $S3_ACCESS_KEY_ID
-      secret_access_key: $S3_SECRET_ACCESS_KEY
-      bucket: $S3_BUCKET
-      upload_dir: public/js
-      local_dir: release
-      on:
-        tags: true
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only stable
+  # versions of v2 to npm tagged as "latest".
+  #
+  # npmjs.com/package/hellosign-embedded
+  - provider: npm
+    skip_cleanup: true
+    email: $NPM_EMAIL_ADDRESS
+    api_key: $NPM_API_KEY
+    tag: latest
+    on:
+      tags: true
+      condition: $TRAVIS_TAG =~ ^v2\.[0-9]+\.[0-9]+$
 
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting stable
-    # versions of v1 to HelloFax's S3 bucket so that they
-    # may be served and distributed globally via
-    # HelloSign's CDN powered by CloudFront.
-    #
-    # cdn.hellofax.com/js
-    - provider: s3
-      skip_cleanup: true
-      access_key_id: $S3_ACCESS_KEY_ID
-      secret_access_key: $S3_SECRET_ACCESS_KEY
-      bucket: $S3_HF_BUCKET
-      upload_dir: js
-      local_dir: release
-      on:
-        tags: true
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only alpha or
+  # beta versions of v2 to npm tagged as "next".
+  #
+  # npmjs.com/package/hellosign-embedded
+  - provider: npm
+    skip_cleanup: true
+    email: $NPM_EMAIL_ADDRESS
+    api_key: $NPM_API_KEY
+    tag: next
+    on:
+      tags: true
+      condition: $TRAVIS_TAG =~ ^v2\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$
 
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting only stable
-    # versions of v1 to npm tagged as "latest".
-    #
-    # npmjs.com/package/hellosign-embedded
-    - provider: npm
-      skip_cleanup: true
-      email: $NPM_EMAIL_ADDRESS
-      api_key: $NPM_API_KEY
-      tag: $TRAVIS_TAG
-      on:
-        tags: true
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only stable
+  # versions of v2 to GitHub releases.
+  #
+  # github.com/hellosign/hellosign-embedded/releases
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: umd/*
+    tag_name: $TRAVIS_TAG
+    target_commitish: $TRAVIS_COMMIT
+    on:
+      tags: true
 
-  if: $TRAVIS_TAG =~ ^v2\.
-
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting alpha, beta,
-    # or stable versions of v2 to HelloSign's S3 bucket so
-    # that they may be served and distributed globally via
-    # HelloSign's CDN powered by CloudFront.
-    #
-    # cdn.hellosign.com/public/js/embedded
-    - provider: s3
-      skip_cleanup: true
-      access_key_id: $S3_ACCESS_KEY_ID
-      secret_access_key: $S3_SECRET_ACCESS_KEY
-      bucket: $S3_BUCKET
-      upload_dir: public/js/embedded/${TRAVIS_TAG}
-      local_dir: umd
-      on:
-        tags: true
-
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting only stable
-    # versions of v2 to npm tagged as "latest".
-    #
-    # npmjs.com/package/hellosign-embedded
-    - provider: npm
-      skip_cleanup: true
-      email: $NPM_EMAIL_ADDRESS
-      api_key: $NPM_API_KEY
-      tag: latest
-      on:
-        tags: true
-        condition: $TRAVIS_TAG =~ ^v2\.[0-9]+\.[0-9]+$
-
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting only alpha or
-    # beta versions of v2 to npm tagged as "next".
-    #
-    # npmjs.com/package/hellosign-embedded
-    - provider: npm
-      skip_cleanup: true
-      email: $NPM_EMAIL_ADDRESS
-      api_key: $NPM_API_KEY
-      tag: next
-      on:
-        tags: true
-        condition: $TRAVIS_TAG =~ ^v2\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$
-
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting only stable
-    # versions of v2 to GitHub releases.
-    #
-    # github.com/hellosign/hellosign-embedded/releases
-    - provider: releases
-      skip_cleanup: true
-      api_key: $GITHUB_OAUTH_TOKEN
-      file_glob: true
-      file: umd/*
-      tag_name: $TRAVIS_TAG
-      target_commitish: $TRAVIS_COMMIT
-      on:
-        tags: true
-
-    # This Travis CI deploy configuration will automatically
-    # deploy builds triggered by tags denoting only alpha or
-    # beta versions of v2 to GitHub releases and tagged as
-    # "prerelease".
-    #
-    # github.com/hellosign/hellosign-embedded/releases
-    - provider: releases
-      skip_cleanup: true
-      api_key: $GITHUB_OAUTH_TOKEN
-      file_glob: true
-      file: umd/*
-      tag_name: $TRAVIS_TAG
-      target_commitish: $TRAVIS_COMMIT
-      prerelease: true
-      on:
-        tags: true
+  # This Travis CI deploy configuration will automatically
+  # deploy builds triggered by tags denoting only alpha or
+  # beta versions of v2 to GitHub releases and tagged as
+  # "prerelease".
+  #
+  # github.com/hellosign/hellosign-embedded/releases
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_OAUTH_TOKEN
+    file_glob: true
+    file: umd/*
+    tag_name: $TRAVIS_TAG
+    target_commitish: $TRAVIS_COMMIT
+    prerelease: true
+    on:
+      tags: true
