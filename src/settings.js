@@ -52,6 +52,7 @@ const iframe = {
  * @readonly
  */
 const locales = {
+  CS_CZ: 'cs_CZ', // Czech (Czech Republic)
   DA_DK: 'da_DK', // Danish (Denmark)
   DE_DE: 'de_DE', // German (Germany)
   EN_US: 'en_US', // English (United States)
@@ -64,7 +65,7 @@ const locales = {
   PL_PL: 'pl_PL', // Polish (Poland)
   PT_BR: 'pt_BR', // Portuguese (Brazil)
   SV_SE: 'sv_SE', // Swedish (Sweden)
-  ZH_CN: 'zh_CN', // Chinese (Simplified)
+  ZH_CN: 'zh_CN', // Chinese (Simplified) (China)
 };
 
 /**
