@@ -805,10 +805,30 @@
 
 
             if (skipDomainVerification === true) {
-                var warningMsg = 'Domain verification has been skipped. Before requesting approval for your app, please be sure to test domain verification by setting skipDomainVerification to false.';
+                var warningMsg = 'Before requesting approval for your app, please be sure to test domain verification by setting skipDomainVerification to false.';
                 l(warningMsg);
-                alert(warningMsg);
-                callback(true);
+                
+                var warningTitle = document.createElement('h1');
+                warningTitle.innerHTML = 'Domain verification has been skipped';
+                warningTitle.setAttribute('style', 'font-size: 34px; font-weight: bold; margin-bottom: 20px;');
+                
+                var warningNode = document.createElement('p');
+                warningNode.setAttribute('style', 'font-size: 14px; color: #666; margin-bottom: 20px;');
+                warningNode.innerHTML = warningMsg;
+                
+                var btnContinue = document.createElement('button');
+                btnContinue.innerHTML = 'Continue to Signature Request';
+                btnContinue.setAttribute('style', 'padding: 8px;');
+                btnContinue.addEventListener('click', function () {
+                  callback(true);
+                });
+
+                var container = document.querySelector('.container');
+                container.setAttribute('style', 'padding: 40px; font-family: proxima-nova,sans-serif; font-style: normal; text-align: left');
+                container.innerHTML = '';
+                container.appendChild(warningTitle);
+                container.appendChild(warningNode);
+                container.appendChild(btnContinue);
             }
             else {
                 // Starts waiting for the hello back message
