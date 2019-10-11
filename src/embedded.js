@@ -302,8 +302,9 @@
             PL_PL: 'pl_PL',
             JA_JP: 'ja_JP',
             IT_IT: 'it_IT',
+            CS_CZ: 'cs_CZ',
             init: function() {
-                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX, this.PT_BR, this.PL_PL, this.JA_JP, this.IT_IT];
+                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX, this.PT_BR, this.PL_PL, this.JA_JP, this.IT_IT, this.CS_CZ];
                 return this;
             }
         }.init(),
