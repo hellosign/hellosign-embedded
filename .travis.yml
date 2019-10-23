@@ -64,7 +64,7 @@ deploy:
     target_commitish: $TRAVIS_COMMIT
     on:
       tags: true
-      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+$
+      condition: $TRAVIS_TAG =~ ^v2\.[0-9]+\.[0-9]+$
 
   # This Travis CI deploy configuration will automatically
   # deploy builds triggered by tags denoting only alpha or
@@ -82,4 +82,4 @@ deploy:
     prerelease: true
     on:
       tags: true
-      condition: $TRAVIS_TAG =~ ^v[0-9]+\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$
+      condition: $TRAVIS_TAG =~ ^v2\.[0-9]+\.[0-9]+-(alpha|beta)\.[0-9]+$
