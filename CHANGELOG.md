@@ -2,12 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [2.5.0](https://github.com/hellosign/hellosign-embedded/compare/v2.4.0...v2.5.0) (2019-05-30)
+# [2.6.0](https://github.com/hellosign/hellosign-embedded/compare/v2.5.0...v2.6.0) (2019-10-23)
 
 
 ### Features
 
-* **DEV-5970:** Add Italian locale support ([44d6e25](https://github.com/hellosign/hellosign-embedded/commit/44d6e25))
+* **DEV-7285:** Add Czech locale support ([#132](https://github.com/hellosign/hellosign-embedded/issues/132)) ([6498755](https://github.com/hellosign/hellosign-embedded/commit/6498755))
 
 
 
