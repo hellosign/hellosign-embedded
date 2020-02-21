@@ -669,6 +669,8 @@ class HelloSign extends Emitter {
     this._sendConfigurationMessage();
     this._clearInitTimeout();
 
+    window.addEventListener('beforeunload', this._onBeforeUnload);
+
     this.emit(settings.events.READY, payload);
   }
 
@@ -827,6 +829,8 @@ class HelloSign extends Emitter {
 
     this._isSentOrSigned = true;
 
+    window.removeEventListener('beforeunload', this._onBeforeUnload);
+
     this.emit(settings.events.SEND, payload);
   }
 
@@ -847,6 +851,8 @@ class HelloSign extends Emitter {
     debug.info('user signed the signature request');
 
     this._isSentOrSigned = true;
+
+    window.removeEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.SIGN, payload);
   }
@@ -1049,7 +1055,6 @@ class HelloSign extends Emitter {
     this._isOpen = true;
 
     window.addEventListener('message', this._onMessage);
-    window.addEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.OPEN, {
       url: this._iFrameURL.href,
