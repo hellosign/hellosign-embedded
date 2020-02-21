@@ -1,4 +1,5 @@
 language: node_js
+version: 1.0
 node_js:
   - "node"
 before_script:
@@ -28,6 +29,7 @@ deploy:
   #
   # npmjs.com/package/hellosign-embedded
   - provider: npm
+    edge: true
     skip_cleanup: true
     email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
@@ -42,6 +44,7 @@ deploy:
   #
   # npmjs.com/package/hellosign-embedded
   - provider: npm
+    edge: true
     skip_cleanup: true
     email: $NPM_EMAIL_ADDRESS
     api_key: $NPM_API_KEY
