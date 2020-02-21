@@ -1,6 +1,6 @@
 {
   "name": "hellosign-embedded",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Embed HelloSign signature requests and templates from within your web application.",
   "main": "index.js",
   "license": "MIT",
@@ -56,7 +56,7 @@
     "sass-loader": "^7.1.0",
     "standard-version": "^5.0.0",
     "style-loader": "^0.23.1",
-    "url-polyfill": "^1.1.5",
+    "url-polyfill": "^1.1.8",
     "url-search-params-polyfill": "^5.0.0",
     "webpack": "^4.29.4",
     "webpack-cli": "^3.2.3"
