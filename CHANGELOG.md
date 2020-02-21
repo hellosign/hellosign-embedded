@@ -2,12 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [2.7.0](https://github.com/hellosign/hellosign-embedded/compare/v2.6.0...v2.7.0) (2020-02-21)
-
-
-### Features
-
-* Remove onunload handler before redirecting ([08c047c](https://github.com/hellosign/hellosign-embedded/commit/08c047c)), closes [#138](https://github.com/hellosign/hellosign-embedded/issues/138)
+## [2.7.1](https://github.com/hellosign/hellosign-embedded/compare/v2.7.0...v2.7.1) (2020-02-21)
 
 
 
