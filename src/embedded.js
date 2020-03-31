@@ -865,7 +865,7 @@ class HelloSign extends Emitter {
    * @private
    */
   _onEmbeddedClick(evt) {
-    const elem = evt.srcElement;
+    const elem = evt.target;
 
     // Check if the element that was clicked is the close
     // button.

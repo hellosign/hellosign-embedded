@@ -16,6 +16,7 @@ const config = {
     library: 'HelloSign',
     libraryExport: 'default',
     libraryTarget: 'umd',
+    globalObject: 'typeof self !== \'undefined\' ? self : this',
   },
   module: {
     rules: [
