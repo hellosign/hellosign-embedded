@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.7.1](https://github.com/hellosign/hellosign-embedded/compare/v2.7.0...v2.7.1) (2020-02-21)
+## [2.7.2](https://github.com/hellosign/hellosign-embedded/compare/v2.7.1...v2.7.2) (2020-03-31)
+
+
+### Bug Fixes
+
+* **DEV-8771:** Fix click handler ([5062270](https://github.com/hellosign/hellosign-embedded/commit/5062270)), closes [#128](https://github.com/hellosign/hellosign-embedded/issues/128)
+* **DEV-8775:** Makes UMD importable in Node ([5c71512](https://github.com/hellosign/hellosign-embedded/commit/5c71512)), closes [#129](https://github.com/hellosign/hellosign-embedded/issues/129) [#107](https://github.com/hellosign/hellosign-embedded/issues/107)
 
 
 
