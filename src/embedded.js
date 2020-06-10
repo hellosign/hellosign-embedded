@@ -289,22 +289,57 @@
         XWM: XWM,
 
         CULTURES: {
-            EN_US: 'en_US',
-            FR_FR: 'fr_FR',
-            DE_DE: 'de_DE',
-            SV_SE: 'sv_SE',
-            ZH_CN: 'zh_CN',
-            DA_DK: 'da_DK',
-            NL_NL: 'nl_NL',
-            ES_ES: 'es_ES',
-            ES_MX: 'es_MX',
-            PT_BR: 'pt_BR',
-            PL_PL: 'pl_PL',
-            JA_JP: 'ja_JP',
-            IT_IT: 'it_IT',
-            CS_CZ: 'cs_CZ',
+            CS_CZ: 'cs_CZ', // Czech (Czech Republic)
+            DA_DK: 'da_DK', // Danish (Denmark)
+            DE_DE: 'de_DE', // German (Germany)
+            EN_GB: 'en_GB', // English (Great Britain)
+            EN_US: 'en_US', // English (United States)
+            ES_LA: 'es_LA', // Spanish (Latin America)
+            ES_ES: 'es_ES', // Spanish (Spain)
+            ES_MX: 'es_MX', // Spanish (Mexico)
+            FR_FR: 'fr_FR', // French (France)
+            ID_ID: 'id_ID', // Indonesian (Indonesia)
+            IT_IT: 'it_IT', // Italian (Italy)
+            JA_JP: 'ja_JP', // Japanese (Japan)
+            KO_KR: 'ko_KR', // Korean (Korea)
+            MS_MY: 'ms_MY', // Malaysian (Malaysia)
+            NB_NO: 'nb_NO', // Norwegian (Norway)
+            NL_NL: 'nl_NL', // Dutch (Netherlands)
+            PL_PL: 'pl_PL', // Polish (Poland)
+            PT_BR: 'pt_BR', // Portuguese (Brazil)
+            RU_RU: 'ru_RU', // Russian (Russia)
+            SV_SE: 'sv_SE', // Swedish (Sweden)
+            TH_TH: 'th_TH', // Thai (Thailand)
+            UK_UA: 'uk_UA', // Ukrainian (Ukraine)
+            ZH_CN: 'zh_CN', // Chinese (Simplified) (China)
+            ZH_TW: 'zh_TW', // Chinese (Traditional) (China)
             init: function() {
-                this.supportedCultures = [this.EN_US, this.FR_FR, this.DE_DE, this.SV_SE, this.ZH_CN, this.DA_DK, this.NL_NL, this.ES_ES, this.ES_MX, this.PT_BR, this.PL_PL, this.JA_JP, this.IT_IT, this.CS_CZ];
+                this.supportedCultures = [
+                    this.CS_CZ,
+                    this.DA_DK,
+                    this.DE_DE,
+                    this.EN_GB,
+                    this.EN_US,
+                    this.ES_LA,
+                    this.ES_ES,
+                    this.ES_MX,
+                    this.FR_FR,
+                    this.ID_ID,
+                    this.IT_IT,
+                    this.JA_JP,
+                    this.KO_KR,
+                    this.MS_MY,
+                    this.NB_NO,
+                    this.NL_NL,
+                    this.PL_PL,
+                    this.PT_BR,
+                    this.RU_RU,
+                    this.SV_SE,
+                    this.TH_TH,
+                    this.UK_UA,
+                    this.ZH_CN,
+                    this.ZH_TW
+                ];
                 return this;
             }
         }.init(),
