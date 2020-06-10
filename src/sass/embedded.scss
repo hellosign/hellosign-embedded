@@ -9,6 +9,10 @@
     top: 0;
     left: 0;
     width: 100%;
+
+    // Default z-index. This can be overridden by extending
+    // this class in your own sylesheet.
+    z-index: 9997;
   }
 }
 
