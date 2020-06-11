@@ -255,7 +255,7 @@ class HelloSign extends Emitter {
    * Validates and appends the "user_culture" parameter to
    * the iFrame params object.
    *
-   * @throws {TypeError} if locale is invalid
+   * @throws {TypeError} if locale is not a string
    * @param {URLSearchParams} params
    * @private
    */
@@ -264,13 +264,6 @@ class HelloSign extends Emitter {
 
     if (typeof val !== 'string') {
       throw new TypeError('"locale" must be a string');
-    }
-
-    // Object.values() has been polyfilled, eslint-compat
-    // need not raise an exception for it.
-    // eslint-disable-next-line
-    if (!Object.values(settings.locales).includes(val)) {
-      throw new TypeError(`"${val}" is not a supported locale`);
     }
 
     params.append('user_culture', val);
