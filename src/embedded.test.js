@@ -315,16 +315,6 @@ describe('HelloSign', () => {
         }).toThrow(/"locale" must be a string/);
       });
 
-      test('throws if "locale" is not supported', () => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        expect(() => {
-          client.open(mockSignURL, {
-            locale: 'Mars',
-          });
-        }).toThrow(/"Mars" is not a supported locale/);
-      });
-
       test('appends default value for "user_culture" to the iFrame URL if "locale" is not specified', (done) => {
         client = new HelloSign({ clientId: mockClientId });
 
@@ -346,12 +336,12 @@ describe('HelloSign', () => {
           const url = new URL(data.url);
 
           expect(url.searchParams.has('user_culture')).toBe(true);
-          expect(url.searchParams.get('user_culture')).toBe('zh_CN');
+          expect(url.searchParams.get('user_culture')).toBe('zh-CN');
           done();
         });
 
         client.open(mockSignURL, {
-          locale: 'zh_CN',
+          locale: 'zh-CN',
         });
       });
 
