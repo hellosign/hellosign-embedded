@@ -435,7 +435,8 @@
             }
 
             var userCulture = typeof params['userCulture'] === 'undefined' ? this.CULTURES.EN_US : params['userCulture'];
-            if (this.inArray(userCulture, this.CULTURES.supportedCultures) === -1) {
+            var normalizedUserCulture = userCulture.replace('_', '-'); // Convert legacy underscores to hyphens.
+            if (this.inArray(normalizedUserCulture, this.CULTURES.supportedCultures) === -1) {
                 throw new Error('Invalid userCulture specified: ' + userCulture);
             }
 
@@ -447,7 +448,7 @@
             frameUrl += (this.skipDomainVerification === true ? 'skip_domain_verification=1&' : '');
             frameUrl += 'client_id=' + this.clientId + '&';
             frameUrl += (typeof params['requester'] !== 'undefined' ? 'requester=' + encodeURIComponent(params['requester']) + '&' : '');
-            frameUrl += 'user_culture=' + userCulture;
+            frameUrl += 'user_culture=' + normalizedUserCulture;
             if (this.isDebugEnabled) {
                 frameUrl += '&debug=true';
             }
