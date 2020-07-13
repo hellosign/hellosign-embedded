@@ -54,7 +54,7 @@
     "jest-runner-eslint": "^0.7.3",
     "node-sass": "^4.12.0",
     "sass-loader": "^7.1.0",
-    "standard-version": "^5.0.0",
+    "standard-version": "^8.0.1",
     "style-loader": "^0.23.1",
     "url-polyfill": "^1.1.8",
     "url-search-params-polyfill": "^5.0.0",
