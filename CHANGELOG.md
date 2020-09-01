@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-# [2.8.0](https://github.com/hellosign/hellosign-embedded/compare/v2.7.2...v2.8.0) (2020-06-29)
+# [2.9.0](https://github.com/hellosign/hellosign-embedded/compare/v2.8.0...v2.9.0) (2020-09-01)
+
+
+### Features
+
+* Avoid defaulting to English if locale is not set ([1baea0c](https://github.com/hellosign/hellosign-embedded/commit/1baea0c))
 
 
 
