@@ -55,7 +55,7 @@ const locales = {
   CS_CZ: 'cs-CZ', // Czech (Czech Republic)
   DA_DK: 'da-DK', // Danish (Denmark)
   DE_DE: 'de-DE', // German (Germany)
-  EN_GB: 'en-GB', // English (United Kingdom)
+  EN_GB: 'en-GB', // English (Great Britain)
   EN_US: 'en-US', // English (United States)
   ES_LA: 'es-LA', // Spanish (Latin America)
   ES_ES: 'es-ES', // Spanish (Spain)
@@ -75,7 +75,7 @@ const locales = {
   TH_TH: 'th-TH', // Thai (Thailand)
   UK_UA: 'uk-UA', // Ukrainian (Ukraine)
   ZH_CN: 'zh-CN', // Chinese (Simplified) (China)
-  ZH_TW: 'zh-TW', // Chinese (Traditional) (China)
+  ZH_TW: 'zh-TW', // Chinese (Taiwan)
 };
 
 /**

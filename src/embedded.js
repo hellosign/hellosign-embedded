@@ -252,21 +252,23 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the "user_culture" parameter to
-   * the iFrame params object.
+   * Appends the "user_culture" parameter to the iFrame
+   * params object if it is defined.
    *
-   * @throws {TypeError} if locale is not a string
    * @param {URLSearchParams} params
    * @private
    */
   _applyLocale(params) {
     const val = this._config.locale;
 
-    if (typeof val !== 'string') {
-      throw new TypeError('"locale" must be a string');
+    // If "locale" is not defined, then the "user_culture"
+    // param is not sent to the app. This tells the app to
+    // try use the user's default browser language, if it
+    // is supported by HelloSign. Otherwise, the app falls
+    // back to English.
+    if (val && val.length) {
+      params.append('user_culture', val);
     }
-
-    params.append('user_culture', val);
   }
 
   /**

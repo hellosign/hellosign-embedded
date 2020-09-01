@@ -1,14 +1,11 @@
 import HelloSign from './embedded';
-import defaults from './defaults';
 import pkg from '../package.json';
 import settings from './settings';
 
-const mockClientId = 'abcdef0123456789abcdef0123456789';
-const mockSignatureRequestId = 'abcdef0123456789abcdef0123456789';
-const mockSignatureId = 'abcdef0123456789abcdef0123456789';
-const mockSignURL = `https://app.hellosign.com/editor/embeddedSign?signature_id=${mockSignatureId}`;
-const mockTemplatetURL = `https://app.hellosign.com/editor/embeddedTemplatet?signature_id=${mockSignatureId}`;
-const mockRequestURL = `https://app.hellosign.com/editor/embeddedRequest?signature_id=${mockSignatureId}`;
+const mockGuid = 'abcdef0123456789abcdef0123456789';
+const mockSignURL = `https://app.hellosign.com/editor/embeddedSign?signature_id=${mockGuid}`;
+const mockTemplatetURL = `https://app.hellosign.com/editor/embeddedTemplatet?signature_id=${mockGuid}`;
+const mockRequestURL = `https://app.hellosign.com/editor/embeddedRequest?signature_id=${mockGuid}`;
 
 const mockPostMessage = (data) => {
   const evt = new window.MessageEvent('message', {
@@ -49,7 +46,7 @@ describe('HelloSign', () => {
 
     describe('#element()', () => {
       test('returns the base element', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockSignURL);
 
@@ -59,7 +56,7 @@ describe('HelloSign', () => {
 
     describe('#iFrame()', () => {
       test('returns the base element', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockSignURL);
 
@@ -69,7 +66,7 @@ describe('HelloSign', () => {
 
     describe('#isOpen()', () => {
       test('returns the open state', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(client.isOpen).toEqual(false);
 
@@ -85,7 +82,7 @@ describe('HelloSign', () => {
 
     describe('#isReady()', () => {
       test('returns the ready state', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(client.isReady).toEqual(false);
 
@@ -116,7 +113,7 @@ describe('HelloSign', () => {
     describe('#open()', () => {
 
       test('closes the old window if embedded is already open', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockSignURL);
         client.open(mockSignURL);
@@ -125,7 +122,7 @@ describe('HelloSign', () => {
       });
 
       test('appends markup into document body if no container is specified', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         const expected = expect.stringContaining(settings.classNames.BASE);
 
@@ -136,7 +133,7 @@ describe('HelloSign', () => {
       });
 
       test('appends markup into container if one is specified', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         const container = document.createElement('div');
         const expected = expect.stringContaining(settings.classNames.BASE);
@@ -150,7 +147,7 @@ describe('HelloSign', () => {
       });
 
       test('emits the "open" event', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.OPEN, () => {
           done();
@@ -184,17 +181,17 @@ describe('HelloSign', () => {
           const url = new URL(data.url);
 
           expect(url.searchParams.has('client_id')).toBe(true);
-          expect(url.searchParams.get('client_id')).toBe(mockClientId);
+          expect(url.searchParams.get('client_id')).toBe(mockGuid);
           done();
         });
 
         client.open(mockSignURL, {
-          clientId: mockClientId,
+          clientId: mockGuid,
         });
       });
 
       test('throws if "container" is not an element', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -204,7 +201,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "debug" is not a boolean', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -214,7 +211,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "debug" to the iFrame URL if "debug"" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -230,7 +227,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "finalButtonText" is not a string', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -240,7 +237,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "finalButtonText" is neither "Send" nor "Continue"', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -250,7 +247,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "final_button_text" to the iFrame URL if "finalButtonText" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -266,7 +263,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "hideHeader" is not a boolean', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -276,7 +273,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "hide_header" to the iFrame URL if "hideHeader" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -292,7 +289,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "js_version" to the iFrame URL', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -305,24 +302,13 @@ describe('HelloSign', () => {
         client.open(mockSignURL);
       });
 
-      test('throws if "locale" is not a string', () => {
-        client = new HelloSign({ clientId: mockClientId });
-
-        expect(() => {
-          client.open(mockSignURL, {
-            locale: 42,
-          });
-        }).toThrow(/"locale" must be a string/);
-      });
-
-      test('appends default value for "user_culture" to the iFrame URL if "locale" is not specified', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+      test('does not append "user_culture" to the iFrame URL if "locale" is not specified', (done) => {
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
 
-          expect(url.searchParams.has('user_culture')).toBe(true);
-          expect(url.searchParams.get('user_culture')).toBe(defaults.locale);
+          expect(url.searchParams.has('user_culture')).toBe(false);
           done();
         });
 
@@ -330,7 +316,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "user_culture" to the iFrame URL if "locale" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -346,7 +332,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "parent_url" to the iFrame URL', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -360,7 +346,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "redirectTo" is not a string', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -370,7 +356,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "redirect_url" to the iFrame URL if "redirectTo" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -386,7 +372,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "requestingEmail" is not a string', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -396,7 +382,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "requester" to the iFrame URL if "requestingEmail" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -412,7 +398,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "skipDomainVerification" is not a boolean', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -422,7 +408,7 @@ describe('HelloSign', () => {
       });
 
       test('appends default value for "skip_domain_verification" to the iFrame URL if "skipDomainVerification" is not specified', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -436,7 +422,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "skip_domain_verification" to the iFrame URL if "skipDomainVerification" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -452,7 +438,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "testMode" is not a boolean', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -462,7 +448,7 @@ describe('HelloSign', () => {
       });
 
       test('appends default value for "skip_domain_verification" to the iFrame URL if "testMode" is not specified', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -476,7 +462,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "skip_domain_verification" to the iFrame URL if "testMode" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -492,7 +478,7 @@ describe('HelloSign', () => {
       });
 
       test('throws if "whiteLabeling" is not an object', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         expect(() => {
           client.open(mockSignURL, {
@@ -502,7 +488,7 @@ describe('HelloSign', () => {
       });
 
       test('appends "white_labeling_options" to the iFrame URL if "whiteLabeling" is valid', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.on(HelloSign.events.OPEN, (data) => {
           const url = new URL(data.url);
@@ -523,7 +509,7 @@ describe('HelloSign', () => {
     describe('#close()', () => {
 
       test('closes when the close button is clicked', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         // Never visible when signing.
         client.open(mockRequestURL);
@@ -539,7 +525,7 @@ describe('HelloSign', () => {
       });
 
       test('closes only once if "close" is called more than once', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         const fn = jest.fn(() => {
           expect(fn).toBeCalledTimes(1);
@@ -560,7 +546,7 @@ describe('HelloSign', () => {
       });
 
       test('emits the "close" event', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.CLOSE, () => {
           done();
@@ -571,7 +557,7 @@ describe('HelloSign', () => {
       });
 
       test('removes markup from the DOM when closed', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.CLOSE, () => {
           expect(document.body.getElementsByClassName(settings.classNames.BASE).length).toBe(0);
@@ -585,7 +571,7 @@ describe('HelloSign', () => {
       });
 
       test('removes markup from container the DOM when closed', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
         const container = document.createElement('div');
 
         const fn = jest.fn(() => {
@@ -610,7 +596,7 @@ describe('HelloSign', () => {
     describe('embedded signing', () => {
 
       test('opens an embedded signing url', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once('open', () => {
           done();
@@ -620,7 +606,7 @@ describe('HelloSign', () => {
       });
 
       test('hides the close button', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockSignURL);
 
@@ -630,13 +616,13 @@ describe('HelloSign', () => {
       });
 
       test('doesn\'t throw when sent an unrecognized message', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once('open', () => {
           mockPostMessage({
             type: 'hellosign:fakemessage',
             payload: {
-              signatureId: mockSignatureId,
+              signatureId: mockGuid,
             },
           });
 
@@ -647,7 +633,7 @@ describe('HelloSign', () => {
       });
 
       test('closes the signature request if it does not initialize before the timeout', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockSignURL, {
           timeout: 2000,
@@ -660,7 +646,7 @@ describe('HelloSign', () => {
       });
 
       test('emits the "ready" event when app has initialized', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.READY, () => {
           done();
@@ -676,10 +662,10 @@ describe('HelloSign', () => {
       });
 
       test('emits the "error" event when app has errored', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.ERROR, (data) => {
-          expect(data.signatureId).toBe(mockSignatureId);
+          expect(data.signatureId).toBe(mockGuid);
           expect(data.code).toBe(42);
           done();
         });
@@ -688,7 +674,7 @@ describe('HelloSign', () => {
           mockPostMessage({
             type: HelloSign.messages.APP_ERROR,
             payload: {
-              signatureId: mockSignatureId,
+              signatureId: mockGuid,
               code: 42,
             },
           });
@@ -698,12 +684,12 @@ describe('HelloSign', () => {
       });
 
       test('emits the "message" event when the app has posted a message', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         const message = {
           type: HelloSign.messages.APP_INITIALIZE,
           payload: {
-            signatureId: mockSignatureId,
+            signatureId: mockGuid,
           },
         };
 
@@ -720,10 +706,10 @@ describe('HelloSign', () => {
       });
 
       test('emits the "sign" event when the signature request has been signed', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.SIGN, (data) => {
-          expect(data.signatureId).toBe(mockSignatureId);
+          expect(data.signatureId).toBe(mockGuid);
           done();
         });
 
@@ -731,7 +717,7 @@ describe('HelloSign', () => {
           mockPostMessage({
             type: HelloSign.messages.USER_SIGN_REQUEST,
             payload: {
-              signatureId: mockSignatureId,
+              signatureId: mockGuid,
             },
           });
         });
@@ -740,10 +726,10 @@ describe('HelloSign', () => {
       });
 
       test('emits the "reassign" event when the signature request has been reassigned', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.REASSIGN, (data) => {
-          expect(data.signatureId).toBe(mockSignatureId);
+          expect(data.signatureId).toBe(mockGuid);
           expect(data.name).toBe('Alice');
           expect(data.email).toBe('alice@example.com');
           expect(data.reason).toBe('Example reason');
@@ -754,7 +740,7 @@ describe('HelloSign', () => {
           mockPostMessage({
             type: HelloSign.messages.USER_REASSIGN_REQUEST,
             payload: {
-              signatureId: mockSignatureId,
+              signatureId: mockGuid,
               name: 'Alice',
               email: 'alice@example.com',
               reason: 'Example reason',
@@ -766,10 +752,10 @@ describe('HelloSign', () => {
       });
 
       test('emits the "decline" event when the signature request has been declined', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.DECLINE, (data) => {
-          expect(data.signatureId).toBe(mockSignatureId);
+          expect(data.signatureId).toBe(mockGuid);
           expect(data.reason).toBe('Example reason');
           done();
         });
@@ -778,7 +764,7 @@ describe('HelloSign', () => {
           mockPostMessage({
             type: HelloSign.messages.USER_DECLINE_REQUEST,
             payload: {
-              signatureId: mockSignatureId,
+              signatureId: mockGuid,
               reason: 'Example reason',
             },
           });
@@ -788,7 +774,7 @@ describe('HelloSign', () => {
       });
 
       test('emits the "finish" event when the signature request has been finished', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.FINISH, () => {
           done();
@@ -804,7 +790,7 @@ describe('HelloSign', () => {
       });
 
       test('closes when the signature request has been canceled', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.CLOSE, () => {
           done();
@@ -820,7 +806,7 @@ describe('HelloSign', () => {
       });
 
       test('closes when the signature request has been finished', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.CLOSE, () => {
           done();
@@ -836,7 +822,7 @@ describe('HelloSign', () => {
       });
 
       test('verifies the domain without errors', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once('open', () => {
           mockPostMessage({
@@ -856,13 +842,13 @@ describe('HelloSign', () => {
     describe('embedded requesting', () => {
 
       test('opens an embedded requesting url', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockRequestURL);
       });
 
       test('shows the close button', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockRequestURL);
 
@@ -872,7 +858,7 @@ describe('HelloSign', () => {
       });
 
       test('emits the "ready" event when app has initialized', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.READY, () => {
           done();
@@ -888,11 +874,11 @@ describe('HelloSign', () => {
       });
 
       test('emits the "send" event when the signature request has been sent', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.SEND, (data) => {
-          expect(data.signatureRequestId).toBe(mockSignatureRequestId);
-          expect(data.signatureId).toBe(mockSignatureId);
+          expect(data.signatureRequestId).toBe(mockGuid);
+          expect(data.signatureId).toBe(mockGuid);
           done();
         });
 
@@ -900,8 +886,8 @@ describe('HelloSign', () => {
           mockPostMessage({
             type: HelloSign.messages.USER_SEND_REQUEST,
             payload: {
-              signatureRequestId: mockSignatureRequestId,
-              signatureId: mockSignatureId,
+              signatureRequestId: mockGuid,
+              signatureId: mockGuid,
             },
           });
         });
@@ -913,13 +899,13 @@ describe('HelloSign', () => {
     describe('embedded templating', () => {
 
       test('opens an embedded templating url', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockTemplatetURL);
       });
 
       test('shows the close button', () => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.open(mockTemplatetURL);
 
@@ -929,7 +915,7 @@ describe('HelloSign', () => {
       });
 
       test('emits the "ready" event when app has initialized', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.READY, () => {
           done();
@@ -945,7 +931,7 @@ describe('HelloSign', () => {
       });
 
       test('sends the "createTemplate" event when the signature request template has been created', (done) => {
-        client = new HelloSign({ clientId: mockClientId });
+        client = new HelloSign({ clientId: mockGuid });
 
         client.once(HelloSign.events.CREATE_TEMPLATE, (data) => {
           expect(data.message).toBe('Example message');
