@@ -11,6 +11,76 @@ All notable changes to this project will be documented in this file. See [standa
 
 
 
+# [2.8.0](https://github.com/hellosign/hellosign-embedded/compare/v2.7.2...v2.8.0) (2020-06-29)
+
+
+### Features
+
+* Update locale-related tests ([c9ce102](https://github.com/hellosign/hellosign-embedded/commit/c9ce102))
+* Fix comment for en-GB locale ([fc807dd](https://github.com/hellosign/hellosign-embedded/commit/fc807dd))
+* More lax valdation for locale ([2d30ba4](https://github.com/hellosign/hellosign-embedded/commit/2d30ba4))
+* Use hyphenated locale codes by default ([e5e467d](https://github.com/hellosign/hellosign-embedded/commit/e5e467d))
+* Add default z-index to modal ([dcd0166](https://github.com/hellosign/hellosign-embedded/commit/dcd0166))
+* Add support for more languages ([c8e3abf](https://github.com/hellosign/hellosign-embedded/commit/c8e3abf))
+
+
+
+## [2.7.2](https://github.com/hellosign/hellosign-embedded/compare/v2.7.1...v2.7.2) (2020-03-31)
+
+
+### Bug Fixes
+
+* **DEV-8771:** Fix click handler ([5062270](https://github.com/hellosign/hellosign-embedded/commit/5062270)), closes [#128](https://github.com/hellosign/hellosign-embedded/issues/128)
+* **DEV-8775:** Makes UMD importable in Node ([5c71512](https://github.com/hellosign/hellosign-embedded/commit/5c71512)), closes [#129](https://github.com/hellosign/hellosign-embedded/issues/129) [#107](https://github.com/hellosign/hellosign-embedded/issues/107)
+
+
+
+## [2.7.1](https://github.com/hellosign/hellosign-embedded/compare/v2.7.0...v2.7.1) (2020-02-21)
+
+
+
+# [2.7.0](https://github.com/hellosign/hellosign-embedded/compare/v2.6.0...v2.7.0) (2020-02-21)
+
+
+### Features
+
+* Remove onunload handler before redirecting ([08c047c](https://github.com/hellosign/hellosign-embedded/commit/08c047c)), closes [#138](https://github.com/hellosign/hellosign-embedded/issues/138)
+
+
+
+# [2.6.0](https://github.com/hellosign/hellosign-embedded/compare/v2.5.0...v2.6.0) (2019-10-23)
+
+
+### Features
+
+* **DEV-7285:** Add Czech locale support ([#132](https://github.com/hellosign/hellosign-embedded/issues/132)) ([6498755](https://github.com/hellosign/hellosign-embedded/commit/6498755))
+
+
+
+# [2.5.0](https://github.com/hellosign/hellosign-embedded/compare/v2.4.0...v2.5.0) (2019-05-30)
+
+
+### Features
+
+* **DEV-5970:** Add Italian locale support ([44d6e25](https://github.com/hellosign/hellosign-embedded/commit/44d6e25))
+
+
+
+# [2.4.0](https://github.com/hellosign/hellosign-embedded/compare/v2.3.0...v2.4.0) (2019-05-10)
+
+
+### Bug Fixes
+
+* **DEV-5984:** Allow close after user has been redirected ([0fbf3e3](https://github.com/hellosign/hellosign-embedded/commit/0fbf3e3))
+* **DEV-5992:** Update url-polyfill to latest to fix issue with IE11 ([72e44b6](https://github.com/hellosign/hellosign-embedded/commit/72e44b6))
+
+
+### Features
+
+* **DEV-5737:** Add Japanese locale support ([a7015fd](https://github.com/hellosign/hellosign-embedded/commit/a7015fd))
+
+
+
 <a name="2.3.0"></a>
 # [2.3.0](https://github.com/hellosign/hellosign-embedded/compare/v2.2.0...v2.3.0) (2019-02-27)
 
