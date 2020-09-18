@@ -24,6 +24,8 @@ In your frontend app, import `hellosign-embedded` and instantiate a new client w
 ```js
 import HelloSign from 'hellosign-embedded';
 
+// Create the HelloSign Embedded instance.
+// Only do this once!
 const client = new HelloSign({
   clientId: 'Your client ID'
 });
@@ -32,7 +34,11 @@ const client = new HelloSign({
 When you're ready to launch HelloSign Embedded, simply call `open()` on the client with your signature request's signing URL.
 
 ```js
-client.open(signUrl);
+function launchHelloSign(url) {
+  client.open(url);
+}
+
+launchHelloSign(url);
 ```
 
 For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_quickstart] on the Wiki. For more information on how to use HelloSign Embedded, visit the [API Documentation][wiki_api-documentation].
