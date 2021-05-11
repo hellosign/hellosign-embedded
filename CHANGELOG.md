@@ -1,6 +1,14 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [2.10.0-beta.0](https://github.com/hellosign/hellosign-embedded/compare/v2.9.0...v2.10.0-beta.0) (2021-05-11)
+
+
+### Features
+
+* Fix for our Salesforce integration ([4d89c22](https://github.com/hellosign/hellosign-embedded/commit/4d89c22faa0e4adc20d3389165ae0e9af6f9a0bc))
+* Update node-sass and sass-loader ([1812554](https://github.com/hellosign/hellosign-embedded/commit/1812554c3faef460fb45e42bdc2a817511836ab4))
 
 # [2.9.0](https://github.com/hellosign/hellosign-embedded/compare/v2.8.0...v2.9.0) (2020-09-01)
 
