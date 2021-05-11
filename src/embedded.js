@@ -460,6 +460,25 @@ class HelloSign extends Emitter {
       `;
     }
 
+    // This is a fix for our Salesforce integration. As of
+    // Q2 2021, it appears that Salesforce no longer allows
+    // iFrames to be injected inside of other elements via
+    // `innerHTML`.
+    //
+    // We check if the iFrame was created above, and if not
+    // we build one.
+    if (!elem.innerHTML.includes('<iframe')) {
+      const baseModal = elem.firstChild;
+      const modalContent = baseModal.lastChild;
+      const iframe = document.createElement('iframe');
+
+      iframe.setAttribute('src', this._iFrameURL.href);
+      iframe.setAttribute('name', settings.iframe.NAME);
+      iframe.setAttribute('class', settings.classNames.IFRAME);
+
+      modalContent.appendChild(iframe);
+    }
+
     return elem.firstChild;
   }
 
