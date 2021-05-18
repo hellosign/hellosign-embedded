@@ -439,7 +439,7 @@ class HelloSign extends Emitter {
     if (this._config.container) {
       elem.innerHTML = safeHtml`
         <div class="${settings.classNames.BASE}">
-          <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" scrolling="no" />
+          <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" scrolling="no"></iframe>
         </div>
       `;
     } else {
@@ -454,7 +454,7 @@ class HelloSign extends Emitter {
           </div>
         ` : ''
       ) + safeHtml`
-            <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" scrolling="no" />
+            <iframe class="${settings.classNames.IFRAME}" name="${settings.iframe.NAME}" src="${this._iFrameURL.href}" scrolling="no"></iframe>
           </div>
         </div>
       `;
