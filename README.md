@@ -44,6 +44,11 @@ launchHelloSign(url);
 For a more detailed and in-depth walkthrough, check the [QuickStart guide][wiki_quickstart] on the Wiki. For more information on how to use HelloSign Embedded, visit the [API Documentation][wiki_api-documentation].
 
 
+## Support
+
+If you have any questions or issues with HelloSign Embedded or our API, please contact [apisupport@hellosign.com](mailto:apisupport@hellosign.com?subject=Help%20Wwith%20HelloSign%20Embedded). This repository is not reguarly monitored for issues.
+
+
 ## Resources
 
 * [Quickstart][wiki_quickstart]
