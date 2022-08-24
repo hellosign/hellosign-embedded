@@ -160,6 +160,8 @@ class HelloSign extends Emitter {
 
     debug.info('created new HelloSign instance with options', obj);
 
+    window.addEventListener('beforeunload', this._onBeforeUnload);
+
     if (obj && typeof obj === 'object') {
       this._baseConfig = { ...obj };
     } else {
@@ -663,8 +665,6 @@ class HelloSign extends Emitter {
 
     this._sendConfigurationMessage();
     this._clearInitTimeout();
-
-    window.addEventListener('beforeunload', this._onBeforeUnload);
 
     this.emit(settings.events.READY, payload);
   }
