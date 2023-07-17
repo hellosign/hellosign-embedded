@@ -261,6 +261,10 @@ class HelloSign extends Emitter {
   _applyLocale(params) {
     const val = this._config.locale;
 
+    if (val === 'es-MX') {
+      console.warn('Locale "es-MX" is no longer supported. Use es-LA instead.');
+    }
+
     // If "locale" is not defined, then the "user_culture"
     // param is not sent to the app. This tells the app to
     // try use the user's default browser language, if it

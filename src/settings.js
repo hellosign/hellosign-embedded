@@ -59,7 +59,6 @@ const locales = {
   EN_US: 'en-US', // English (United States)
   ES_LA: 'es-LA', // Spanish (Latin America)
   ES_ES: 'es-ES', // Spanish (Spain)
-  ES_MX: 'es-MX', // Spanish (Mexico)
   FR_FR: 'fr-FR', // French (France)
   ID_ID: 'id-ID', // Indonesian (Indonesia)
   IT_IT: 'it-IT', // Italian (Italy)
@@ -76,6 +75,9 @@ const locales = {
   UK_UA: 'uk-UA', // Ukrainian (Ukraine)
   ZH_CN: 'zh-CN', // Chinese (Simplified) (China)
   ZH_TW: 'zh-TW', // Chinese (Taiwan)
+
+  // No longer supported, use es-LA instead.
+  // ES_MX: 'es-MX', // Spanish (Mexico)
 };
 
 /**
