@@ -1048,12 +1048,37 @@ class HelloSign extends Emitter {
     this._maybeStartInitTimeout();
 
     this._isOpen = true;
+    this.blockNativeZoom()
 
     window.addEventListener('message', this._onMessage);
 
     this.emit(settings.events.OPEN, {
       url: this._iFrameURL.href,
     });
+  }
+
+  blockNativeZoom() {
+    const viewport = document.querySelector('meta[name=viewport]');
+    if (viewport) {
+      const content = viewport.getAttribute('content') || '';
+      const newContent = content.split(/,\s?/);
+
+      // Prevent browsers from automatically zooming into text fields
+      if (!content.includes('maximum-scale=1')) {
+        newContent.push('maximum-scale=1');
+      }
+
+      if (newContent.join(',') !== viewport.getAttribute('content')) {
+        viewport.setAttribute('content', newContent.join(','));
+        this.backupViewportContent = content;
+      }
+    }
+  }
+
+  restoreNativeZoom () {
+    if (this.backupViewportContent) {
+      viewport.setAttribute('content', this.backupViewportContent);
+    }
   }
 
   /**
@@ -1086,6 +1111,7 @@ class HelloSign extends Emitter {
     this._isOpen = false;
     this._isReady = false;
     this._isSentOrSigned = false;
+    this.restoreNativeZoom()
 
     window.removeEventListener('message', this._onMessage);
     window.removeEventListener('beforeunload', this._onBeforeUnload);
