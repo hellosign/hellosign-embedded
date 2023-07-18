@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.11.0](https://github.com/hellosign/hellosign-embedded/compare/v2.10.0...v2.11.0) (2023-07-18)
+
+
+### Features
+
+* Drop support for es-MX locale ([4c95cf6](https://github.com/hellosign/hellosign-embedded/commit/4c95cf6bc937aacde7df222736d308e00f089d69))
+
+
+### Bug Fixes
+
+* Config option to allow native zoom overrides ([#180](https://github.com/hellosign/hellosign-embedded/issues/180)) ([34d02d8](https://github.com/hellosign/hellosign-embedded/commit/34d02d8a7b95aed4f06461683125490977f3bc3f))
+
 ## [2.10.0](https://github.com/hellosign/hellosign-embedded/compare/v2.9.0...v2.10.0) (2021-05-18)
 
 
