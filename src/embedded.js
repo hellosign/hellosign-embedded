@@ -53,6 +53,16 @@ class HelloSign extends Emitter {
   static version = __PKG_VERSION__;
 
   /**
+   * Internal reference to the backup viewport content. Used
+   * if the "allowViewportOverride" config option is set to
+   * true.
+   *
+   * @type {?string}
+   * @private
+   */
+  _backupViewportContent = null;
+
+  /**
    * The base config object which "open" will extend.
    *
    * @type {?Object}
@@ -624,6 +634,52 @@ class HelloSign extends Emitter {
   }
 
   /**
+   * Overrides the viewport meta tag to use maximum-scale=1,
+   * if it is not already present. This is needed to prevent
+   * browsers from automatically zooming into text fields.
+   * This will only be applied if there is an existing
+   * viewport meta tag on the page.
+   *
+   * @private
+   */
+  _blockNativeZoom() {
+    const viewport = document.querySelector('meta[name=viewport]');
+
+    if (viewport) {
+      const content = viewport.getAttribute('content') || '';
+      const newContentPairs = content.split(/,\s?/);
+
+      // Prevent browsers from automatically zooming into
+      // text fields.
+      if (!content.includes('maximum-scale=1')) {
+        newContentPairs.push('maximum-scale=1');
+      }
+
+      const newContent = newContentPairs.join(',');
+      if (newContent !== viewport.getAttribute('content')) {
+        viewport.setAttribute('content', newContent);
+        this._backupViewportContent = content;
+      }
+    }
+  }
+
+  /**
+   * Restores the viewport using the original value of the
+   * initial viewport meta tag.
+   *
+   * @private
+   */
+  _restoreViewport() {
+    if (this._backupViewportContent) {
+      const viewport = document.querySelector('meta[name=viewport]');
+
+      viewport.setAttribute('content', this._backupViewportContent);
+
+      this._backupViewportContent = null;
+    }
+  }
+
+  /**
    * @event HelloSign#error
    * @type {Object}
    * @property {string} signatureId
@@ -1047,38 +1103,17 @@ class HelloSign extends Emitter {
     this._appendMarkup();
     this._maybeStartInitTimeout();
 
+    if (this._config.allowViewportOverride) {
+      this._blockNativeZoom();
+    }
+
     this._isOpen = true;
-    this.blockNativeZoom()
 
     window.addEventListener('message', this._onMessage);
 
     this.emit(settings.events.OPEN, {
       url: this._iFrameURL.href,
     });
-  }
-
-  blockNativeZoom() {
-    const viewport = document.querySelector('meta[name=viewport]');
-    if (viewport) {
-      const content = viewport.getAttribute('content') || '';
-      const newContent = content.split(/,\s?/);
-
-      // Prevent browsers from automatically zooming into text fields
-      if (!content.includes('maximum-scale=1')) {
-        newContent.push('maximum-scale=1');
-      }
-
-      if (newContent.join(',') !== viewport.getAttribute('content')) {
-        viewport.setAttribute('content', newContent.join(','));
-        this.backupViewportContent = content;
-      }
-    }
-  }
-
-  restoreNativeZoom () {
-    if (this.backupViewportContent) {
-      viewport.setAttribute('content', this.backupViewportContent);
-    }
   }
 
   /**
@@ -1102,6 +1137,10 @@ class HelloSign extends Emitter {
     this._clearInitTimeout();
     this._clearMarkup();
 
+    if (this._config.allowViewportOverride) {
+      this._restoreViewport();
+    }
+
     this._baseEl.removeEventListener('click', this._onEmbeddedClick);
 
     this._config = null;
@@ -1111,7 +1150,6 @@ class HelloSign extends Emitter {
     this._isOpen = false;
     this._isReady = false;
     this._isSentOrSigned = false;
-    this.restoreNativeZoom()
 
     window.removeEventListener('message', this._onMessage);
     window.removeEventListener('beforeunload', this._onBeforeUnload);
