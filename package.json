@@ -6,6 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "webpack",
+    "prepublish": "npm run build",
     "release": "standard-version",
     "release:beta": "standard-version --prerelease beta",
     "test": "jest src"
