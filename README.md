@@ -83,4 +83,5 @@ If you have any questions or issues with HelloSign Embedded or our API, please c
 [external_demo]: https://app.hellosign.com/api/embeddedTest
 [external_hellosign]: https://hellosign.com
 [external_npm]: https://npmjs.org/package/hellosign-embedded
-[external_travis]: https://travis-ci.org/hellosign/hellosign-embedded?branch=master
+
+
