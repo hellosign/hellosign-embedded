@@ -5,6 +5,8 @@ on:
     branches: [ "master" ]
 
 jobs:
+  permissions:
+    id-token: write # This is required for requesting the JWT
   build:
     runs-on: ubuntu-latest
 
