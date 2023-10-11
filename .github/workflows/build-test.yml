@@ -29,7 +29,7 @@ jobs:
       - name: Configure AWS credentials for Non-Prod
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::654344198836:role/qa-sign-embedded-publisher
+          role-to-assume: arn:aws:iam::654344198836:role/nonprod-sign-embedded-publisher
           aws-region: us-east-1
 
       - name: Copy files to test locations
