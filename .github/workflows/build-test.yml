@@ -5,11 +5,10 @@ on:
     branches: [ "master" ]
 
 jobs:
-  permissions:
-    id-token: write # This is required for requesting the JWT
   build:
+    permissions:
+      id-token: write # This is required for requesting the JWT
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         node-version: [16.x]
