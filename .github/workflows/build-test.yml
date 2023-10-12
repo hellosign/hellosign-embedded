@@ -29,9 +29,9 @@ jobs:
       - name: Configure AWS credentials for Non-Prod
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::654344198836:role/sign-embedded-nonprod
+          role-to-assume: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
           aws-region: us-east-1
 
-      - name: Copy files to test locations
-        run: |
-          aws s3 cp umd/* s3://cdn.qa-hellosign.com/test/js/embedded/
+#      - name: Copy files to test locations
+#        run: |
+#          aws s3 cp umd/* s3://cdn.qa-hellosign.com/test/js/embedded/
