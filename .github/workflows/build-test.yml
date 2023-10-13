@@ -26,5 +26,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag: ${{ steps.version.outputs.value }}
+          tag: "v${{ steps.version.outputs.value }}"
 
