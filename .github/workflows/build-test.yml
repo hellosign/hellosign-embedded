@@ -29,20 +29,24 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           tag: "v${{ steps.version.outputs.value }}"
-          doNotFailIfNotFound: true
-
-      - name: Show me
-        run: "${{ steps.released.success }}"
 
       - name: Block if found
+        if: "${{ steps.released.outputs.id }}"
         run: |
-          if [[ ${{ steps.released.success }} ]];
-          then
-            echo "A release already exists from this version, you must bump the version to create a new beta"
-            exit 1
-          else 
-            echo "No release for this version, generating beta package."
-          fi
+          echo "This version has already been release, update project version in package.json to produce beta package."
+          exit 1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+          
 
 
 
