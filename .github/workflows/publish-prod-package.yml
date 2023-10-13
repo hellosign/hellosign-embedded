@@ -1,8 +1,8 @@
 name: Changes approved; deploy to prod
 
-#on:
-#  merge:
-#    branches: [ "master" ]
+on:
+  merge:
+    branches: [ "master" ]
 
 jobs:
   build:
