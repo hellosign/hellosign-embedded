@@ -22,5 +22,14 @@ jobs:
         with:
           cmd: 'jq .version package.json -r'
 
-      - name: Show my version
+      - name: Embedded Beta Version
         run: 'echo "version ${{ steps.version.outputs.value }}"'
+        env:
+          PACKAGE_VERSION: "${{ steps.version.outputs.value }}-beta"
+
+      - uses: cardinalby/git-get-release-action@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: ${{ env.PACKAGE_VERSION }}
+
