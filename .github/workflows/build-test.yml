@@ -22,9 +22,27 @@ jobs:
         with:
           cmd: 'jq .version package.json -r'
 
-      - uses: cardinalby/git-get-release-action@v1
+      - name: Check existing beta releases
+        uses: cardinalby/git-get-release-action@v1
+        id: released
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           tag: "v${{ steps.version.outputs.value }}"
+          doNotFailIfNotFound: true
+
+      - name: Show me
+        run: "${{ steps.released.success }}"
+
+      - name: Block if found
+        run: |
+          if [[ ${{ steps.released.success }} ]];
+          then
+            echo "A release already exists from this version, you must bump the version to create a new beta"
+            exit 1
+          else 
+            echo "No release for this version, generating beta package."
+          fi
+
+
 
