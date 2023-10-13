@@ -1,0 +1,40 @@
+name: New Pull request; publish as beta package
+
+on:
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  env:
+    CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
+    CDN_PUBLISH_LOCATION: s3://cdn.staging-hellosign.com/test/js/embedded/
+  build:
+    permissions:
+      id-token: write # This is required for requesting the JWT
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [16.x] # we should pull this from a common place
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Configure AWS credentials for Non-Prod
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
+          aws-region: us-east-1
+
+      - name: Copy files to test locations
+        run: |
+          aws s3 cp umd/* ${{ env.CDN_PUBLISH_LOCATION }}

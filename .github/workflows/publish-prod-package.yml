@@ -1,8 +1,8 @@
-name: Scratch Workflow
+name: Changes approved; deploy to prod
 
-on:
-  pull_request:
-    branches: [ "master" ]
+#on:
+#  merge:
+#    branches: [ "master" ]
 
 jobs:
   build:
@@ -15,6 +15,3 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Get current version
-        run: cat package.json
