@@ -16,5 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Get current version
-        run: cat package.json
+      - name: Extract version from package.json
+        uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: 'jq .version package.json -r'
+
+      - name: Show my version
+        run: 'echo "version ${{ steps.version.outputs.value }}"'
