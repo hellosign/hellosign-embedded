@@ -74,6 +74,8 @@ jobs:
           npm test
 
       - name: Testing Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         uses: ncipollo/release-action@v1
         with:
           artifacts: "umd/*.js"
