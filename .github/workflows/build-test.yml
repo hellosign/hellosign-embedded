@@ -3,6 +3,7 @@ name: Scratch Workflow
 
 env:
   NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
+  BETA_SUFFIX: 'testbest'
 
 on:
   pull_request:
@@ -43,17 +44,17 @@ jobs:
 
       - name: Check beta releases
         uses: cardinalby/git-get-release-action@v1
-        id: released
+        id: beta-released
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          tag: "v${{ steps.version.outputs.value }}-beta"
+          tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
           doNotFailIfNotFound: true
 
       - name: Alert if found
-        if: "${{ steps.released.outputs.id }}"
+        if: "${{ steps.beta-released.outputs.id }}"
         run: |
-          echo "v${{ steps.version.outputs.value }}-beta exists and will be overwritten."
+          echo "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }} exists and will be overwritten."
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -76,7 +77,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "umd/*.js"
-          tag: "v${{ steps.version.outputs.value }}-testbeta"
+          tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
           allowUpdates: true
           draft: true
           generateReleaseNotes: true
