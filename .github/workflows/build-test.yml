@@ -5,6 +5,8 @@ on:
     branches: [ "master" ]
 
 jobs:
+  env:
+    NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
   build:
     permissions:
       id-token: write # This is required for requesting the JWT
@@ -22,7 +24,7 @@ jobs:
         with:
           cmd: 'jq .version package.json -r'
 
-      - name: Check existing beta releases
+      - name: Check existing releases
         uses: cardinalby/git-get-release-action@v1
         id: released
         env:
@@ -34,20 +36,52 @@ jobs:
       - name: Block if found
         if: "${{ steps.released.outputs.id }}"
         run: |
-          echo "This version has already been release, update project version in package.json to produce beta package."
+          echo "v${{ steps.version.outputs.value }} has already been released, update project version in package.json to produce beta package."
           exit 1
+
+      - name: Check beta releases
+        uses: cardinalby/git-get-release-action@v1
+        id: released
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: "v${{ steps.version.outputs.value }}-beta"
+          doNotFailIfNotFound: true
+
+      - name: Alert if found
+        if: "${{ steps.released.outputs.id }}"
+        run: |
+          echo "v${{ steps.version.outputs.value }}-beta exists and will be overwritten."
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+#          registry-url: ${{ env.NPM_REGISTRY_URL }}
+#          always-auth: true
+#          token:
 
       - name: Build
         run: |
           npm install
           npm run build
 
-          
+      - name: Test
+        run: |
+          npm test
+
+      - name: Testing Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "umd/*.js"
+          tag: "v${{ steps.version.outputs.value }}-testbeta"
+          allowUpdates: true
+          draft: true
+          generateReleaseNotes: true
+          makeLatest: false
+          prerelease: true
+
+
 
 
 
