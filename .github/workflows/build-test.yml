@@ -1,12 +1,14 @@
 name: Scratch Workflow
 
+
+env:
+  NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
+
 on:
   pull_request:
     branches: [ "master" ]
 
 jobs:
-  env:
-    NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
   build:
     permissions:
       id-token: write # This is required for requesting the JWT

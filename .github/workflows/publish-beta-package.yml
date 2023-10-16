@@ -6,10 +6,11 @@ name: New Pull request; publish as beta package
 on:
   workflow_dispatch:
 
+env:
+  CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
+  CDN_PUBLISH_LOCATION: s3://cdn.staging-hellosign.com/test/js/embedded/
+
 jobs:
-  env:
-    CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
-    CDN_PUBLISH_LOCATION: s3://cdn.staging-hellosign.com/test/js/embedded/
   build:
     permissions:
       id-token: write # This is required for requesting the JWT
