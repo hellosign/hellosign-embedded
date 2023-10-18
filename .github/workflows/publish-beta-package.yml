@@ -8,7 +8,8 @@ env:
   NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
   BETA_SUFFIX: 'testbeta'
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
-  CDN_PUBLISH_LOCATION: s3://cdn.staging-hellosign.com/test/js/embedded/
+  CDN_BUCKET: cdn.staging-hellosign.com
+  CDN_PATH: public/js/embedded/
   AWS_REGION: us-east-1
 jobs:
   build:
@@ -103,12 +104,12 @@ jobs:
 #          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
 #          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
 #          AWS_REGION: ${{ env.AWS_REGION }}
-          S3_BUCKET: 'cdn.staging-hellosign.com'
-          S3_KEY: 'test/js/embedded/'
+          S3_BUCKET: ${{ env.CDN_BUCKET }}
+          S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
           FILE: ./umd
 
 #      - name: List files to test locations
-#        run: aws s3 ls ${{ env.CDN_PUBLISH_LOCATION }}
+#        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}
 #
 #      - name: Copy files to test locations
-#        run: aws s3 cp umd/ ${{ env.CDN_PUBLISH_LOCATION }} --exclude "*" --include "*.js"
+#        run: aws s3 cp umd/ s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/ --exclude "*" --include "embedded.*.js"

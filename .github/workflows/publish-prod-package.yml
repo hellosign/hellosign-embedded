@@ -4,14 +4,96 @@ on:
   push:
     branches: [ "master" ]
 
+env:
+  NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
+  CDN_AWS_PUBLISH_ROLE: TBD
+  CDN_BUCKET: cdn.hellosign.com
+  CDN_PATH: public/js/embedded
+  AWS_REGION: us-east-1
 jobs:
   build:
     permissions:
       id-token: write # This is required for requesting the JWT
+      contents: write # This is required for publishing releases
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x] # we should pull this from a common place
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v3
+
+      - name: Extract version from package.json
+        uses: sergeysova/jq-action@v2
+        id: version
+        with:
+          cmd: 'jq .version package.json -r'
+
+      - name: Check existing releases
+        uses: cardinalby/git-get-release-action@v1
+        id: released
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          tag: "v${{ steps.version.outputs.value }}"
+
+      - name: Block if found
+        if: "${{ steps.released.outputs.id }}"
+        run: |
+          echo "v${{ steps.version.outputs.value }} has already been released, update project version in package.json to produce beta package."
+          exit 1
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      #          registry-url: ${{ env.NPM_REGISTRY_URL }}
+      #          always-auth: true
+      #          token:
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Test
+        run: |
+          npm test
+
+      - name: Testing Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "umd/*.js"
+          tag: "v${{ steps.version.outputs.value }}"
+          allowUpdates: false
+          draft: false
+          generateReleaseNotes: true
+          makeLatest: true
+          prerelease: false
+
+      - name: Configure AWS credentials for Prod
+        id: awskeys
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Upload folder to bucket
+        uses: a-sync/s3-uploader@master
+        with:
+          args: --exclude "*" --include "embedded.*.js"
+        env:
+#          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
+#          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
+#          AWS_REGION: ${{ env.AWS_REGION }}
+          S3_BUCKET: ${{ env.CDN_BUCKET }}
+          S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
+          FILE: ./umd
+
+#      - name: List files to test locations
+#        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}
+#
+#      - name: Copy files to test locations
+#        run: aws s3 cp umd/ s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/ --exclude "*" --include "embedded.*.js"
