@@ -98,7 +98,7 @@ jobs:
       - name: Upload folder to bucket
         uses: a-sync/s3-uploader@master
         with:
-          args: --recursive --exclude "*" --include "*.js"
+          args: --exclude "*" --include "embedded.*.js"
         env:
 #          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
 #          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
