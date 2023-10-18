@@ -96,21 +96,6 @@ jobs:
           role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
-#      - name: Upload folder to bucket
-#        uses: a-sync/s3-uploader@master
-#        with:
-#          args: --exclude "*" --include "embedded.*.js"
-#        env:
-##          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
-##          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
-##          AWS_REGION: ${{ env.AWS_REGION }}
-#          S3_BUCKET: ${{ env.CDN_BUCKET }}
-#          S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
-#          FILE: ./umd/embedded.*.js
-
-      - name: List embedded files on nonprod cdn
-        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/
-
       - name: Copy dev build to nonprod cdn
         run: aws s3 cp umd/embedded.development.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
 
