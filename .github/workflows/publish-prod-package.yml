@@ -60,40 +60,22 @@ jobs:
         run: |
           npm test
 
-      - name: Testing Release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "umd/*.js"
-          tag: "v${{ steps.version.outputs.value }}"
-          allowUpdates: false
-          draft: false
-          generateReleaseNotes: true
-          makeLatest: true
-          prerelease: false
-
-      - name: Configure AWS credentials for Prod
-        id: awskeys
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Upload folder to bucket
-        uses: a-sync/s3-uploader@master
-        with:
-          args: --exclude "*" --include "embedded.*.js"
-        env:
-#          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
-#          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
-#          AWS_REGION: ${{ env.AWS_REGION }}
-          S3_BUCKET: ${{ env.CDN_BUCKET }}
-          S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
-          FILE: ./umd
-
-#      - name: List files to test locations
-#        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}
+#      - name: Publish Production Release
+#        env:
+#          GITHUB_TOKEN: ${{ github.token }}
+#        uses: ncipollo/release-action@v1
+#        with:
+#          artifacts: "umd/*.js"
+#          tag: "v${{ steps.version.outputs.value }}"
+#          allowUpdates: false
+#          draft: false
+#          generateReleaseNotes: true
+#          makeLatest: true
+#          prerelease: false
 #
-#      - name: Copy files to test locations
-#        run: aws s3 cp umd/ s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/ --exclude "*" --include "embedded.*.js"
+#      - name: Configure AWS credentials for Prod
+#        id: awskeys
+#        uses: aws-actions/configure-aws-credentials@v4
+#        with:
+#          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
+#          aws-region: ${{ env.AWS_REGION }}

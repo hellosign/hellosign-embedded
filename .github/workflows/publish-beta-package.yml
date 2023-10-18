@@ -9,7 +9,7 @@ env:
   BETA_SUFFIX: 'testbeta'
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
   CDN_BUCKET: cdn.staging-hellosign.com
-  CDN_PATH: public/js/embedded/
+  CDN_PATH: public/js/embedded
   AWS_REGION: us-east-1
 jobs:
   build:
@@ -96,20 +96,23 @@ jobs:
           role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Upload folder to bucket
-        uses: a-sync/s3-uploader@master
-        with:
-          args: --exclude "*" --include "embedded.*.js"
-        env:
-#          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
-#          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
-#          AWS_REGION: ${{ env.AWS_REGION }}
-          S3_BUCKET: ${{ env.CDN_BUCKET }}
-          S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
-          FILE: ./umd/embedded.*.js
+#      - name: Upload folder to bucket
+#        uses: a-sync/s3-uploader@master
+#        with:
+#          args: --exclude "*" --include "embedded.*.js"
+#        env:
+##          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
+##          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
+##          AWS_REGION: ${{ env.AWS_REGION }}
+#          S3_BUCKET: ${{ env.CDN_BUCKET }}
+#          S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
+#          FILE: ./umd/embedded.*.js
 
-#      - name: List files to test locations
-#        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}
-#
-#      - name: Copy files to test locations
-#        run: aws s3 cp umd/ s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/ --exclude "*" --include "embedded.*.js"
+      - name: List embedded files on nonprod cdn
+        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/
+
+      - name: Copy dev build to nonprod cdn
+        run: aws s3 cp umd/embedded.development.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
+
+      - name: Copy minified build to nonprod cdn
+        run: aws s3 cp umd/embedded.production.min.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
