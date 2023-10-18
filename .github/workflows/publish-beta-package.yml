@@ -103,8 +103,8 @@ jobs:
 #          AWS_ACCESS_KEY_ID: ${{ steps.awskeys.outputs.aws-access-key-id }}
 #          AWS_SECRET_ACCESS_KEY: ${{ steps.awskeys.outputs.aws-access-key-id }}
 #          AWS_REGION: ${{ env.AWS_REGION }}
-          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          S3_KEY: ${{ secrets.S3_KEY }}
+          S3_BUCKET: 'cdn.staging-hellosign.com'
+          S3_KEY: 'test/js/embedded/'
           FILE: ./umd
 
 #      - name: List files to test locations
