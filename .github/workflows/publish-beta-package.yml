@@ -106,7 +106,7 @@ jobs:
 #          AWS_REGION: ${{ env.AWS_REGION }}
           S3_BUCKET: ${{ env.CDN_BUCKET }}
           S3_KEY: "${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}"
-          FILE: ./umd
+          FILE: ./umd/embedded.*.js
 
 #      - name: List files to test locations
 #        run: aws s3 ls s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}
