@@ -9,7 +9,6 @@ env:
   BETA_SUFFIX: 'testbeta'
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
   CDN_PUBLISH_LOCATION: s3://cdn.staging-hellosign.com/test/js/embedded/
-
 jobs:
   build:
     permissions:
@@ -96,9 +95,7 @@ jobs:
           aws-region: us-east-1
 
       - name: List files to test locations
-        run: |
-          aws s3 ls ${{ env.CDN_PUBLISH_LOCATION }}
+        run: aws s3 ls ${{ env.CDN_PUBLISH_LOCATION }}
 
       - name: Copy files to test locations
-        run: |
-          aws s3 cp umd/ "${{ env.CDN_PUBLISH_LOCATION }}" --exclude "*" --include "*.js"
+        run: aws s3 cp umd/ ${{ env.CDN_PUBLISH_LOCATION }} --exclude "*" --include "*.js"
