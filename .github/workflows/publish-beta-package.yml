@@ -89,11 +89,16 @@ jobs:
           prerelease: true
 
       - name: Configure AWS credentials for Non-Prod
+        id: awskeys
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
           aws-region: us-east-1
 
+      - name: List files to test locations
+        run: |
+          aws s3 ls ${{ env.CDN_PUBLISH_LOCATION }}
+
       - name: Copy files to test locations
         run: |
-          aws s3 cp umd/* ${{ env.CDN_PUBLISH_LOCATION }}
+          aws s3 cp umd/ "${{ env.CDN_PUBLISH_LOCATION }}" --exclude "*" --include "*.js"
