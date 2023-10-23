@@ -63,9 +63,9 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-#          registry-url: ${{ env.NPM_REGISTRY_URL }}
-#          always-auth: true
-#          token:
+          registry-url: ${{ env.NPM_REGISTRY_URL }}
+          always-auth: true
+          token: ${{ secrets.NPM_TOKEN }}
 
       - name: Build
         run: |
