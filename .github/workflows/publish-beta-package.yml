@@ -63,6 +63,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+          registry-url: ${{ env.NPM_REGISTRY_URL }}
 
       - name: Build
         run: |
