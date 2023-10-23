@@ -5,7 +5,7 @@ on:
     branches: [ "master" ]
 
 env:
-  NPM_REGISTRY_URL: "https://www.npmjs.com"
+  NPM_REGISTRY_URL: "https://npmjs.com"
   BETA_SUFFIX: 'testbeta'
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
   CDN_BUCKET: cdn.staging-hellosign.com
@@ -63,8 +63,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-#          registry-url: ${{ env.NPM_REGISTRY_URL }}
-#          token: ${{ secrets.NPM_TOKEN }}
 
       - name: Build
         run: |
@@ -101,7 +99,7 @@ jobs:
       - name: Copy minified build to nonprod cdn
         run: aws s3 cp umd/embedded.production.min.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
 
-      - name: Publish beta package to NPM (test only)
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+#      - name: Publish beta package to NPM (test only)
+#        run: npm publish
+#        env:
+#          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
