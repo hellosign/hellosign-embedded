@@ -5,7 +5,7 @@ on:
     branches: [ "master" ]
 
 env:
-  NPM_REGISTRY_URL: "https://npmjs.com"
+  NPM_REGISTRY_URL: "https://registry.npmjs.com"
   BETA_SUFFIX: 'testbeta'
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
   CDN_BUCKET: cdn.staging-hellosign.com
