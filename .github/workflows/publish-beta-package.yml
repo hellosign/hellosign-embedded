@@ -104,6 +104,6 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           registry: ${{ env.NPM_REGISTRY_URL }}
-          tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
+          tag: "v${{ steps.version.outputs.value }}"
           dry-run: true
           package: ./
