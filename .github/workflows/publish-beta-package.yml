@@ -106,3 +106,4 @@ jobs:
           registry: ${{ env.NPM_REGISTRY_URL }}
           tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
           dry-run: true
+          package: .
