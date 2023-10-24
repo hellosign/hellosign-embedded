@@ -104,6 +104,5 @@ jobs:
         with:
           token: ${{ secrets.NPM_TOKEN }}
           registry: ${{ env.NPM_REGISTRY_URL }}
-#          tag: "${{ steps.version.outputs.value }}"
+          tag: "canary"
           dry-run: true
-          package: ./
