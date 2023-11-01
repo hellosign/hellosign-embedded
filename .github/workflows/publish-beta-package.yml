@@ -59,6 +59,18 @@ jobs:
         run: |
           echo "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }} exists and will be overwritten."
 
+      - name: Make zip archive
+        uses: ksm2/archive-action@v1
+        with:
+          format: 'zip'
+          name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
+
+      - name: Make gzip archive
+        uses: ksm2/archive-action@v1
+        with:
+          format: 'tar.gz'
+          name: boo
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -86,20 +98,6 @@ jobs:
           generateReleaseNotes: true
           makeLatest: false
           prerelease: true
-
-      - name: Make zip archive
-        uses: ksm2/archive-action@v1
-        with:
-          format: 'zip'
-          name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-#          include: "**/*.(ts|js|css|html)"
-
-      - name: Make gzip archive
-        uses: ksm2/archive-action@v1
-        with:
-          format: 'tar.gz'
-          name: boo
-#          include: "**/*.(ts|js|css|html)"
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
