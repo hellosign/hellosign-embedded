@@ -5,7 +5,7 @@ on:
     branches: [ "master" ]
 
 env:
-  NPM_REGISTRY_URL: "https://www.npmjs.com/package/hellosign-embedded"
+  NPM_REGISTRY_URL: "https://registry.npmjs.com"
   CDN_AWS_PUBLISH_ROLE: TBD
   CDN_BUCKET: cdn.hellosign.com
   CDN_PATH: public/js/embedded
@@ -47,9 +47,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-      #          registry-url: ${{ env.NPM_REGISTRY_URL }}
-      #          always-auth: true
-      #          token:
+          registry-url: ${{ env.NPM_REGISTRY_URL }}
 
       - name: Build
         run: |
@@ -60,22 +58,22 @@ jobs:
         run: |
           npm test
 
-#      - name: Publish Production Release
-#        env:
-#          GITHUB_TOKEN: ${{ github.token }}
-#        uses: ncipollo/release-action@v1
-#        with:
-#          artifacts: "umd/*.js"
-#          tag: "v${{ steps.version.outputs.value }}"
-#          allowUpdates: false
-#          draft: false
-#          generateReleaseNotes: true
-#          makeLatest: true
-#          prerelease: false
-#
-#      - name: Configure AWS credentials for Prod
-#        id: awskeys
-#        uses: aws-actions/configure-aws-credentials@v4
-#        with:
-#          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
-#          aws-region: ${{ env.AWS_REGION }}
+      - name: Publish Production Release
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "umd/*.js"
+          tag: "v${{ steps.version.outputs.value }}"
+          allowUpdates: false
+          draft: false
+          generateReleaseNotes: true
+          makeLatest: true
+          prerelease: false
+
+      - name: Configure AWS credentials for Prod
+        id: awskeys
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}

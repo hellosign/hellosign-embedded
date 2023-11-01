@@ -20,7 +20,6 @@ jobs:
     strategy:
       matrix:
         node-version: [16.x] # we should pull this from a common place
-        archive: [ "zip", "tar.gz" ]
 
     steps:
       - uses: actions/checkout@v3
@@ -88,12 +87,19 @@ jobs:
           makeLatest: false
           prerelease: true
 
-      - name: Make archive
+      - name: Make zip archive
         uses: ksm2/archive-action@v1
         with:
-          format: ${{ matrix.archive }}
+          format: 'zip'
           name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-          include: "src/*.(ts|js|css|html)"
+          include: "**/*.(ts|js|css|html)"
+
+      - name: Make gzip archive
+        uses: ksm2/archive-action@v1
+        with:
+          format: 'tar.gz'
+          name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
+          include: "**/*.(ts|js|css|html)"
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
