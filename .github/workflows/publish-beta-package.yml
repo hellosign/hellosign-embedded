@@ -92,14 +92,14 @@ jobs:
         with:
           format: 'zip'
           name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-          include: "**/*.(ts|js|css|html)"
+#          include: "**/*.(ts|js|css|html)"
 
       - name: Make gzip archive
         uses: ksm2/archive-action@v1
         with:
           format: 'tar.gz'
-          name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-          include: "**/*.(ts|js|css|html)"
+          name: boo
+#          include: "**/*.(ts|js|css|html)"
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
