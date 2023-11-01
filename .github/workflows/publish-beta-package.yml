@@ -64,6 +64,7 @@ jobs:
         with:
           format: 'zip'
           name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
+          include: "!\.*"
 
       - name: Make gzip archive
         uses: ksm2/archive-action@v1
