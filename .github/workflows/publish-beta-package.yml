@@ -65,14 +65,18 @@ jobs:
           format: tar
           gzip: true
           output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
-          ignore: '**/.git'
+          ignore: |
+            **/.git
+            umd/*
 
       - uses: sibiraj-s/action-archiver@v1
         with:
           path: '**/*'
           format: zip
           output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
-          ignore: '**/.git'
+          ignore: |
+            **/.git
+            umd/*
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -94,11 +98,11 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "umd/*.[js|zip|gz]"
+          artifacts: "umd/*.js,umd/*.zip,umd/*.gz"
           tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
           allowUpdates: true
           draft: true
-          generateReleaseNotes: true
+          generateReleaseNotes: truebet
           makeLatest: false
           prerelease: true
 
