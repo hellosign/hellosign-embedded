@@ -63,7 +63,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "umd/*.js"
+          artifacts: "umd/*.js,umd/*.zip,umd/*.gz"
           tag: "v${{ steps.version.outputs.value }}"
           allowUpdates: false
           draft: false

@@ -67,7 +67,7 @@ jobs:
           output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
           ignore: |
             **/.git
-            umd/*
+            umd
 
       - uses: sibiraj-s/action-archiver@v1
         with:
@@ -76,7 +76,7 @@ jobs:
           output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
           ignore: |
             **/.git
-            umd/*
+            umd
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
