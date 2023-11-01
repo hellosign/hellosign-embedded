@@ -59,18 +59,12 @@ jobs:
         run: |
           echo "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }} exists and will be overwritten."
 
-      - name: Make zip archive
-        uses: ksm2/archive-action@v1
+      - uses: sibiraj-s/action-archiver@v1
         with:
-          format: 'zip'
-          name: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-          include: '!**/.git'
-
-      - name: Make gzip archive
-        uses: ksm2/archive-action@v1
-        with:
-          format: 'tar.gz'
-          name: boo
+          format: tar
+          gzip: true
+          output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
+          ignore: '**/.git'
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
