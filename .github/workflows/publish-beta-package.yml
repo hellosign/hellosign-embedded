@@ -123,4 +123,4 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
           registry: ${{ env.NPM_REGISTRY_URL }}
           tag: "canary"
-          dry-run: true
+          dry-run: false
