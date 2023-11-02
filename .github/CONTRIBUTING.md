@@ -13,6 +13,7 @@ Welcome! HelloSign Embedded is an open source project which allows HelloSign API
 
 1. Fork the HelloSign Embedded repository.
 2. Create a new branch for your changes ~each feature, fix or improvement.~
+   * Unless we introduce a release branch concept, this won't work well
 3. Increment the version number in packages.json
 4. Make your changes
 5. Open a pull request, triggering a github action that does the following:
