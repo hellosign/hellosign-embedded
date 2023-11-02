@@ -63,7 +63,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
-          filename: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
+          filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
           exclusions: '*.git* /*node_modules/* /*umd/*'
 
 #      - uses: sibiraj-s/action-archiver@v1
