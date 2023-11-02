@@ -59,15 +59,22 @@ jobs:
         run: |
           echo "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }} exists and will be overwritten."
 
-      - uses: sibiraj-s/action-archiver@v1
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
         with:
-          path: '**/*'
-          format: tar
-          gzip: true
-          output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
-          ignore: |
-            **/.git
-            umd
+          type: 'zip'
+          filename: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
+          exclusions: '*.git* /*node_modules/* /*umd/*'
+
+#      - uses: sibiraj-s/action-archiver@v1
+#        with:
+#          path: '**/*'
+#          format: tar
+#          gzip: true
+#          output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
+#          ignore: |
+#            **/.git
+#            umd
 
 #      - uses: sibiraj-s/action-archiver@v1
 #        with:
