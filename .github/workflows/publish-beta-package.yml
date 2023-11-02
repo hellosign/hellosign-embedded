@@ -69,14 +69,14 @@ jobs:
             **/.git
             umd
 
-      - uses: sibiraj-s/action-archiver@v1
-        with:
-          path: '**/*'
-          format: zip
-          output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
-          ignore: |
-            **/.git
-            umd
+#      - uses: sibiraj-s/action-archiver@v1
+#        with:
+#          path: '**/*'
+#          format: zip
+#          output: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
+#          ignore: |
+#            **/.git
+#            umd
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
