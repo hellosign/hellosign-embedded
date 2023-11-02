@@ -66,6 +66,13 @@ jobs:
           filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
           exclusions: '*.git* /*node_modules/* /*umd/*'
 
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'tar'
+          filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
+          exclusions: '*.git* /*node_modules/* /*umd/*'
+
 #      - uses: sibiraj-s/action-archiver@v1
 #        with:
 #          path: '**/*'
@@ -105,7 +112,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "umd/*.js,umd/*.zip,umd/*.gz"
+          artifacts: "umd/*,v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz,v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
           tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
           allowUpdates: true
           draft: true
