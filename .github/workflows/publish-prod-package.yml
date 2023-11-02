@@ -48,14 +48,14 @@ jobs:
         with:
           type: 'tar'
           filename: "v${{ steps.version.outputs.value }}.tar.gz"
-          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar'
+          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar **/*.gz'
 
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'zip'
           filename: "v${{ steps.version.outputs.value }}.zip"
-          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar'
+          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar **/*.gz'
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
