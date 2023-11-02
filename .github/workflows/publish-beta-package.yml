@@ -63,15 +63,16 @@ jobs:
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'tar'
-          filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
-          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar **/*.gz'
+          filename: "archive/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
+          exclusions: '*.git* /*node_modules/* /*umd/* /*archive/*'
+          command: "mkdir -p archive"
 
-      - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          type: 'zip'
-          filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
-          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar **/*.gz'
+#      - name: Archive Release
+#        uses: thedoctor0/zip-release@0.7.5
+#        with:
+#          type: 'zip'
+#          filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
+#          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar **/*.gz'
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -93,7 +94,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "umd/*,v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz,v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
+          artifacts: "umd/*,/archive/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz,/archive/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
           tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
           allowUpdates: true
           draft: true
