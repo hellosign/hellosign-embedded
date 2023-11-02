@@ -64,14 +64,14 @@ jobs:
         with:
           type: 'zip'
           filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
-          exclusions: '*.git* /*node_modules/* /*umd/*'
+          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar'
 
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
         with:
           type: 'tar'
           filename: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
-          exclusions: '*.git* /*node_modules/* /*umd/*'
+          exclusions: '*.git* /*node_modules/* /*umd/* **/*.zip **/*.tar'
 
 #      - uses: sibiraj-s/action-archiver@v1
 #        with:
