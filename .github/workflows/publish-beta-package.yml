@@ -69,7 +69,6 @@ jobs:
           type: 'tar'
           filename: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
           exclusions: '*.git* /*node_modules/* /*umd/*'
-          command: "mkdir -p archive"
 
       - name: Archive Release
         uses: thedoctor0/zip-release@0.7.5
