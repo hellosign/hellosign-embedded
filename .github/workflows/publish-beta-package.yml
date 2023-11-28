@@ -24,59 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Extract version from package.json
-        uses: sergeysova/jq-action@v2
-        id: version
-        with:
-          cmd: 'jq .version package.json -r'
-
-      - name: Check existing releases
-        uses: cardinalby/git-get-release-action@v1
-        id: released
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          tag: "v${{ steps.version.outputs.value }}"
-          doNotFailIfNotFound: true
-
-      - name: Block if found
-        if: "${{ steps.released.outputs.id }}"
-        run: |
-          echo "v${{ steps.version.outputs.value }} has already been released, update project version in package.json to produce beta package."
-          exit 1
-
-      - name: Check beta releases
-        uses: cardinalby/git-get-release-action@v1
-        id: beta-released
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-          doNotFailIfNotFound: true
-
-      - name: Alert if found
-        if: "${{ steps.beta-released.outputs.id }}"
-        run: |
-          echo "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }} exists and will be overwritten."
-
-      - name: Ensure release dir
-        run: |
-          mkdir -p umd
-
-      - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          type: 'tar'
-          filename: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.tar.gz"
-          exclusions: '*.git* /*node_modules/* /*umd/*'
-
-      - name: Archive Release
-        uses: thedoctor0/zip-release@0.7.5
-        with:
-          type: 'zip'
-          filename: "umd/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}.zip"
-          exclusions: '*.git* /*node_modules/* /*umd/*'
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
@@ -92,35 +39,13 @@ jobs:
         run: |
           npm test
 
-      - name: Testing Release
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: "umd/*"
-          tag: "v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}"
-          allowUpdates: true
-          draft: true
-          generateReleaseNotes: true
-          makeLatest: false
-          prerelease: true
+      - name: Package Version
+        id: package_version
+        run: |
+          const PACKAGE_VERSION = require("./package.json").version;
+          console.log(`export const PACKAGE_VERSION = "${PACKAGE_VERSION}";`);
+          print $PACKAGE_VERSION
 
-      - name: Configure AWS credentials for Non-Prod
-        id: awskeys
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Copy dev build to nonprod cdn
-        run: aws s3 cp umd/embedded.development.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
-
-      - name: Copy minified build to nonprod cdn
-        run: aws s3 cp umd/embedded.production.min.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
-
-      - uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
-          registry: ${{ env.NPM_REGISTRY_URL }}
-          tag: "canary"
-          dry-run: false
+      - name: Announce version
+        run: |
+          echo "v${{ steps.package_version.outputs.value }} is the current version."
