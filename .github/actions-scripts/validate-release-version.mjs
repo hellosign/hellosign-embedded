@@ -2,8 +2,7 @@
 
 import { context, getOctokit } from "@actions/github";
 import { setOutput } from "@actions/core";
-
-const semver = require('semver');
+import { semver } from "semver"
 
 console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 
@@ -26,7 +25,7 @@ async function validateReleaseVersion() {
         }
     })
     // Version set in package.json must be greater than latest
-    console.assert(semver.gte(version, latest));
+    console.assert(semver.gt(version, latest));
     return version;
 }
 
