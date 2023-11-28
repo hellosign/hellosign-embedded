@@ -42,9 +42,7 @@ jobs:
       - name: Package Version
         id: package_version
         run: |
-          const PACKAGE_VERSION = require("./package.json").version;
-          console.log(`export const PACKAGE_VERSION = "${PACKAGE_VERSION}";`);
-          print $PACKAGE_VERSION
+          node --print 'require("./package.json").version'
 
       - name: Announce version
         run: |
