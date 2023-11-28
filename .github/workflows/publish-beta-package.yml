@@ -39,11 +39,10 @@ jobs:
         run: |
           npm test
 
-      - name: Package Version
-        id: package_version
-        run: |
-          node --print 'require("./package.json").version'
+      - name: Validate Semver
+        id: version
+        run: .github/actions-scripts/validate-release-version.mjs
 
       - name: Announce version
         run: |
-          echo "v${{ steps.package_version.outputs.value }} is the current version."
+          echo "v${{ steps.version.outputs.value }} is the current version."

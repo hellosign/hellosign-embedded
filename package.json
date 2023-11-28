@@ -60,7 +60,8 @@
     "url-polyfill": "^1.1.8",
     "url-search-params-polyfill": "^5.0.0",
     "webpack": "^4.29.4",
-    "webpack-cli": "^3.2.3"
+    "webpack-cli": "^3.2.3",
+    "semver": "^7.5.4"
   },
   "files": [
     "umd",
