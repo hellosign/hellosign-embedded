@@ -19,14 +19,16 @@ async function validateReleaseVersion() {
     } = context;
     console.assert(number, "number not present");
 
-    const version = require(`${workspace}/package.json`).version;
+    const { version } = require(`${workspace}/package.json`);
+    console.log("Submitted Version: ", version)
+
     const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, {
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
-    console.log("Submitted Version: ", latest)
-    console.log("Latest Version: ", version)
+    console.log("Latest Version: ", latest)
+
     // Version set in package.json must be greater than latest
     console.assert(semver.gte(version, latest));
     return version;
