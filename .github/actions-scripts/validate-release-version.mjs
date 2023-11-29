@@ -13,11 +13,13 @@ const octokit = getOctokit(process.env.GITHUB_TOKEN);
 main();
 
 async function validateReleaseVersion() {
-    const version = require("./package.json").version;
     const {
-        repo: { owner, repo },
+        repo: { owner, repo, workspace },
         payload: { number },
     } = context;
+    console.log("Context values: ", owner, repo, workspace)
+
+    const version = require("../../package.json").version;
     console.assert(number, "number not present");
     const { data: latest } = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
         owner: context.owner,
