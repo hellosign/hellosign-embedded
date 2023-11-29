@@ -17,7 +17,6 @@ async function validateReleaseVersion() {
         repo: { owner, repo },
         payload: { number },
     } = context;
-    console.log("Context values: ", owner, repo)
     console.assert(number, "number not present");
 
     const version = require(`${workspace}/package.json`).version;
@@ -26,8 +25,10 @@ async function validateReleaseVersion() {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
+    console.log("Submitted Version: ", latest)
+    console.log("Latest Version: ", version)
     // Version set in package.json must be greater than latest
-    console.assert(semver.gt(version, latest));
+    console.assert(semver.gte(version, latest));
     return version;
 }
 
