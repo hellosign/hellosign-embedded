@@ -41,6 +41,8 @@ jobs:
 
       - name: Validate Semver
         id: version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: .github/actions-scripts/validate-release-version.mjs
 
       - name: Announce version
