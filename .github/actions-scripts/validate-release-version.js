@@ -30,7 +30,7 @@ async function validateReleaseVersion() {
     console.log("Latest Version: ", latest.name)
 
     // Version set in package.json must be greater than latest
-    console.assert(semver.gte(version, latest.name));
+    console.assert(semver.gt(version, latest.name));
     return version;
 }
 
