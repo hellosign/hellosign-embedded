@@ -2,7 +2,9 @@
 
 import { context, getOctokit } from "@actions/github";
 import { setOutput } from "@actions/core";
-import { semver } from "semver"
+
+import pkg from 'semver';
+const { semver } = pkg;
 
 console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 
