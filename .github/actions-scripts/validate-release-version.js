@@ -27,10 +27,10 @@ async function validateReleaseVersion() {
             'X-GitHub-Api-Version': '2022-11-28'
         }
     })
-    console.log("Latest Version: ", latest)
+    console.log("Latest Version: ", latest.name)
 
     // Version set in package.json must be greater than latest
-    console.assert(semver.gte(version, latest));
+    console.assert(semver.gte(version, latest.name));
     return version;
 }
 
