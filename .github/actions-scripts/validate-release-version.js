@@ -1,10 +1,9 @@
 #!/usr/bin/env node
 
-import { context, getOctokit } from "@actions/github";
-import { setOutput } from "@actions/core";
+const { context, getOctokit } = require('@actions/github');
+const { setOutput } = require('@actions/core');
 
-import pkg from 'semver';
-const { semver } = pkg;
+const { semver } = require('semver');
 
 console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 
@@ -14,7 +13,8 @@ main();
 
 async function validateReleaseVersion() {
     const {
-        repo: { owner, repo, workspace },
+        repo: { owner, repo },
+        github: { workspace },
         payload: { number },
     } = context;
     console.log("Context values: ", owner, repo, workspace)
