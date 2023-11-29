@@ -3,7 +3,7 @@
 const { context, getOctokit } = require('@actions/github');
 const { setOutput } = require('@actions/core');
 
-const { semver } = require('semver');
+const semver = require('semver');
 
 console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 
