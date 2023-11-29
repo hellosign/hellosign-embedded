@@ -8,21 +8,20 @@ const { semver } = require('semver');
 console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 
 const octokit = getOctokit(process.env.GITHUB_TOKEN);
+const workspace = process.env.GITHUB_WORKSPACE;
 
 main();
 
 async function validateReleaseVersion() {
-    // const {
-    //     repo: { owner, repo },
-    //     payload: { number },
-    // } = context;
-    // console.log("Context values: ", owner, repo)
-    // console.assert(number, "number not present");
+    const {
+        repo: { owner, repo },
+        payload: { number },
+    } = context;
+    console.log("Context values: ", owner, repo)
+    console.assert(number, "number not present");
 
-    const version = require(`${process.env.GITHUB_WORKSPACE}/package.json`).version;
-    const { data: latest } = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
-        owner: context.owner,
-        repo: context.repo,
+    const version = require(`${workspace}/package.json`).version;
+    const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, {
         headers: {
             'X-GitHub-Api-Version': '2022-11-28'
         }
