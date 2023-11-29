@@ -14,12 +14,11 @@ main();
 async function validateReleaseVersion() {
     const {
         repo: { owner, repo },
-        github: { workspace },
         payload: { number },
     } = context;
     console.log("Context values: ", owner, repo, workspace)
 
-    const version = require("../../package.json").version;
+    const version = require(`${process.env.GITHUB_WORKSPACE}/package.json`).version;
     console.assert(number, "number not present");
     const { data: latest } = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', {
         owner: context.owner,
