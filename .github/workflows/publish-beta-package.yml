@@ -47,4 +47,4 @@ jobs:
 
       - name: Announce version
         run: |
-          echo "v${{ steps.version.outputs.version }} is the current version."
+          echo "v${{ steps.version.outputs.version }} is the proposed new version."
