@@ -43,7 +43,7 @@ jobs:
         id: version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: .github/actions-scripts/validate-release-version.mjs
+        run: .github/actions-scripts/validate-release-version.js
 
       - name: Announce version
         run: |
