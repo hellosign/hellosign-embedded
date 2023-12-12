@@ -6,7 +6,7 @@ on:
 
 env:
   NPM_REGISTRY_URL: "https://registry.npmjs.com"
-  BETA_SUFFIX: 'testbeta'
+  BETA_SUFFIX: 'beta.0' # https://kevinkreuzer.medium.com/publishing-a-beta-or-alpha-version-to-npm-46035b630dd7
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
   CDN_BUCKET: cdn.staging-hellosign.com
   CDN_PATH: public/js/embedded
@@ -39,6 +39,10 @@ jobs:
         run: |
           npm test
 
+      - name: Set Beta Version
+        run: |
+          npm version ${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}
+
       - name: Validate Semver
         id: version
         env:
@@ -55,7 +59,7 @@ jobs:
 
       - name: Publish (dry-run)
         run: |
-          npm publish --dry-run --access=public
+          npm publish --tag beta --access=public
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
@@ -65,8 +69,8 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Copy dev build to nonprod cdn
-        run: aws s3 cp umd/embedded.development.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
+        run: aws s3 cp umd/embedded.development.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/
 
       - name: Copy minified build to nonprod cdn
-        run: aws s3 cp umd/embedded.production.min.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}/
+        run: aws s3 cp umd/embedded.production.min.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/
 
