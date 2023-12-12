@@ -39,25 +39,25 @@ jobs:
         run: |
           npm test
 
-      - name: Set Beta Version
-        run: |
-          npm version ${{ steps.version.outputs.value }}-${{ env.BETA_SUFFIX }}
-
       - name: Validate Semver
         id: version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: .github/actions-scripts/validate-release-version.js
+        run: .github/actions-scripts/validate-release-version.js --beta
 
       - name: Announce version
         run: |
           echo "v${{ steps.version.outputs.version }} is the proposed new version."
 
+      - name: Set Beta Version
+        run: |
+          npm version ${{ steps.version.outputs.value }}
+
       - name: Pack
         run: |
           npm pack --pack-destination="./umd"
 
-      - name: Publish (dry-run)
+      - name: Publish Beta
         run: |
           npm publish --tag beta --access=public
 
