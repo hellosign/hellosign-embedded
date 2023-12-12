@@ -1,14 +1,13 @@
-name: New Pull request; publish as beta package
+name: Changes approved; deploy to prod
 
 on:
-  pull_request:
+  push:
     branches: [ "master" ]
 
 env:
   NPM_REGISTRY_URL: "https://registry.npmjs.com"
-  BETA_SUFFIX: 'beta.0'
-  CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
-  CDN_BUCKET: cdn.staging-hellosign.com
+  CDN_AWS_PUBLISH_ROLE: TBD
+  CDN_BUCKET: cdn.hellosign.com
   CDN_PATH: public/js/embedded
   AWS_REGION: us-east-1
 jobs:
@@ -43,49 +42,41 @@ jobs:
         id: version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: .github/actions-scripts/validate-release-version.js --beta
+        run: .github/actions-scripts/validate-release-version.js
 
-      - name: Set Beta Version
-        env:
-          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
+      - name: Announce version
         run: |
-          echo "Setting beta version ${PACKAGE_VERSION}"
-          npm version ${PACKAGE_VERSION} --no-git-tag-version
+          echo "v${{ steps.version.outputs.version }} is the proposed new version."
 
       - name: Pack
         run: |
           npm pack --pack-destination="./umd"
 
-      - name: Create tag
+      - name: Create Release
         uses: actions/github-script@v5
         with:
           script: |
-            github.rest.git.createRef({
+            github.rest.repos.createRelease({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.version.outputs.version }}',
               tag_name: 'v${{ steps.version.outputs.version }}',
-              name: 'v${{ steps.version.outputs.version }}',
-              draft: true,
-              prerelease: true,
-              sha: context.sha
-            })
+            });
 
-      - name: Publish Beta
+      - name: Publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
         run: |
-          npm publish --tag beta --provenance --access=public
+          npm publish --provenance --access=public
 
-      - name: Configure AWS credentials for Non-Prod
+      - name: Configure AWS credentials for Prod
         id: awskeys
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - name: Copy dev build to nonprod cdn
+      - name: Copy dev build to cdn
         run: aws s3 cp umd/embedded.development.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.version }}/
 
       - name: Copy minified build to nonprod cdn
