@@ -11,17 +11,18 @@ console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 const octokit = getOctokit(process.env.GITHUB_TOKEN);
 const workspace = process.env.GITHUB_WORKSPACE;
 
+const {
+    repo: { owner, repo },
+    payload: { number },
+} = context;
+console.assert(number, "number not present");
+
 main();
 
 async function validateReleaseVersion() {
-    const {
-        repo: { owner, repo },
-        payload: { number },
-    } = context;
-    console.assert(number, "number not present");
 
     const { version } = require(`${workspace}/package.json`);
-    console.log("Submitted Version: ", version)
+    console.log("Package Version: ", version)
 
     const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, {
         headers: {
@@ -49,6 +50,7 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
     })
 
     if (beta_tag.name)  {
+        // could call again with a higher increment?
         console.log("Tag already exists: ", beta_tag.name)
     } else {
         console.log("Tag does not exist exist.")
