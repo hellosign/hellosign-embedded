@@ -64,7 +64,10 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: 'refs/tags/${{ steps.version.outputs.version }}',
-              sha: context.sha
+              tag_name: 'v${{ steps.version.outputs.version }}',
+              name: 'v${{ steps.version.outputs.version }}',
+              draft: true,
+              prerelease: true
             })
 
       - name: Publish Beta
