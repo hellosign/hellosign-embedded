@@ -49,9 +49,8 @@ jobs:
         env:
           PACKAGE_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          echo "v${PACKAGE_VERSION} is the proposed new version."
+          echo "Setting beta version ${PACKAGE_VERSION}"
           npm version ${PACKAGE_VERSION} --no-git-tag-version
-          tail /home/runner/.npm/_logs/*.log
 
       - name: Pack
         run: |
@@ -59,7 +58,7 @@ jobs:
 
       - name: Publish Beta
         run: |
-          npm publish --tag beta --access=public --dry-run
+          npm publish --tag beta --access=public
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
