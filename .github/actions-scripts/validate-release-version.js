@@ -50,9 +50,9 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
 
     try {
         var tag = await octokit.rest.git.getRef({
-            owner: context.repo.owner,
+            owner: owner,
             ref: `refs/tags/${beta_version}`,
-            repo: context.repo.repo,
+            repo: repo,
         });
 
         // const { data: beta_tag } = await octokit.request(
@@ -63,8 +63,10 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
         return validateBetaVersion( version, beta_inc++ );
     } catch (error) {
         if (error.status === 404) {
-            console.log("Tag does not exist exist.")
+            console.log(`Tag does not exist exist @ 'refs/tags/${beta_version}'`)
+            console.log(error)
             return beta_version;
+            process.exit(1);
         } else {
             console.log("Unknown oktokit error ", error.status)
             process.exit(1);
