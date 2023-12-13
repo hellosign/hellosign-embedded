@@ -61,7 +61,8 @@ async function validateBetaVersion( version, beta_inc = 0, c = 0 ) {
         )
         console.log("Tag exists [request]: ", beta_tag.ref)
         let new_beta = beta_inc++
-        return validateBetaVersion( version, new_beta );
+        console.log("Bumping version: ", beta_inc, new_beta, c)
+        return validateBetaVersion( version, new_beta, c );
     } catch (error) {
         if (error.status === 404) {
             console.log(`Tag does not exist exist @ 'git/refs/tags/${beta_version}'`)
