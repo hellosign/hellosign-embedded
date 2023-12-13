@@ -17,6 +17,8 @@ const {
 } = context;
 console.assert(number, "number not present");
 
+const gh_api_header = { headers: { 'X-GitHub-Api-Version': '2022-11-28' } }
+
 main();
 
 async function validateReleaseVersion() {
@@ -24,11 +26,7 @@ async function validateReleaseVersion() {
     const { version } = require(`${workspace}/package.json`);
     console.log("Package Version: ", version)
 
-    const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, {
-        headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-        }
-    })
+    const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
     console.log("Latest Version: ", latest.name)
 
     // Version set in package.json must be greater than latest
@@ -43,17 +41,19 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
 
     const beta_version = `${version}-beta.${beta_inc}`
 
-    const { data: beta_tag } = await octokit.request(`GET /repos/${owner}/${repo}/releases/tag/${beta_version}`, {
-        headers: {
-            'X-GitHub-Api-Version': '2022-11-28'
-        }
-    })
-
-    if (beta_tag.name)  {
-        // could call again with a higher increment?
+    try {
+        const { data: beta_tag } = await octokit.request(
+            `GET /repos/${owner}/${repo}/releases/tag/${beta_version}`,
+            gh_api_header
+        )
         console.log("Tag already exists: ", beta_tag.name)
-    } else {
-        console.log("Tag does not exist exist.")
+    } catch (error) {
+        if (error.status === 404) {
+            console.log("Tag does not exist exist.")
+        } else {
+            // handle all other errors
+            throw error
+        }
     }
 
     return beta_version;
@@ -62,7 +62,7 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
 async function main() {
     const version = await validateReleaseVersion();
     if (process.argv[2] === '--beta') {
-        const beta_version = await validateBetaVersion();
+        const beta_version = await validateBetaVersion(version);
         setOutput("version", beta_version);
     } else {
         setOutput("version", version);
