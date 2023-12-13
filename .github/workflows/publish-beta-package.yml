@@ -48,10 +48,11 @@ jobs:
       - name: Announce version
         run: |
           echo "v${{ steps.version.outputs.version }} is the proposed new version."
+          npm version ${{ steps.version.outputs.value }}
 
-      - name: Set Beta Version
-        run: |
-          npm version "${{ steps.version.outputs.value }}"
+#      - name: Set Beta Version
+#        run: |
+#          npm version "${{ steps.version.outputs.value }}"
 
       - name: Pack
         run: |
