@@ -45,14 +45,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: .github/actions-scripts/validate-release-version.js --beta
 
-      - name: Announce version
+      - name: Set Beta Version
+        env:
+          PACKAGE_VERSION: ${{ steps.version.outputs.version }}
         run: |
-          echo "v${{ steps.version.outputs.version }} is the proposed new version."
-          npm version ${{ steps.version.outputs.value }}
-
-#      - name: Set Beta Version
-#        run: |
-#          npm version "${{ steps.version.outputs.value }}"
+          echo "v${PACKAGE_VERSION} is the proposed new version."
+          npm version ${PACKAGE_VERSION}
 
       - name: Pack
         run: |
