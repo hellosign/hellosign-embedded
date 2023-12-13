@@ -57,6 +57,8 @@ jobs:
           npm pack --pack-destination="./umd"
 
       - name: Publish Beta
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           npm publish --tag beta --access=public
 
