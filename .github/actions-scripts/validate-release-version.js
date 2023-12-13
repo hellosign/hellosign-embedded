@@ -38,8 +38,15 @@ async function validateReleaseVersion() {
     return version;
 }
 
+let  c = 0;
+
 async function validateBetaVersion( version, beta_inc = 0 ) {
 
+    c = c++;
+    if (c > 13) {
+        console.log("Backstop hit! (arbitrary limitation) ", c)
+        process.exit(1);
+    }
     if (beta_inc > beta_version_limit) {
         console.log("Too many beta versions! (arbitrary limitation) ", beta_inc)
         process.exit(1);
@@ -55,7 +62,7 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
             `GET /repos/${owner}/${repo}/git/refs/tags/${beta_version}`,
             gh_api_header
         )
-        console.log("Tag exists [request]: ", beta_tag.name)
+        console.log("Tag exists [request]: ", beta_tag.ref)
         return validateBetaVersion( version, beta_inc++ );
     } catch (error) {
         if (error.status === 404) {
