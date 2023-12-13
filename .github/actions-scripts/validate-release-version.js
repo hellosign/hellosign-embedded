@@ -39,15 +39,11 @@ async function validateReleaseVersion() {
 }
 
 
-async function validateBetaVersion( version, beta_inc = 0, c = 0 ) {
+async function validateBetaVersion( version, beta_inc = 0 ) {
 
     let beta_version = `${version}-beta.${beta_inc}`
-    console.log("Beta Version: ", beta_version, c)
+    console.log("Beta Version: ", beta_version)
 
-    if (c > 13) {
-        console.log("Backstop hit! (arbitrary limitation) ", c)
-        process.exit(1);
-    }
     if (beta_inc > beta_version_limit) {
         console.log("Too many beta versions! (arbitrary limitation) ", beta_inc)
         process.exit(1);
@@ -58,15 +54,11 @@ async function validateBetaVersion( version, beta_inc = 0, c = 0 ) {
             `GET /repos/${owner}/${repo}/git/refs/tags/${beta_version}`,
             gh_api_header
         )
-        console.log("Tag exists [request]: ", beta_tag.ref)
-        let new_beta = beta_inc++
-        console.log("Bumping version: ", beta_inc, new_beta, c)
-        return validateBetaVersion( version, beta_inc, ++c );
+        console.log(`Tag exists (${beta_tag.ref}) bumping beta version and retrying`)
+        return validateBetaVersion( version, ++beta_inc );
     } catch (error) {
         if (error.status === 404) {
             console.log(`Tag does not exist exist @ 'git/refs/tags/${beta_version}'`)
-            console.log(error)
-            process.exit(1);
             return beta_version;
         } else {
             console.log("Unknown oktokit error ", error.status)
