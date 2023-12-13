@@ -20,16 +20,16 @@ Welcome! HelloSign Embedded is an open source project which allows HelloSign API
    1. verify the version
    2. build beta package
    3. test beta package
-   4. generate a github tagged draft release
-   5. publish beta package to npm & our s3 staging CDN
+   4. generate a github tag for beta release
+   5. publish beta package to npm
+   6. publish to our s3 staging CDN
 7. Once the pull request is merged to master, github actions:
    1. verifies the live version
    2. build package
-   3. test package
-   4. generate release with release notes
-   5. generate github release tag
-   6. publish to npm
-   7. publish to our S3 CDN
+   3. test package 
+   4. generate github release tag
+   5. publish to npm
+   6. publish to our S3 CDN
 
 ## License
 
