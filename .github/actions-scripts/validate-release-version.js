@@ -42,9 +42,8 @@ async function validateReleaseVersion() {
 async function validateBetaVersion( version, beta_inc = 0, c = 0 ) {
 
     let beta_version = `${version}-beta.${beta_inc}`
-    console.log("Beta Version: ", beta_version)
+    console.log("Beta Version: ", beta_version, c)
 
-    c = c++;
     if (c > 13) {
         console.log("Backstop hit! (arbitrary limitation) ", c)
         process.exit(1);
@@ -62,7 +61,7 @@ async function validateBetaVersion( version, beta_inc = 0, c = 0 ) {
         console.log("Tag exists [request]: ", beta_tag.ref)
         let new_beta = beta_inc++
         console.log("Bumping version: ", beta_inc, new_beta, c)
-        return validateBetaVersion( version, new_beta, c );
+        return validateBetaVersion( version, beta_inc, ++c );
     } catch (error) {
         if (error.status === 404) {
             console.log(`Tag does not exist exist @ 'git/refs/tags/${beta_version}'`)
