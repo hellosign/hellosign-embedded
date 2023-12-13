@@ -24,12 +24,11 @@ main();
 async function validateReleaseVersion() {
 
     const { version } = require(`${workspace}/package.json`);
-    console.log("Package Version: ", version)
 
     const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
-    console.log("Latest Version: ", latest.name)
 
     // Version set in package.json must be greater than latest
+    console.log("Package Version: ", version, "Latest Version: ", latest.name)
     if (! semver.gt(version, latest.name)) {
         console.log("version property in package.json must be greater than: ", latest.name)
         process.exit(1);
@@ -40,18 +39,18 @@ async function validateReleaseVersion() {
 async function validateBetaVersion( version, beta_inc = 0 ) {
 
     const beta_version = `${version}-beta.${beta_inc}`
+    console.log("Beta Version: ", beta_version)
 
     try {
         const { data: beta_tag } = await octokit.request(
             `GET /repos/${owner}/${repo}/releases/tag/${beta_version}`,
             gh_api_header
         )
-        console.log("Tag already exists: ", beta_tag.name)
+        console.log("Tag exists: ", beta_tag.name)
     } catch (error) {
         if (error.status === 404) {
             console.log("Tag does not exist exist.")
         } else {
-            // handle all other errors
             throw error
         }
     }

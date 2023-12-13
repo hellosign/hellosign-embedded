@@ -51,7 +51,7 @@ jobs:
         run: |
           echo "v${PACKAGE_VERSION} is the proposed new version."
           npm version ${PACKAGE_VERSION} --no-git-tag-version
-          tail -f /home/runner/.npm/_logs/*.log
+          tail /home/runner/.npm/_logs/*.log
 
       - name: Pack
         run: |
