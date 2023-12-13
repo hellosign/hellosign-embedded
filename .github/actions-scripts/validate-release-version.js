@@ -48,18 +48,21 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
     let beta_version = `${version}-beta.${beta_inc}`
     console.log("Beta Version: ", beta_version)
 
+    let ref = `/refs/tags/${beta_version}`
+
     try {
         var tag = await octokit.rest.git.getRef({
             owner: owner,
-            ref: `refs/tags/${beta_version}`,
+            ref: ref,
             repo: repo,
         });
+        console.log("Tag exists [rest]: ", tag)
 
-        // const { data: beta_tag } = await octokit.request(
-        //     `GET /repos/${owner}/${repo}/releases/tag/`,
-        //     gh_api_header
-        // )
-        console.log("Tag exists: ", tag)
+        const { data: beta_tag } = await octokit.request(
+            `GET /repos/${owner}/${repo}/refs/tags/${beta_version}`,
+            gh_api_header
+        )
+        console.log("Tag exists [request]: ", beta_tag.name)
         return validateBetaVersion( version, beta_inc++ );
     } catch (error) {
         if (error.status === 404) {
