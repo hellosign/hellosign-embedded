@@ -67,7 +67,8 @@ jobs:
               tag_name: 'v${{ steps.version.outputs.version }}',
               name: 'v${{ steps.version.outputs.version }}',
               draft: true,
-              prerelease: true
+              prerelease: true,
+              sha: context.sha
             })
 
       - name: Publish Beta
