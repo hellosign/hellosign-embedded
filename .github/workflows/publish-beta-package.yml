@@ -75,7 +75,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm publish --tag beta --access=public --dry-run
+          npm publish --tag beta --access=public
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
