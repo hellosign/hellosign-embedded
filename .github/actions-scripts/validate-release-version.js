@@ -11,6 +11,8 @@ console.assert(process.env.GITHUB_TOKEN, "GITHUB_TOKEN not present");
 const octokit = getOctokit(process.env.GITHUB_TOKEN);
 const workspace = process.env.GITHUB_WORKSPACE;
 
+const beta_version_limit = 10;
+
 const {
     repo: { owner, repo },
     payload: { number },
@@ -38,7 +40,12 @@ async function validateReleaseVersion() {
 
 async function validateBetaVersion( version, beta_inc = 0 ) {
 
-    const beta_version = `${version}-beta.${beta_inc}`
+    if (beta_inc > beta_version_limit) {
+        console.log("Too many beta versions! (arbitrary limitation) ", beta_inc)
+        process.exit(1);
+    }
+
+    let beta_version = `${version}-beta.${beta_inc}`
     console.log("Beta Version: ", beta_version)
 
     try {
@@ -47,11 +54,14 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
             gh_api_header
         )
         console.log("Tag exists: ", beta_tag.name)
+        beta_version = validateBetaVersion( version, beta_inc++ );
     } catch (error) {
         if (error.status === 404) {
             console.log("Tag does not exist exist.")
+            return beta_version;
         } else {
-            throw error
+            console.log("Unknown oktokit error ", error.status)
+            process.exit(1);
         }
     }
 

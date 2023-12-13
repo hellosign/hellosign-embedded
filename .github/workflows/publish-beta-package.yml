@@ -56,11 +56,22 @@ jobs:
         run: |
           npm pack --pack-destination="./umd"
 
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.version.outputs.version }}',
+              sha: context.sha
+            })
+
       - name: Publish Beta
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          npm publish --tag beta --access=public
+          npm publish --tag beta --access=public --dry-run
 
       - name: Configure AWS credentials for Non-Prod
         id: awskeys
@@ -74,15 +85,4 @@ jobs:
 
       - name: Copy minified build to nonprod cdn
         run: aws s3 cp umd/embedded.production.min.js s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ steps.version.outputs.value }}/
-
-      - name: Create tag
-        uses: actions/github-script@v5
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ steps.version.outputs.version }}',
-              sha: context.sha
-            })
 
