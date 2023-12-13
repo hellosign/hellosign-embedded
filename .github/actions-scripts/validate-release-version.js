@@ -38,9 +38,11 @@ async function validateReleaseVersion() {
     return version;
 }
 
-let  c = 0;
 
-async function validateBetaVersion( version, beta_inc = 0 ) {
+async function validateBetaVersion( version, beta_inc = 0, c = 0 ) {
+
+    let beta_version = `${version}-beta.${beta_inc}`
+    console.log("Beta Version: ", beta_version)
 
     c = c++;
     if (c > 13) {
@@ -52,18 +54,14 @@ async function validateBetaVersion( version, beta_inc = 0 ) {
         process.exit(1);
     }
 
-    let beta_version = `${version}-beta.${beta_inc}`
-    console.log("Beta Version: ", beta_version)
-
-    let ref = `/refs/tags/${beta_version}`
-
     try {
         const { data: beta_tag } = await octokit.request(
             `GET /repos/${owner}/${repo}/git/refs/tags/${beta_version}`,
             gh_api_header
         )
         console.log("Tag exists [request]: ", beta_tag.ref)
-        return validateBetaVersion( version, beta_inc++ );
+        let new_beta = beta_inc++
+        return validateBetaVersion( version, new_beta );
     } catch (error) {
         if (error.status === 404) {
             console.log(`Tag does not exist exist @ 'git/refs/tags/${beta_version}'`)
