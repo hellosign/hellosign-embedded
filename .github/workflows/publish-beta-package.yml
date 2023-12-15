@@ -6,7 +6,6 @@ on:
 
 env:
   NPM_REGISTRY_URL: "https://registry.npmjs.com"
-  BETA_SUFFIX: 'beta.0'
   CDN_AWS_PUBLISH_ROLE: arn:aws:iam::654344198836:role/github-actions-oidc-role-nonprod-sign-embedded
   CDN_BUCKET: cdn.staging-hellosign.com
   CDN_PATH: public/js/embedded
