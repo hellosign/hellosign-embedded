@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [2.11.1](https://github.com/hellosign/hellosign-embedded/compare/v2.11.0...v2.11.1) (2023-07-18)
+## [2.12.0](https://github.com/hellosign/hellosign-embedded/compare/v2.11.1...v2.12.0) (2023-12-27)
+
+### Features
+
+* github actions replaces travis for ci/cd operations.  Sign REF: SPDE-130
+
+## [2.11.1](https://github.com/hellosign/hellosign-embedded/compare/v2.11.0...v2.11.1) (2023-07-18)
 
 ## [2.11.0](https://github.com/hellosign/hellosign-embedded/compare/v2.10.0...v2.11.0) (2023-07-18)
 
@@ -18,11 +24,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ## [2.10.0](https://github.com/hellosign/hellosign-embedded/compare/v2.9.0...v2.10.0) (2021-05-18)
 
-
 ### Features
 
 * Update node-sass and sass-loader ([0234daf](https://github.com/hellosign/hellosign-embedded/commit/0234daf5d9a8654df0313ae95b42eb56220cff23))
-
 
 ### Bug Fixes
 
