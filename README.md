@@ -4,7 +4,8 @@
 
 [![Npm version][badge_npm-version]][external_npm]
 [![Npm downloads][badge_npm-downloads]][external_npm]
-![Build status](https://github.com/hellosign/hellosign-embedded/actions/workflows/publish-prod-package.yml/badge.svg)
+[![Latest Build Status]](https://github.com/hellosign/hellosign-embedded/actions/workflows/publish-prod-package.yml/badge.svg)
+![Beta Build Status](https://github.com/hellosign/hellosign-embedded/actions/workflows/publish-beta-package.yml/badge.svg)
 
 <br/>
 

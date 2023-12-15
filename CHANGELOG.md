@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [2.11.2](https://github.com/hellosign/hellosign-embedded/compare/v2.11.1...v2.11.2) (2023-12-XX)
+## [2.12.0](https://github.com/hellosign/hellosign-embedded/compare/v2.11.1...v2.12.0) (2023-12-27)
 
 ### Features
 
