@@ -12,9 +12,9 @@ Welcome! HelloSign Embedded is an open source project which allows HelloSign API
 ## Pull Requests
 
 1. Fork the HelloSign Embedded repository.
-2. Create a new branch for your changes of the latest `master` branch
-3. Increment the version number in [packages.json](package.json)
-4. Make your changes
+2. Create a new branch for your changes from the latest `main` branch
+3. Make your changes
+4. Increment the version number in [packages.json](package.json)
 5. Add description of changes (matching format) to [CHANGELOG.md](/CHANGELOG.md)
 6. Open a pull request, triggering a github action that does the following:
    1. verify the version
@@ -23,7 +23,7 @@ Welcome! HelloSign Embedded is an open source project which allows HelloSign API
    4. generate a github tag for beta release
    5. publish beta package to npm
    6. publish to our s3 staging CDN
-7. Once the pull request is merged to master, github actions:
+7. Once the pull request is merged to `main`, github actions:
    1. verifies the live version
    2. build package
    3. test package 

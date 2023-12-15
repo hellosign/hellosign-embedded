@@ -2,7 +2,7 @@ name: New Pull request; publish as beta package
 
 on:
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 env:
   NPM_REGISTRY_URL: "https://registry.npmjs.com"

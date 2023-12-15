@@ -2,11 +2,11 @@ name: Changes approved; deploy to prod
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 env:
   NPM_REGISTRY_URL: "https://registry.npmjs.com"
-  CDN_AWS_PUBLISH_ROLE: TBD
+  CDN_AWS_PUBLISH_ROLE: arn:aws:iam::301904545275:role/github-actions-oidc-role-prod-sign-embedded
   CDN_BUCKET: cdn.hellosign.com
   CDN_PATH: public/js/embedded
   AWS_REGION: us-east-1
