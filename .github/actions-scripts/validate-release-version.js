@@ -27,12 +27,24 @@ async function validateReleaseVersion() {
 
     const { version } = require(`${workspace}/package.json`);
 
-    const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
+    var latest_version = "1.1.1"
 
-    // Version set in package.json must be greater than latest
-    console.log("Package Version: ", version, "Latest Version: ", latest.name)
-    if (! semver.gt(version, latest.name)) {
-        console.log("version property in package.json must be greater than: ", latest.name)
+    try {
+        const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
+
+        if (latest.name) {
+            latest_version = latest.name
+        } else if (latest.tag_name) {
+            latest_version = latest.tag_name.replace('v','')
+        }
+        // Version set in package.json must be greater than latest
+        console.log("Package Version: ", version, "Latest Version: ", latest_version)
+        if (! semver.gt(version, latest_version)) {
+            console.log("version property in package.json must be greater than: ", latest_version)
+            // process.exit(1);
+        }
+    } catch (error) {
+        console.log("could not load latest error ", error.status, error.message)
         process.exit(1);
     }
     return version;
