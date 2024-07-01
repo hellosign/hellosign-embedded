@@ -27,7 +27,10 @@ async function validateReleaseVersion() {
 
     const { version } = require(`${workspace}/package.json`);
 
-    const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
+
+    var releases = await client.Repository.Release.GetAll("${owner}", "${repo}");
+    var latest = releases.Result.ElementAt(0);
+    // const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
 
     // Version set in package.json must be greater than latest
     console.log("Package Version: ", version, "Latest Version: ", latest.name)
