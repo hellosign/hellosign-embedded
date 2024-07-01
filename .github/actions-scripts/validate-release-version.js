@@ -28,7 +28,7 @@ async function validateReleaseVersion() {
     const { version } = require(`${workspace}/package.json`);
 
 
-    var releases = await client.Repository.Release.GetAll("${owner}", "${repo}");
+    var releases = await octokit.Repository.Release.GetAll("${owner}", "${repo}");
     var latest = releases.Result.ElementAt(0);
     // const { data: latest } = await octokit.request(`GET /repos/${owner}/${repo}/releases/latest`, gh_api_header)
 
