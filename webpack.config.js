@@ -4,6 +4,9 @@ const webpack = require('webpack');
 const pkg = require('./package.json');
 
 const config = {
+  node: {
+    global: false
+  },
   entry: [
     'url-polyfill',
     'url-search-params-polyfill',
