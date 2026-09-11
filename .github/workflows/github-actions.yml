@@ -1,0 +1,59 @@
+name: Build, Check, Stage Package
+
+on:
+  push:
+    branches:
+      - chore/npm-trusted-publishing
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  stage-package:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 16 for build
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+          registry-url: https://registry.npmjs.org
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Test
+        run: npm test
+
+      - name: Set staged package version
+        id: version
+        run: |
+          BASE_VERSION=$(node -p "require('./package.json').version")
+          STAGE_VERSION="${BASE_VERSION}-oidc-test.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ATTEMPT}"
+          npm version "${STAGE_VERSION}" --no-git-tag-version
+          echo "version=${STAGE_VERSION}" >> "${GITHUB_OUTPUT}"
+
+      - name: Pack
+        run: npm pack --pack-destination="./umd"
+
+      - name: Use Node.js 24 for trusted publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          registry-url: https://registry.npmjs.org
+
+      - name: Use npm with staged publishing support
+        run: npm install --global npm@11.19.1
+
+      - name: Stage package with trusted publishing
+        run: >-
+          npm stage publish
+          "./umd/hellosign-embedded-${{ steps.version.outputs.version }}.tgz"
+          --tag oidc-test
+          --access public
