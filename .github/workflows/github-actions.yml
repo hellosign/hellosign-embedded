@@ -1,0 +1,137 @@
+name: Build, Check, Publish
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - package.json
+
+env:
+  NPM_REGISTRY_URL: https://registry.npmjs.org
+  CDN_AWS_PUBLISH_ROLE: arn:aws:iam::301904545275:role/github-actions-oidc-role-prod-sign-embedded
+  CDN_BUCKET: cdn.hellosign.com
+  CDN_PATH: public/js/embedded
+  AWS_REGION: us-east-1
+
+jobs:
+  build:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 16 for build
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+          registry-url: ${{ env.NPM_REGISTRY_URL }}
+
+      - name: Build
+        run: |
+          npm install
+          npm run build
+
+      - name: Test
+        run: npm test
+
+      - name: Validate Semver
+        id: version
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: .github/actions-scripts/validate-release-version.js
+
+      - name: Announce version
+        run: echo "v${{ steps.version.outputs.version }} is the proposed new version."
+
+      - name: Pack
+        run: npm pack --pack-destination="./umd"
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: umd
+          if-no-files-found: error
+          retention-days: 1
+
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: release-artifacts
+
+      - name: Use Node.js 24 for trusted publishing
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          registry-url: ${{ env.NPM_REGISTRY_URL }}
+
+      - name: Use npm with trusted publishing support
+        run: npm install --global npm@11.19.1
+
+      - name: Publish package with trusted publishing
+        run: >-
+          npm publish
+          "./release-artifacts/hellosign-embedded-${{ needs.build.outputs.version }}.tgz"
+          --access public
+
+  release:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs:
+      - build
+      - publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+
+    steps:
+      - name: Download release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: release-artifacts
+
+      - name: Create GitHub release
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.repos.createRelease({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag_name: 'v${{ needs.build.outputs.version }}',
+            });
+
+      - name: Configure AWS credentials for production
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.CDN_AWS_PUBLISH_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Copy development build to production CDN
+        run: >-
+          aws s3 cp
+          release-artifacts/embedded.development.js
+          s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ needs.build.outputs.version }}/
+
+      - name: Copy minified build to production CDN
+        run: >-
+          aws s3 cp
+          release-artifacts/embedded.production.min.js
+          s3://${{ env.CDN_BUCKET }}/${{ env.CDN_PATH }}/v${{ needs.build.outputs.version }}/
