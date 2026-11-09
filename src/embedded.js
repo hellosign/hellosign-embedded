@@ -218,8 +218,12 @@ class HelloSign extends Emitter {
   }
 
   /**
-   * Validates and appends the "final_button_text" parameter
-   * to the iFrame params object.
+   * Validates and appends the legacy "final_button_text"
+   * parameter to the iFrame params object.
+   *
+   * @deprecated The "finalButtonText" option no longer customizes
+   * the final button label in embedded requesting. The embedded
+   * UI ignores the appended "final_button_text" parameter.
    *
    * @throws {TypeError} if finalButtonText is invalid
    * @param {URLSearchParams} params
